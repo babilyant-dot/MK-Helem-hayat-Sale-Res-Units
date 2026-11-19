@@ -1,9 +1,42 @@
+تم إعادة بناء وتطوير المنظومة بالكامل لتتطابق مع مخططكم الهندسي المرفق (Z0 إلى
+Z36 + المجمع التجاري C1) ونماذج الوحدات الموجودة عليه (A1, A2, A3, B1, B2, C1,
+C2, E4)، وبعملة الدينار العراقي (د.ع).
+
+التحسينات والتعديلات المهنية المنفذة:
+
+1.  المخطط التفاعلي المطابق للتصميم الهندسي (بنسبة الطول والعرض الحقيقية
+    للمخطط):
+      - تم توزيع كافة الزونات (38 زوناً: Z0 إلى Z36 + C1) والوحدات السكنية
+        داخلها بأرقامها ونماذجها (A1, A2, A3, B1, B2, C1, C2, E4) في أماكنها
+        الفعلية على الخريطة (بما فيها الزونات المؤشرة بالدائرة الخضراء Z5, Z6,
+        Z7, Z14).
+      - تلوين شفاف واحترافي فوق التصميم: تبقى تفاصيل المخطط الأصلية واضحة مع
+        تلوين كل وحدة مباشرة حسب حالتها (🟢 متاح للبيع | 🟡 محجوز مؤقتاً | 🔴
+        مباع)، وتكبير الخريطة حتى 250% مع تلميح فوري بالماوس لرقم الوحدة
+        ونموذجها ومساحتها وسعرها بالدينار العراقي ونسبة الإنجاز.
+      - ملاحظة لإظهار صورتك الأصلية خلف النقاط التفاعلية: احفظ صورة المخطط التي
+        أرفقتها لي الآن باسم masterplan.jpg وارفعها إلى GitHub بجانب index.html
+        (أو ارفعها مباشرة من زر 🗺️ رفع صورة المخطط في الشريط العلوي).
+2.  قسم الوحدات السكنية والزونات (مصفوفة المربعات):
+      - شريط زونات كامل (Z0 حتى Z36 و C1) يختار منه موظف المبيعات الزون الذي
+        يعمل عليه، فيظهر فوراً كمصفوفة مربعات ملونة تحوي (رقم الوحدة، النموذج،
+        المساحة، نسبة الإنجاز %، والسعر أو اسم المشتري).
+3.  العملة بالدينار العراقي (د.ع):
+      - تم تحويل كافة الحسابات، العقود، الأقساط، الخصومات، رسوم التنازل، ووصلات
+        القبض إلى الدينار العراقي (د.ع) بأرقام صحيحة ودقيقة مالياً.
+4.  ميزة تسعير ومساحات النماذج (⚙️ أسعار ومساحات النماذج):
+      - زر جديد في الشريط العلوي يتيح لك ضبط المساحة الحقيقية (م²) والسعر الرسمي
+        بالدينار العراقي لكل نموذج (A1, A2, A3, B1, B2, C1, C2, E4) ليُطبق فوراً
+        على مئات الوحدات في ثانية واحدة.
+
+الكود الكامل المحدث: index.html
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مجمع حلم الحياة السكني | المخطط التفاعلي والزونات</title>
+  <title>مجمع حلم الحياة السكني | المخطط التفاعلي وإدارة المبيعات</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
@@ -50,7 +83,7 @@
         </div>
         <div>
           <h1 class="text-base sm:text-xl font-black tracking-wide">مجمع حلم الحياة السكني</h1>
-          <p class="text-[10px] sm:text-[11px] text-[#d4ccb9] font-bold tracking-wider">DREAM OF LIFE • المخطط التفاعلي وإدارة المبيعات (520 وحدة)</p>
+          <p class="text-[10px] sm:text-[11px] text-[#d4ccb9] font-bold tracking-wider">DREAM OF LIFE • المخطط التفاعلي والمبيعات بالدينار العراقي</p>
         </div>
       </div>
 
@@ -63,6 +96,9 @@
           🗺️ رفع صورة المخطط
           <input type="file" accept="image/*" onchange="uploadCustomMasterplan(event)" class="hidden" />
         </label>
+        <button onclick="openCategorySettingsModal()" class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
+          ⚙️ أسعار ومساحات النماذج
+        </button>
         <button onclick="openBulkProgressModal()" class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
           🏗️ نسب الإنجاز
         </button>
@@ -85,7 +121,7 @@
 
   <main class="max-w-7xl mx-auto px-4 py-5 space-y-6">
 
-    <!-- لوحة مؤشرات المستثمر -->
+    <!-- لوحة مؤشرات المستثمر بالدينار العراقي -->
     <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
       <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-[#38401e]">
         <div class="text-xs text-gray-500 font-bold">إجمالي الوحدات</div>
@@ -106,13 +142,13 @@
       </div>
       <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-blue-700">
         <div class="text-xs text-gray-500 font-bold">إجمالي قيمة العقود</div>
-        <div id="kpiSalesVal" class="text-lg font-black text-blue-800 mt-1">0 $</div>
-        <div id="kpiTransferFees" class="text-[11px] text-gray-500 mt-0.5">رسوم التنازل: 0 $</div>
+        <div id="kpiSalesVal" class="text-base font-black text-blue-800 mt-1">0 د.ع</div>
+        <div id="kpiTransferFees" class="text-[11px] text-gray-500 mt-0.5">رسوم التنازل: 0 د.ع</div>
       </div>
       <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-teal-700">
         <div class="text-xs text-gray-500 font-bold">المقبوضات الفعلية</div>
-        <div id="kpiCollected" class="text-lg font-black text-teal-800 mt-1">0 $</div>
-        <div id="kpiRemaining" class="text-[11px] text-gray-500 mt-0.5">متبقي: 0 $</div>
+        <div id="kpiCollected" class="text-base font-black text-teal-800 mt-1">0 د.ع</div>
+        <div id="kpiRemaining" class="text-[11px] text-gray-500 mt-0.5">متبقي: 0 د.ع</div>
       </div>
     </section>
 
@@ -129,107 +165,78 @@
           🔲 الوحدات السكنية والزونات فقط
         </button>
       </div>
-      <div class="flex items-center gap-3 text-xs font-bold">
+      <div class="flex flex-wrap items-center gap-3 text-xs font-bold">
         <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-emerald-500 inline-block"></span> متاحة</span>
         <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-amber-400 inline-block"></span> محجوزة</span>
-        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-rose-500 inline-block"></span> مباعة</span>
+        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-rose-600 inline-block"></span> مباعة</span>
       </div>
     </section>
 
     <!-- ========================================================= -->
-    <!-- القسم الأول: المخطط التفاعلي للمشروع -->
+    <!-- القسم الأول: المخطط التفاعلي للمشروع (متطابق مع التصميم المرفق) -->
     <!-- ========================================================= -->
     <section id="masterplanSection" class="bg-white rounded-2xl shadow-sm border border-olive overflow-hidden">
       <div class="bg-[#faf8f4] border-b border-olive px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 class="text-base sm:text-lg font-black text-olive-dark">🗺️ المخطط التفاعلي للمشروع</h2>
-          <p class="text-xs text-gray-500">اضغط على أي وحدة سكنية في المخطط لعرض بطاقتها وتفاصيلها وتغيير حالتها</p>
+          <h2 class="text-base sm:text-lg font-black text-olive-dark">🗺️ المخطط التفاعلي للمشروع (Z0 - Z36 & C1)</h2>
+          <p class="text-xs text-gray-500">اختر أي وحدة على المخطط لعرض بطاقتها وتعديلها، أو اختر الزون للتصفية</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
-          <!-- فلتر حالة على المخطط -->
+          <select id="mapZoneFilter" onchange="renderMasterplan()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
+            <option value="">كل الزونات على المخطط</option>
+          </select>
+
           <select id="mapStatusFilter" onchange="renderMasterplan()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
-            <option value="">كل الحالات على المخطط</option>
+            <option value="">كل الحالات</option>
             <option value="available">🟢 المتاحة فقط</option>
             <option value="reserved">🟡 المحجوزة فقط</option>
             <option value="sold">🔴 المباعة فقط</option>
           </select>
 
-          <!-- أزرار التكبير -->
           <div class="flex border border-olive rounded-lg overflow-hidden text-xs font-bold">
             <button onclick="setMapZoom(1)" id="zoomBtn1" class="px-2.5 py-1.5 bg-olive-dark text-white">100%</button>
-            <button onclick="setMapZoom(1.4)" id="zoomBtn14" class="px-2.5 py-1.5 bg-white hover:bg-gray-100">140%</button>
-            <button onclick="setMapZoom(1.8)" id="zoomBtn18" class="px-2.5 py-1.5 bg-white hover:bg-gray-100">180%</button>
+            <button onclick="setMapZoom(1.5)" id="zoomBtn15" class="px-2.5 py-1.5 bg-white hover:bg-gray-100">150%</button>
+            <button onclick="setMapZoom(2.2)" id="zoomBtn22" class="px-2.5 py-1.5 bg-white hover:bg-gray-100">220%</button>
           </div>
 
-          <!-- زر وضع تحديد المواقع على مخطط المستخدم -->
           <button onclick="toggleMappingMode()" id="mappingBtn" class="bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-400 px-3 py-1.5 rounded-lg text-xs font-bold transition">
-            📍 تثبيت مواقع الوحدات على المخطط
+            📍 تعديل موقع وحدة
           </button>
         </div>
       </div>
 
-      <!-- شريط أداة تثبيت المواقع (يظهر عند التفعيل) -->
+      <!-- شريط أداة تعديل الموقع الدقيق -->
       <div id="mappingToolbar" class="hidden bg-amber-50 border-b border-amber-300 px-5 py-3 flex flex-wrap items-center justify-between gap-3 text-xs">
         <div class="flex flex-wrap items-center gap-2">
-          <span class="font-black text-amber-900">وضع التوزيع التفاعلي مفعّل:</span>
-          <span>اختر الوحدة:</span>
+          <span class="font-black text-amber-900">وضع تعديل المواقع مفعّل:</span>
           <select id="mappingUnitSelect" class="border border-amber-400 rounded-lg px-2.5 py-1.5 bg-white font-bold"></select>
-          <span class="text-amber-800 font-semibold">← ثم اضغط على موقعها في المخطط (سينتقل للوحدة التالية تلقائياً)</span>
+          <span class="text-amber-800 font-semibold">← اضغط على الموقع المطلوب في المخطط لتحريك الوحدة إليه</span>
         </div>
-        <button onclick="toggleMappingMode()" class="bg-amber-600 text-white px-3 py-1 rounded-lg font-bold">إنهاء التوزيع</button>
+        <button onclick="toggleMappingMode()" class="bg-amber-600 text-white px-3 py-1 rounded-lg font-bold">إنهاء</button>
       </div>
 
-      <!-- حاوية المخطط القابلة للتمرير والتكبير -->
-      <div class="p-4 bg-[#efeae0] overflow-auto max-h-[680px] relative">
+      <!-- حاوية المخطط بنسبة أبعاد الصورة الأصلية (920 × 1280) -->
+      <div class="p-4 bg-[#e8e2d5] overflow-auto max-h-[820px] relative">
         <div id="mapCanvasInner" onclick="handleMapCanvasClick(event)"
-          class="relative mx-auto bg-[#f7f4ec] border-2 border-[#b9b09c] rounded-xl shadow-inner overflow-hidden select-none"
-          style="width: 100%; min-width: 920px; aspect-ratio: 16 / 10;">
+          class="relative mx-auto bg-white border-2 border-[#a89f8b] rounded-xl shadow-md overflow-hidden select-none"
+          style="width: 100%; max-width: 920px; min-width: 760px; aspect-ratio: 920 / 1280;">
 
-          <!-- صورة المخطط المخصصة (تظهر عند رفع صورة أو وجود masterplan.jpg) -->
+          <!-- صورة المخطط الحقيقية -->
           <img id="customMasterplanImg" src="masterplan.jpg" alt="مخطط مجمع حلم الحياة"
             class="absolute inset-0 w-full h-full object-fill pointer-events-none"
             onerror="this.classList.add('hidden'); document.getElementById('svgMasterplanFallback').classList.remove('hidden');" />
 
-          <!-- المخطط الهندسي الافتراضي المدمج (SVG) يظهر تلقائياً إذا لم تتوفر صورة -->
-          <svg id="svgMasterplanFallback" class="hidden absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1600 1000" preserveAspectRatio="none">
-            <!-- أرضية المجمع -->
-            <rect width="1600" height="1000" fill="#efe9dc" />
-            <!-- الشوارع المحيطة والداخلية -->
-            <rect x="40" y="40" width="1520" height="920" rx="24" fill="#f7f3ea" stroke="#9ea681" stroke-width="6" />
-            <!-- الشارع الرئيسي الأفقي والحديقة المركزية -->
-            <rect x="40" y="455" width="1520" height="90" fill="#d5d0c3" />
-            <line x1="40" y1="500" x2="1560" y2="500" stroke="#ffffff" stroke-width="4" stroke-dasharray="20,14" />
-            <rect x="640" y="465" width="320" height="70" rx="18" fill="#c7d5b5" stroke="#5a6633" stroke-width="3" />
-            <text x="800" y="507" text-anchor="middle" fill="#38401e" font-size="22" font-weight="bold">البوليفارد والحديقة المركزية - حلم الحياة</text>
+          <!-- مخطط احتياطي يطابق مواقع الزونات في حالة عدم رفع masterplan.jpg بعد -->
+          <div id="svgMasterplanFallback" class="hidden absolute inset-0 w-full h-full bg-[#f5f2ea] pointer-events-none">
+            <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-amber-100 border border-amber-400 text-amber-900 px-3 py-1 rounded-full text-[11px] font-bold z-10">
+              💡 لإظهار صورة مخططكم الأصلية بالخلفية: اضغط "🗺️ رفع صورة المخطط" بالأعلى أو سمّها masterplan.jpg في GitHub
+            </div>
+            <div id="fallbackZoneBoxes" class="absolute inset-0"></div>
+          </div>
 
-            <!-- الشوارع العمودية الفاصلة بين الزونات -->
-            <rect x="528" y="40" width="36" height="920" fill="#d5d0c3" />
-            <rect x="1036" y="40" width="36" height="920" fill="#d5d0c3" />
-
-            <!-- خلفية الزونات الـ 6 -->
-            <!-- زون A -->
-            <rect x="1090" y="75" width="445" height="360" rx="16" fill="#ffffff" stroke="#8c966a" stroke-width="3" />
-            <text x="1312" y="108" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون A (100 وحدة)</text>
-            <!-- زون B -->
-            <rect x="580" y="75" width="440" height="360" rx="16" fill="#ffffff" stroke="#8c966a" stroke-width="3" />
-            <text x="800" y="108" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون B (100 وحدة)</text>
-            <!-- زون C -->
-            <rect x="65" y="75" width="445" height="360" rx="16" fill="#ffffff" stroke="#8c966a" stroke-width="3" />
-            <text x="287" y="108" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون C (100 وحدة)</text>
-
-            <!-- زون D -->
-            <rect x="1090" y="565" width="445" height="360" rx="16" fill="#ffffff" stroke="#8c966a" stroke-width="3" />
-            <text x="1312" y="598" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون D (100 وحدة)</text>
-            <!-- زون E -->
-            <rect x="580" y="565" width="440" height="360" rx="16" fill="#ffffff" stroke="#8c966a" stroke-width="3" />
-            <text x="800" y="598" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون E (100 وحدة)</text>
-            <!-- زون الفلل V -->
-            <rect x="65" y="565" width="445" height="360" rx="16" fill="#f3f7ec" stroke="#4e592b" stroke-width="3" />
-            <text x="287" y="598" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون الفلل V (20 فيلا VIP)</text>
-          </svg>
-
-          <!-- طبقة نقاط/مربعات الوحدات التفاعلية على المخطط -->
+          <!-- طبقة الزونات والوحدات التفاعلية -->
+          <div id="mapZonesLayer" class="absolute inset-0 pointer-events-none"></div>
           <div id="mapPinsLayer" class="absolute inset-0"></div>
         </div>
       </div>
@@ -242,14 +249,24 @@
       <div class="bg-[#faf8f4] border-b border-olive px-5 py-4 space-y-3">
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 class="text-base sm:text-lg font-black text-olive-dark">🔲 الوحدات السكنية والزونات (مصفوفة المبيعات والإنجاز)</h2>
-            <p class="text-xs text-gray-500">اختر الزون أو القسم الذي تعمل عليه لعرض مصفوفة المربعات ونسب الإنجاز</p>
+            <h2 class="text-base sm:text-lg font-black text-olive-dark">🔲 الوحدات السكنية والزونات (مصفوفة المربعات)</h2>
+            <p class="text-xs text-gray-500">اختر الزون الذي يعمل عليه موظف المبيعات لعرض كافة وحداته ونسب الإنجاز</p>
           </div>
 
-          <!-- شريط البحث والفلترة داخل الزون -->
           <div class="flex flex-wrap items-center gap-2">
-            <input id="filterSearch" type="text" placeholder="بحث برقم الوحدة أو المشتري..." oninput="debouncedRenderMatrix()"
-              class="border border-olive rounded-lg px-3 py-1.5 text-xs bg-white w-52 focus:outline-none focus:ring-2 focus:ring-[#4e592b]" />
+            <input id="filterSearch" type="text" placeholder="بحث برقم الوحدة (A3-164) أو المشتري..." oninput="debouncedRenderMatrix()"
+              class="border border-olive rounded-lg px-3 py-1.5 text-xs bg-white w-56 focus:outline-none focus:ring-2 focus:ring-[#4e592b]" />
+            <select id="filterCategory" onchange="renderMatrix()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
+              <option value="">كل النماذج</option>
+              <option value="A1">نموذج A1</option>
+              <option value="A2">نموذج A2</option>
+              <option value="A3">نموذج A3</option>
+              <option value="B1">نموذج B1</option>
+              <option value="B2">نموذج B2</option>
+              <option value="C1">نموذج C1</option>
+              <option value="C2">نموذج C2</option>
+              <option value="E4">نموذج E4</option>
+            </select>
             <select id="filterStatus" onchange="renderMatrix()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
               <option value="">كل الحالات</option>
               <option value="available">🟢 متاح</option>
@@ -259,8 +276,8 @@
           </div>
         </div>
 
-        <!-- أزرار اختيار الزونات (Zones Switcher) -->
-        <div id="zonePills" class="flex flex-wrap gap-2 pt-1"></div>
+        <!-- أزرار اختيار الزون (Z0 - Z36 & C1) -->
+        <div id="zonePills" class="flex flex-wrap gap-1.5 pt-1 max-h-40 overflow-y-auto"></div>
       </div>
 
       <!-- مصفوفة المربعات -->
@@ -286,6 +303,23 @@
     </div>
   </div>
 
+  <!-- نافذة ضبط أسعار ومساحات النماذج (A1, A2, A3, B1, B2, C1, C2, E4) -->
+  <div id="categorySettingsModal" class="fixed inset-0 bg-black/60 z-40 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
+      <div class="bg-olive-dark text-white px-6 py-4 flex justify-between items-center">
+        <h2 class="text-base font-bold">⚙️ ضبط المساحة والسعر (د.ع) حسب نموذج الوحدة</h2>
+        <button onclick="document.getElementById('categorySettingsModal').classList.add('hidden')" class="text-2xl">&times;</button>
+      </div>
+      <form onsubmit="submitCategorySettings(event)" class="p-5 space-y-3 max-h-[80vh] overflow-y-auto">
+        <p class="text-xs text-gray-600">تعديل أي صف سيقوم بتحديث المساحة والسعر لجميع الوحدات غير المباعة من هذا النموذج فوراً:</p>
+        <div id="categorySettingsRows" class="space-y-2 text-xs"></div>
+        <button type="submit" class="w-full bg-olive-dark hover:bg-olive-mid text-white font-bold py-2.5 rounded-lg text-sm">
+          💾 تطبيق الأسعار والمساحات على المجمع
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- نافذة التحديث الجماعي لنسب الإنجاز -->
   <div id="bulkProgressModal" class="fixed inset-0 bg-black/60 z-40 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
@@ -295,7 +329,7 @@
       </div>
       <form onsubmit="submitBulkProgress(event)" class="p-6 space-y-4">
         <div>
-          <label class="block text-xs font-bold text-gray-700 mb-1">اختر الزون / القسم</label>
+          <label class="block text-xs font-bold text-gray-700 mb-1">اختر الزون</label>
           <select id="bulkZoneSelect" name="zone" required class="w-full border rounded-lg px-3 py-2 text-sm bg-white"></select>
         </div>
         <div>
@@ -346,11 +380,11 @@
     // ==========================================
     // 1. التخزين المحلي (IndexedDB + Fallback)
     // ==========================================
-    const DB_NAME = 'DreamOfLifeDB_v3';
+    const DB_NAME = 'DreamOfLifeDB_IQD_v4';
     const STORE_NAME = 'app_state';
     const STATE_KEY = 'main_data';
     let state = null;
-    let selectedZone = 'ALL'; // ALL أو اسم الزون
+    let selectedZone = 'Z7'; // الافتراضي على الزون المؤشر أو يمكن اختيار الكل
     let isMappingMode = false;
     let mapZoom = 1;
     let searchTimer = null;
@@ -398,10 +432,10 @@
     }
 
     // ==========================================
-    // 2. دوال مساعدة
+    // 2. دوال مساعدة (عملة الدينار العراقي والتواريخ)
     // ==========================================
-    function round2(n) { return Math.round((Number(n) + Number.EPSILON) * 100) / 100; }
-    function fmtMoney(val) { return Number(val || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' $'; }
+    function roundIQD(n) { return Math.round(Number(n) || 0); }
+    function fmtMoney(val) { return roundIQD(val).toLocaleString('en-US') + ' د.ع'; }
     function escapeHtml(str) {
       if (str === null || str === undefined) return '';
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -491,7 +525,7 @@
         state.custom_masterplan = e.target.result;
         applyCustomMedia();
         await saveStorage();
-        alert('تم رفع صورة المخطط! يمكنك الآن استخدام زر (📍 تثبيت مواقع الوحدات) لترتيب الوحدات على تصميمكم مباشرة.');
+        alert('تم تثبيت صورة المخطط الحقيقية بنجاح! ستظهر الآن خلف جميع الوحدات التفاعلية.');
       };
       reader.readAsDataURL(file);
       event.target.value = '';
@@ -505,80 +539,133 @@
     }
 
     // ==========================================
-    // 3. تهيئة البيانات وتوزيع الإحداثيات (520 وحدة في 6 زونات)
+    // 3. مواصفات النماذج ومواقع الزونات الدقيقة حسب المخطط المرفق
     // ==========================================
+    const DEFAULT_CATEGORIES = {
+      'A3': { label: 'دار سكنية A3', area: 200, built: 185, price: 210000000 },
+      'A2': { label: 'دار سكنية A2', area: 240, built: 215, price: 255000000 },
+      'A1': { label: 'دار سكنية مميزة A1', area: 300, built: 260, price: 325000000 },
+      'B2': { label: 'دار سكنية B2', area: 220, built: 200, price: 235000000 },
+      'B1': { label: 'دار سكنية B1', area: 250, built: 225, price: 270000000 },
+      'C2': { label: 'دار ركن / ناصية C2', area: 260, built: 230, price: 285000000 },
+      'C1': { label: 'وحدة تجارية / سكنية C1', area: 300, built: 280, price: 420000000 },
+      'E4': { label: 'دار سكنية E4', area: 320, built: 275, price: 350000000 }
+    };
+
+    // إحداثيات دقيقة مطابقة لمواقع كل زون على صورة المخطط (920 × 1280)
+    const ZONES_BLUEPRINT = [
+      { id: 'Z0',  x: 62.8, y: 78.7, w: 26.5, h: 5.8, layout: 'h', pct: 85, stage: 'تشطيبات نهائية', units: ['C2-04','C2-03',...seq('A3',1,14),'C2-06','C2-05'] },
+      { id: 'Z1',  x: 62.8, y: 67.5, w: 26.5, h: 9.8, layout: 'h', pct: 80, stage: 'تشطيبات نهائية', units: ['C2-08','C2-07',...seq('A3',32,53),'C2-10','C2-09'] },
+      { id: 'Z2',  x: 62.8, y: 60.5, w: 26.5, h: 6.7, layout: 'h', pct: 75, stage: 'التغليف والإنهاءات', units: ['C2-12','C2-11',...seq('A3',64,93)] },
+      { id: 'Z3',  x: 62.8, y: 53.5, w: 26.5, h: 6.7, layout: 'h', pct: 70, stage: 'التغليف والإنهاءات', units: ['C2-20','C2-19',...seq('A3',96,106),...seq('A3',238,247),'C2-22','C2-21'] },
+      { id: 'Z4',  x: 55.5, y: 53.5, w: 6.6,  h: 22.0, layout: 'v2', pct: 75, stage: 'التغليف والإنهاءات', units: ['C2-15','C2-16',...interleave(seq('A1',1,12), seq('A2',1,12)),'C2-01','C2-02'] },
+      { id: 'Z5',  x: 17.8, y: 71.8, w: 27.2, h: 5.6, layout: 'h', pct: 65, stage: 'أعمال البناء والتأسيسات', units: ['C2-60','C2-59',...seq('B2',21,39),'C2-14'] },
+      { id: 'Z6',  x: 17.5, y: 66.0, w: 27.5, h: 5.2, layout: 'h', pct: 65, stage: 'أعمال البناء والتأسيسات', units: ['C2-58','C2-57',...seq('A3',163,177),'C2-51'] },
+      { id: 'Z7',  x: 17.5, y: 60.4, w: 27.5, h: 5.2, layout: 'h', pct: 70, stage: 'التغليف والإنهاءات', units: [...seq('A3',150,162),...seq('A3',178,190)] },
+      { id: 'Z8',  x: 17.5, y: 55.0, w: 27.5, h: 5.1, layout: 'h', pct: 60, stage: 'أعمال البناء والتأسيسات', units: ['C2-56','C2-55',...seq('A3',208,224),'C2-50'] },
+      { id: 'Z9',  x: 17.5, y: 49.4, w: 27.5, h: 5.3, layout: 'h', pct: 60, stage: 'أعمال البناء والتأسيسات', units: ['C2-54','C2-53',...seq('A3',120,135),'C2-48','C2-47'] },
+      { id: 'Z10', x: 17.5, y: 43.4, w: 27.5, h: 5.5, layout: 'h', pct: 55, stage: 'أعمال البناء والتأسيسات', units: [...seq('A3',136,149),...seq('A3',191,207),'C2-49'] },
+      { id: 'Z11', x: 8.8,  y: 58.8, w: 7.7,  h: 10.0, layout: 'v2', pct: 65, stage: 'أعمال البناء والتأسيسات', units: seq('B2',45,57) },
+      { id: 'Z12', x: 8.8,  y: 43.4, w: 7.7,  h: 14.5, layout: 'v2', pct: 60, stage: 'أعمال البناء والتأسيسات', units: seq('A2',37,58) },
+      { id: 'Z13', x: 45.6, y: 44.4, w: 7.9,  h: 14.5, layout: 'v2', pct: 75, stage: 'التغليف والإنهاءات', units: interleave(seq('B2',12,21), seq('B1',12,21)) },
+      { id: 'Z14', x: 45.6, y: 59.4, w: 7.9,  h: 18.0, layout: 'v2', pct: 80, stage: 'تشطيبات نهائية', units: interleave(seq('B2',1,11), seq('B1',1,11)) },
+      { id: 'Z15', x: 8.8,  y: 37.4, w: 15.2, h: 5.2, layout: 'h', pct: 50, stage: 'الهيكل الخرساني', units: ['C2-45','C2-46',...seq('A3',323,330),'C2-43','C2-44'] },
+      { id: 'Z16', x: 24.8, y: 37.4, w: 7.6,  h: 5.2, layout: 'h', pct: 50, stage: 'الهيكل الخرساني', units: seq('A3',340,349) },
+      { id: 'Z17', x: 33.0, y: 37.4, w: 20.4, h: 5.4, layout: 'h', pct: 55, stage: 'أعمال البناء والتأسيسات', units: ['C2-73','C2-74',...seq('A3',544,562),...seq('A1',62,65)] },
+      { id: 'Z18', x: 45.2, y: 19.8, w: 8.3,  h: 16.2, layout: 'v2', pct: 45, stage: 'الهيكل الخرساني', units: ['C2-65','C2-66',...interleave(seq('A3',428,435), seq('A1',37,43)),'C2-38','C2-37'] },
+      { id: 'Z19', x: 33.0, y: 28.0, w: 11.5, h: 8.0, layout: 'h', pct: 45, stage: 'الهيكل الخرساني', units: seq('A3',359,372) },
+      { id: 'Z20', x: 17.0, y: 19.8, w: 7.5,  h: 17.0, layout: 'v2', pct: 40, stage: 'الهيكل الخرساني', units: [...seq('A3',373,398),'C2-42','C2-41'] },
+      { id: 'Z21', x: 8.8,  y: 21.4, w: 7.4,  h: 15.4, layout: 'v2', pct: 40, stage: 'الهيكل الخرساني', units: seq('B2',58,75) },
+      { id: 'Z22', x: 0.5,  y: 4.2,  w: 7.5,  h: 26.0, layout: 'v2', pct: 30, stage: 'الهيكل الخرساني', units: ['C2-81','C2-80',...seq('A3',563,608),'C2-79','C2-78'] },
+      { id: 'Z23', x: 8.8,  y: 4.2,  w: 7.4,  h: 16.6, layout: 'v2', pct: 35, stage: 'الهيكل الخرساني', units: [...seq('A3',472,497),'C2-40','C2-39'] },
+      { id: 'Z24', x: 17.0, y: 4.2,  w: 7.4,  h: 14.8, layout: 'v2', pct: 35, stage: 'الهيكل الخرساني', units: seq('A3',498,519) },
+      { id: 'Z25', x: 25.2, y: 4.2,  w: 19.2, h: 4.8, layout: 'h', pct: 30, stage: 'أعمال الأساسات', units: seq('A3',520,543) },
+      { id: 'Z26', x: 25.2, y: 9.6,  w: 7.5,  h: 11.8, layout: 'v2', pct: 35, stage: 'الهيكل الخرساني', units: seq('A3',450,471) },
+      { id: 'Z27', x: 37.4, y: 9.6,  w: 7.1,  h: 17.8, layout: 'v2', pct: 40, stage: 'الهيكل الخرساني', units: seq('A3',399,427) },
+      { id: 'Z28', x: 45.2, y: 4.2,  w: 8.3,  h: 14.8, layout: 'v2', pct: 40, stage: 'الهيكل الخرساني', units: ['C2-69','C2-70',...interleave(seq('A3',436,447), seq('A1',44,55)),'C2-67','C2-68'] },
+      { id: 'Z29', x: 55.8, y: 43.4, w: 22.2, h: 5.2, layout: 'h', pct: 60, stage: 'أعمال البناء والتأسيسات', units: [...seq('A1',66,69),...seq('A3',228,231),...seq('A3',73,81)] },
+      { id: 'Z30', x: 64.0, y: 36.0, w: 14.0, h: 6.5, layout: 'h', pct: 55, stage: 'أعمال البناء والتأسيسات', units: ['C2-71','C2-67',...seq('A3',568,574),...seq('A3',69,72),'C2-72'] },
+      { id: 'Z31', x: 55.5, y: 31.0, w: 7.5,  h: 11.5, layout: 'v2', pct: 65, stage: 'أعمال البناء والتأسيسات', units: ['C2-61','C2-62',...interleave(seq('A1',13,18), seq('A2',13,18)),'C2-17','C2-18'] },
+      { id: 'Z32', x: 69.0, y: 25.0, w: 8.5,  h: 10.0, layout: 'v2', pct: 50, stage: 'الهيكل الخرساني', units: ['C2-30','C2-29',...seq('A3',261,274),'C2-26','C2-25'] },
+      { id: 'Z33', x: 78.0, y: 25.0, w: 8.0,  h: 10.0, layout: 'v2', pct: 50, stage: 'الهيكل الخرساني', units: ['C2-28','C2-27',...seq('A3',249,260),'C2-24','C2-23'] },
+      { id: 'Z34', x: 55.5, y: 19.0, w: 7.5,  h: 11.5, layout: 'v2', pct: 55, stage: 'أعمال البناء والتأسيسات', units: ['C2-31','C2-32',...interleave(seq('A1',19,27), seq('A2',19,27)),'C2-63','C2-64'] },
+      { id: 'Z35', x: 64.0, y: 15.0, w: 21.5, h: 8.5, layout: 'h', pct: 45, stage: 'الهيكل الخرساني', units: ['C2-34','C2-33',...seq('A3',275,296),'C2-36','C2-35'] },
+      { id: 'Z36', x: 55.8, y: 11.8, w: 24.2, h: 5.6, layout: 'h', pct: 40, stage: 'الهيكل الخرساني', units: [...seq('A1',58,61),...seq('A3',297,316),...seq('E4',1,3)] },
+      { id: 'C1',  x: 20.4, y: 79.2, w: 31.0, h: 3.7, layout: 'h1', pct: 90, stage: 'تشطيبات نهائية', units: ['B2-70',...seq('C1',9,1)] }
+    ];
+
+    function seq(prefix, start, end) {
+      const arr = [];
+      if (start <= end) {
+        for (let i = start; i <= end; i++) arr.push(`${prefix}-${pad2(i)}`);
+      } else {
+        for (let i = start; i >= end; i--) arr.push(`${prefix}-${pad2(i)}`);
+      }
+      return arr;
+    }
+
+    function interleave(a, b) {
+      const res = [];
+      const len = Math.max(a.length, b.length);
+      for (let i = 0; i < len; i++) {
+        if (a[i]) res.push(a[i]);
+        if (b[i]) res.push(b[i]);
+      }
+      return res;
+    }
+
     function createInitialState() {
+      const categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
       const units = [];
       let uid = 1;
-      const zoneMeta = {
-        'A': { pct: 92, stage: 'تشطيبات نهائية', xStart: 69.5, yStart: 13.5, xStep: 2.55, yStep: 2.8 },
-        'B': { pct: 75, stage: 'التغليف والإنهاءات', xStart: 37.5, yStart: 13.5, xStep: 2.55, yStep: 2.8 },
-        'C': { pct: 55, stage: 'أعمال البناء والتأسيسات', xStart: 5.5, yStart: 13.5, xStep: 2.55, yStep: 2.8 },
-        'D': { pct: 35, stage: 'الهيكل الخرساني', xStart: 69.5, yStart: 62.5, xStep: 2.55, yStep: 2.8 },
-        'E': { pct: 15, stage: 'أعمال الأساسات', xStart: 37.5, yStart: 62.5, xStep: 2.55, yStep: 2.8 }
-      };
-      const directions = ['واجهة أمامية - حديقة', 'ركن - شارع رئيسي', 'واجهة شرقية', 'واجهة غربية'];
+      const directions = ['واجهة شارع داخلي', 'إطلالة حديقة', 'ركن - شارع رئيسي', 'واجهة شرقية'];
 
-      for (const z of ['A', 'B', 'C', 'D', 'E']) {
-        const meta = zoneMeta[z];
-        for (let row = 0; row < 10; row++) {
-          for (let col = 0; col < 10; col++) {
-            const floor = row + 1;
-            const num = col + 1;
-            const code = `${z}-${pad2(floor)}-${pad2(num)}`;
-            const area = num <= 6 ? 125 : 160;
-            const builtArea = num <= 6 ? 115 : 148;
-            const price = (area === 125 ? 95000 : 128000) + (floor * 1000);
-            units.push({
-              id: uid++,
-              code,
-              zone: `زون ${z}`,
-              floor,
-              unit_number: num,
-              unit_type: area === 125 ? 'شقة 3 غرف' : 'شقة 4 غرف',
-              area_sqm: area,
-              built_area: builtArea,
-              direction: directions[(num + floor) % directions.length],
-              price,
-              completion_pct: meta.pct,
-              stage: meta.stage,
-              notes: 'تشطيب درجة أولى مع خدمات مركزية ومصاعد حديثة',
-              status: 'available',
-              x: round2(meta.xStart + (col * meta.xStep)),
-              y: round2(meta.yStart + (row * meta.yStep))
-            });
+      ZONES_BLUEPRINT.forEach(z => {
+        const list = z.units;
+        const n = list.length;
+        let cols, rows;
+        if (z.layout === 'h1') { cols = n; rows = 1; }
+        else if (z.layout === 'h') { cols = Math.ceil(n / 2); rows = 2; }
+        else { cols = 2; rows = Math.ceil(n / 2); }
+
+        list.forEach((code, idx) => {
+          const cat = code.split('-')[0];
+          const meta = categories[cat] || categories['A3'];
+          let r, c;
+          if (z.layout === 'v2') {
+            r = Math.floor(idx / 2);
+            c = idx % 2;
+          } else {
+            r = Math.floor(idx / cols);
+            c = idx % cols;
           }
-        }
-      }
+          const x = round2(z.x + ((c + 0.5) / cols) * z.w);
+          const y = round2(z.y + ((r + 0.5) / rows) * z.h);
 
-      // زون الفلل V (20 فيلا: 4 صفوف × 5 أعمدة)
-      for (let idx = 0; idx < 20; idx++) {
-        const row = Math.floor(idx / 5);
-        const col = idx % 5;
-        const num = idx + 1;
-        units.push({
-          id: uid++,
-          code: `V-${pad2(num)}`,
-          zone: 'زون الفلل V',
-          floor: 1,
-          unit_number: num,
-          unit_type: 'فيلا مستقلة (طابقين)',
-          area_sqm: 300,
-          built_area: 240,
-          direction: num % 2 === 0 ? 'ركن - إطلالة بوليفارد' : 'واجهة حديقة مركزية',
-          price: 285000,
-          completion_pct: 85,
-          stage: 'تشطيبات نهائية',
-          notes: 'فيلا مستقلة مع كراج وحديقة خاصة',
-          status: 'available',
-          x: round2(7.0 + (col * 5.0)),
-          y: round2(64.0 + (row * 6.5))
+          units.push({
+            id: uid++,
+            code,
+            zone: z.id,
+            category: cat,
+            unit_type: meta.label,
+            area_sqm: meta.area,
+            built_area: meta.built,
+            direction: cat === 'C2' ? 'ركن / ناصية' : directions[uid % directions.length],
+            price: meta.price,
+            completion_pct: z.pct,
+            stage: z.stage,
+            notes: `ضمن مخطط ${z.id} - نموذج ${cat}`,
+            status: 'available',
+            x,
+            y
+          });
         });
-      }
+      });
 
       return {
         custom_logo: null,
         custom_masterplan: null,
+        categories,
         units,
         buyers: [],
         contracts: [],
@@ -588,7 +675,7 @@
         audit_logs: [{
           id: 1,
           action: 'تهيئة النظام',
-          details: 'تم إنشاء بيانات مجمع حلم الحياة السكني (520 وحدة) وربط المخطط التفاعلي ومصفوفة الزونات',
+          details: `تم تحميل مخطط مجمع حلم الحياة (${units.length} وحدة سكنية وتجارية موزعة على 38 زون) بالدينار العراقي`,
           created_at: localNowStr()
         }],
         seq: { buyer: 1, contract: 1, installment: 1, payment: 1, transfer: 1, audit: 2 }
@@ -623,7 +710,6 @@
         map: document.getElementById('viewBtnMap'),
         matrix: document.getElementById('viewBtnMatrix')
       };
-
       Object.values(btns).forEach(b => {
         b.classList.remove('bg-olive-dark', 'text-white');
         b.classList.add('bg-[#ede6d8]', 'text-olive-dark');
@@ -644,12 +730,12 @@
 
       const activeContracts = state.contracts.filter(c => c.status === 'active');
       const activeIds = new Set(activeContracts.map(c => c.id));
-      const totalSalesVal = round2(activeContracts.reduce((s, c) => s + c.final_price, 0));
-      const totalCollected = round2(state.payments.filter(p => p.payment_type !== 'transfer_fee' && activeIds.has(p.contract_id)).reduce((s, p) => s + p.amount, 0));
-      const totalTransferFees = round2(state.payments.filter(p => p.payment_type === 'transfer_fee').reduce((s, p) => s + p.amount, 0));
+      const totalSalesVal = roundIQD(activeContracts.reduce((s, c) => s + c.final_price, 0));
+      const totalCollected = roundIQD(state.payments.filter(p => p.payment_type !== 'transfer_fee' && activeIds.has(p.contract_id)).reduce((s, p) => s + p.amount, 0));
+      const totalTransferFees = roundIQD(state.payments.filter(p => p.payment_type === 'transfer_fee').reduce((s, p) => s + p.amount, 0));
 
       const today = localTodayStr();
-      const overdueAmt = round2(
+      const overdueAmt = roundIQD(
         state.installments
           .filter(i => activeIds.has(i.contract_id) && i.status !== 'paid' && i.due_date < today)
           .reduce((s, i) => s + Math.max(0, i.amount_due - i.paid_amount), 0)
@@ -674,15 +760,15 @@
     function setMapZoom(z) {
       mapZoom = z;
       const inner = document.getElementById('mapCanvasInner');
-      inner.style.width = `${100 * z}%`;
-      inner.style.minWidth = `${920 * z}px`;
+      inner.style.maxWidth = `${920 * z}px`;
+      inner.style.minWidth = `${760 * z}px`;
 
-      ['zoomBtn1', 'zoomBtn14', 'zoomBtn18'].forEach(id => {
+      ['zoomBtn1', 'zoomBtn15', 'zoomBtn22'].forEach(id => {
         const btn = document.getElementById(id);
         btn.classList.remove('bg-olive-dark', 'text-white');
         btn.classList.add('bg-white');
       });
-      const activeId = z === 1 ? 'zoomBtn1' : (z === 1.4 ? 'zoomBtn14' : 'zoomBtn18');
+      const activeId = z === 1 ? 'zoomBtn1' : (z === 1.5 ? 'zoomBtn15' : 'zoomBtn22');
       document.getElementById(activeId).classList.remove('bg-white');
       document.getElementById(activeId).classList.add('bg-olive-dark', 'text-white');
     }
@@ -710,8 +796,8 @@
       if (!isMappingMode) return;
       const canvas = document.getElementById('mapCanvasInner');
       const rect = canvas.getBoundingClientRect();
-      const xPct = round2(Math.max(1, Math.min(98, ((event.clientX - rect.left) / rect.width) * 100)));
-      const yPct = round2(Math.max(1, Math.min(98, ((event.clientY - rect.top) / rect.height) * 100)));
+      const xPct = Number(Math.max(0.5, Math.min(99, ((event.clientX - rect.left) / rect.width) * 100)).toFixed(2));
+      const yPct = Number(Math.max(0.5, Math.min(99, ((event.clientY - rect.top) / rect.height) * 100)).toFixed(2));
 
       const sel = document.getElementById('mappingUnitSelect');
       const unitId = parseInt(sel.value, 10);
@@ -722,36 +808,44 @@
       u.y = yPct;
       await saveStorage();
       renderMasterplan();
+      if (sel.selectedIndex < sel.options.length - 1) sel.selectedIndex += 1;
+    }
 
-      // الانتقال تلقائياً للوحدة التالية لتسريع عملية توزيع المخطط
-      if (sel.selectedIndex < sel.options.length - 1) {
-        sel.selectedIndex += 1;
-      }
+    function renderFallbackZoneBoxes() {
+      const boxLayer = document.getElementById('fallbackZoneBoxes');
+      boxLayer.innerHTML = ZONES_BLUEPRINT.map(z => `
+        <div style="left:${z.x}%; top:${z.y}%; width:${z.w}%; height:${z.h}%;"
+          class="absolute border border-[#8c966a] bg-white/80 rounded flex items-center justify-center">
+          <span class="text-[10px] font-black text-olive-dark/40">${z.id}</span>
+        </div>
+      `).join('');
     }
 
     function renderMasterplan() {
+      const zoneFilter = document.getElementById('mapZoneFilter').value;
       const statusFilter = document.getElementById('mapStatusFilter').value;
-      const contractByUnit = new Map();
-      state.contracts.forEach(c => {
-        if (c.status === 'hold' || c.status === 'active') contractByUnit.set(c.unit_id, c);
-      });
-      const buyerById = new Map(state.buyers.map(b => [b.id, b]));
+
+      // شارات الزونات فوق المخطط
+      document.getElementById('mapZonesLayer').innerHTML = ZONES_BLUEPRINT.map(z => {
+        const dimmed = zoneFilter && z.id !== zoneFilter;
+        return `
+          <div style="left:${z.x + z.w / 2}%; top:${z.y}%;"
+            class="absolute -translate-x-1/2 -translate-y-1/2 bg-slate-900/75 text-white px-1.5 py-0.5 rounded text-[8px] font-black shadow ${dimmed ? 'opacity-20' : 'opacity-90'}">
+            ${z.id}
+          </div>
+        `;
+      }).join('');
 
       const pinColors = {
-        available: 'bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-800',
-        reserved: 'bg-amber-400 hover:bg-amber-500 text-slate-900 border-amber-700',
-        sold: 'bg-rose-600 hover:bg-rose-700 text-white border-rose-900'
+        available: 'bg-emerald-500/60 hover:bg-emerald-600 text-white border-emerald-800/80',
+        reserved: 'bg-amber-400/90 hover:bg-amber-500 text-slate-900 border-amber-800',
+        sold: 'bg-rose-600/90 hover:bg-rose-700 text-white border-rose-950'
       };
 
       const layer = document.getElementById('mapPinsLayer');
       layer.innerHTML = state.units.map(u => {
-        const dimmed = statusFilter && u.status !== statusFilter;
-        const isVilla = u.zone.includes('الفلل');
-        const shortLabel = isVilla ? u.code : u.code.slice(2); // مثلا 01-01 أو V-01
-        const c = contractByUnit.get(u.id);
-        const b = c ? buyerById.get(c.buyer_id) : null;
-        const buyerInfo = b ? escapeHtml(b.full_name) : '';
-
+        const dimmed = (zoneFilter && u.zone !== zoneFilter) || (statusFilter && u.status !== statusFilter);
+        const numLabel = u.code.split('-')[1] || u.code;
         return `
           <button type="button"
             onclick="onMapPinClick(event, ${u.id})"
@@ -759,16 +853,15 @@
             onmousemove="moveMapTooltip(event)"
             onmouseleave="hideMapTooltip()"
             style="left: ${u.x}%; top: ${u.y}%;"
-            class="absolute -translate-x-1/2 -translate-y-1/2 ${isVilla ? 'w-9 h-6 text-[9px]' : 'w-6 h-4 text-[7px]'} rounded border font-black shadow-sm flex items-center justify-center transition-transform hover:scale-150 hover:z-20 ${pinColors[u.status]} ${dimmed ? 'opacity-20' : 'opacity-95'}"
-            title="${escapeHtml(u.code)} ${buyerInfo}">
-            ${escapeHtml(shortLabel)}
+            class="absolute -translate-x-1/2 -translate-y-1/2 w-[15px] h-[11px] rounded-[2px] border text-[6px] font-black leading-none flex items-center justify-center transition-transform hover:scale-[2.2] hover:z-30 ${pinColors[u.status]} ${dimmed ? 'opacity-15' : 'opacity-100'}">
+            ${escapeHtml(numLabel)}
           </button>
         `;
       }).join('');
     }
 
     function onMapPinClick(event, unitId) {
-      if (isMappingMode) return; // في وضع التثبيت، يتولى handleMapCanvasClick النقرة
+      if (isMappingMode) return;
       event.stopPropagation();
       hideMapTooltip();
       openUnitModal(unitId);
@@ -783,9 +876,10 @@
 
       const tip = document.getElementById('mapTooltip');
       tip.innerHTML = `
-        <div class="font-black text-sm text-[#e3dcbe]">${escapeHtml(u.code)} — ${escapeHtml(u.zone)}</div>
+        <div class="font-black text-sm text-[#e3dcbe]">${escapeHtml(u.code)} (${escapeHtml(u.zone)})</div>
         <div class="text-[11px]">${statusText} | الإنجاز: <b>${u.completion_pct}%</b></div>
-        <div class="text-[11px]">${escapeHtml(u.unit_type)} • ${u.area_sqm} م² • <b>${fmtMoney(u.price)}</b></div>
+        <div class="text-[11px]">${escapeHtml(u.unit_type)} • ${u.area_sqm} م²</div>
+        <div class="text-[11px] font-bold text-emerald-300">${fmtMoney(u.price)}</div>
         ${b ? `<div class="mt-1 pt-1 border-t border-slate-700 text-amber-300 font-bold">👤 ${escapeHtml(b.full_name)} (${escapeHtml(b.phone)})</div>` : ''}
       `;
       tip.classList.remove('hidden');
@@ -795,23 +889,23 @@
     function moveMapTooltip(event) {
       const tip = document.getElementById('mapTooltip');
       tip.style.left = `${Math.min(window.innerWidth - 260, event.clientX + 14)}px`;
-      tip.style.top = `${Math.min(window.innerHeight - 110, event.clientY + 14)}px`;
+      tip.style.top = `${Math.min(window.innerHeight - 120, event.clientY + 14)}px`;
     }
 
-    function hideMapTooltip() {
-      document.getElementById('mapTooltip').classList.add('hidden');
-    }
+    function hideMapTooltip() { document.getElementById('mapTooltip').classList.add('hidden'); }
 
     // ==========================================
     // 6. القسم الثاني: الوحدات السكنية والزونات (مصفوفة المربعات)
     // ==========================================
     function getZonesList() {
-      return [...new Set(state.units.map(u => u.zone))];
+      return ZONES_BLUEPRINT.map(z => z.id);
     }
 
     function populateZoneSelects() {
       const zones = getZonesList();
-      document.getElementById('bulkZoneSelect').innerHTML = zones.map(z => `<option value="${escapeHtml(z)}">${escapeHtml(z)}</option>`).join('');
+      document.getElementById('bulkZoneSelect').innerHTML = zones.map(z => `<option value="${z}">${z}</option>`).join('');
+      const mapZ = document.getElementById('mapZoneFilter');
+      mapZ.innerHTML = '<option value="">كل الزونات على المخطط</option>' + zones.map(z => `<option value="${z}">زون ${z}</option>`).join('');
     }
 
     function selectZone(zoneName) {
@@ -823,36 +917,24 @@
     function renderZonePills() {
       const zones = getZonesList();
       const container = document.getElementById('zonePills');
-
       const allAvail = state.units.filter(u => u.status === 'available').length;
-      const allBtnClass = selectedZone === 'ALL'
-        ? 'bg-olive-dark text-white border-olive-dark shadow'
-        : 'bg-white text-olive-dark border-olive hover:bg-[#ede6d8]';
 
       let html = `
-        <button onclick="selectZone('ALL')" class="border px-3.5 py-2 rounded-xl text-xs font-extrabold transition ${allBtnClass}">
-          كل الزونات (${state.units.length})
-          <span class="block text-[10px] opacity-80 font-semibold">متاح: ${allAvail}</span>
+        <button onclick="selectZone('ALL')" class="border px-3 py-1.5 rounded-lg text-xs font-extrabold transition ${selectedZone === 'ALL' ? 'bg-olive-dark text-white border-olive-dark shadow' : 'bg-white text-olive-dark border-olive hover:bg-[#ede6d8]'}">
+          الكل (${state.units.length}) • متاح ${allAvail}
         </button>
       `;
 
       zones.forEach(z => {
         const zUnits = state.units.filter(u => u.zone === z);
         const zAvail = zUnits.filter(u => u.status === 'available').length;
-        const zAvgPct = Math.round(zUnits.reduce((s, u) => s + (u.completion_pct || 0), 0) / zUnits.length);
         const isActive = selectedZone === z;
-        const cls = isActive
-          ? 'bg-olive-dark text-white border-olive-dark shadow'
-          : 'bg-white text-olive-dark border-olive hover:bg-[#ede6d8]';
-
         html += `
-          <button onclick="selectZone('${escapeHtml(z)}')" class="border px-3.5 py-2 rounded-xl text-xs font-extrabold transition ${cls}">
-            ${escapeHtml(z)} (${zUnits.length})
-            <span class="block text-[10px] opacity-85 font-semibold">متاح: ${zAvail} • إنجاز: ${zAvgPct}%</span>
+          <button onclick="selectZone('${z}')" class="border px-2.5 py-1.5 rounded-lg text-xs font-extrabold transition ${isActive ? 'bg-olive-dark text-white border-olive-dark shadow' : 'bg-white text-olive-dark border-olive hover:bg-[#ede6d8]'}">
+            ${z} <span class="text-[10px] opacity-80">(${zAvail}/${zUnits.length})</span>
           </button>
         `;
       });
-
       container.innerHTML = html;
     }
 
@@ -863,6 +945,7 @@
 
     function renderMatrix() {
       const status = document.getElementById('filterStatus').value;
+      const category = document.getElementById('filterCategory').value;
       const search = document.getElementById('filterSearch').value.trim().toLowerCase();
 
       const contractByUnit = new Map();
@@ -880,16 +963,13 @@
         reserved: 'bg-amber-100 border-amber-500 hover:bg-amber-200 text-amber-950',
         sold: 'bg-rose-100 border-rose-500 hover:bg-rose-200 text-rose-950'
       };
-      const dotStyles = {
-        available: 'bg-emerald-600',
-        reserved: 'bg-amber-500',
-        sold: 'bg-rose-600'
-      };
+      const dotStyles = { available: 'bg-emerald-600', reserved: 'bg-amber-500', sold: 'bg-rose-600' };
 
       const blocksHtml = zonesToShow.map(z => {
         const zUnits = state.units.filter(u => {
           if (u.zone !== z) return false;
           if (status && u.status !== status) return false;
+          if (category && u.category !== category) return false;
           if (search) {
             const c = contractByUnit.get(u.id);
             const b = c ? buyerById.get(c.buyer_id) : null;
@@ -903,42 +983,36 @@
 
         if (zUnits.length === 0) return '';
         totalMatched += zUnits.length;
-
         const avgPct = Math.round(zUnits.reduce((s, u) => s + (u.completion_pct || 0), 0) / zUnits.length);
 
         return `
           <div class="space-y-3">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-olive pb-2">
               <div class="flex items-center gap-2">
-                <span class="bg-olive-dark text-white text-xs font-black px-3 py-1 rounded-lg">${escapeHtml(z)}</span>
-                <span class="text-xs font-bold text-gray-600">عدد الوحدات المعروضة: ${zUnits.length}</span>
+                <span class="bg-olive-dark text-white text-xs font-black px-3 py-1 rounded-lg">زون ${escapeHtml(z)}</span>
+                <span class="text-xs font-bold text-gray-600">الوحدات المعروضة: ${zUnits.length}</span>
               </div>
-              <span class="text-xs font-extrabold text-olive-dark bg-[#ede6d8] px-3 py-1 rounded-lg">نسبة إنجاز القسم: ${avgPct}%</span>
+              <span class="text-xs font-extrabold text-olive-dark bg-[#ede6d8] px-3 py-1 rounded-lg">نسبة إنجاز الزون: ${avgPct}%</span>
             </div>
 
-            <!-- مصفوفة المربعات -->
-            <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-2">
+            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
               ${zUnits.map(u => {
                 const c = contractByUnit.get(u.id);
                 const b = c ? buyerById.get(c.buyer_id) : null;
                 const pct = u.completion_pct ?? 0;
                 return `
                   <div onclick="openUnitModal(${u.id})"
-                    class="cursor-pointer border-2 rounded-xl p-2 transition transform hover:-translate-y-0.5 hover:shadow-md flex flex-col justify-between min-h-[78px] ${squareStyles[u.status]}">
+                    class="cursor-pointer border-2 rounded-xl p-2.5 transition transform hover:-translate-y-0.5 hover:shadow-md flex flex-col justify-between min-h-[92px] ${squareStyles[u.status]}">
                     <div class="flex items-center justify-between gap-1">
-                      <span class="font-black text-xs tracking-tight">${escapeHtml(u.code)}</span>
+                      <span class="font-black text-xs">${escapeHtml(u.code)}</span>
                       <span class="w-2.5 h-2.5 rounded-full shrink-0 ${dotStyles[u.status]}"></span>
                     </div>
-
-                    <div class="text-[10px] font-bold opacity-80 truncate mt-0.5">
+                    <div class="text-[10px] font-bold opacity-75">${u.area_sqm} م² • ${escapeHtml(u.category)}</div>
+                    <div class="text-[10px] font-extrabold truncate mt-0.5">
                       ${b ? `👤 ${escapeHtml(b.full_name)}` : fmtMoney(u.price)}
                     </div>
-
                     <div class="mt-1.5">
-                      <div class="flex justify-between text-[9px] font-black mb-0.5">
-                        <span>إنجاز</span>
-                        <span>${pct}%</span>
-                      </div>
+                      <div class="flex justify-between text-[9px] font-black mb-0.5"><span>إنجاز</span><span>${pct}%</span></div>
                       <div class="w-full bg-white/80 rounded-full h-1.5 overflow-hidden border border-black/10">
                         <div class="${getProgressColor(pct)} h-1.5 rounded-full" style="width: ${pct}%"></div>
                       </div>
@@ -975,8 +1049,8 @@
       const c = state.contracts.find(x => x.unit_id === unitId && (x.status === 'hold' || x.status === 'active'));
       const buyer = c ? state.buyers.find(b => b.id === c.buyer_id) : null;
 
-      document.getElementById('modalTitle').textContent = `بطاقة الوحدة السكنية: ${u.code} (${u.zone})`;
-      document.getElementById('modalSubtitle').textContent = `${u.unit_type} | الطابق ${u.floor} | المساحة ${u.area_sqm} م² | الإنجاز ${u.completion_pct}%`;
+      document.getElementById('modalTitle').textContent = `بطاقة الوحدة السكنية: ${u.code} (زون ${u.zone})`;
+      document.getElementById('modalSubtitle').textContent = `${u.unit_type} | المساحة ${u.area_sqm} م² | الإنجاز ${u.completion_pct}%`;
 
       const pct = u.completion_pct ?? 0;
       const statusLabels = { available: '🟢 متاحة للبيع', reserved: '🟡 محجوزة مؤقتاً', sold: '🔴 مباعة' };
@@ -1002,7 +1076,7 @@
             <div><span class="text-gray-500 block">النموذج:</span><b>${escapeHtml(u.unit_type)}</b></div>
             <div><span class="text-gray-500 block">المساحة الكلية:</span><b>${u.area_sqm} م²</b></div>
             <div><span class="text-gray-500 block">مساحة البناء:</span><b>${u.built_area || u.area_sqm} م²</b></div>
-            <div><span class="text-gray-500 block">الطابق / الواجهة:</span><b>طابق ${u.floor} • ${escapeHtml(u.direction)}</b></div>
+            <div><span class="text-gray-500 block">الواجهة / الموقع:</span><b>${escapeHtml(u.direction)}</b></div>
             <div><span class="text-gray-500 block">مرحلة البناء:</span><b class="text-olive-dark">${escapeHtml(u.stage)}</b></div>
           </div>
 
@@ -1020,11 +1094,12 @@
           <form id="editUnitForm" onsubmit="submitEditUnit(event, ${u.id})" class="hidden bg-white p-4 rounded-xl border-2 border-[#6d7a40] space-y-3">
             <div class="font-bold text-xs text-olive-dark">تعديل بيانات الوحدة ونسبة الإنجاز:</div>
             <div class="grid sm:grid-cols-4 gap-2 text-xs">
-              <div><label class="block text-gray-600 mb-0.5">السعر ($)</label><input type="number" step="0.01" name="price" value="${u.price}" required class="w-full border rounded px-2 py-1.5" /></div>
-              <div><label class="block text-gray-600 mb-0.5">المساحة الكلية (م²)</label><input type="number" step="0.1" name="area_sqm" value="${u.area_sqm}" required class="w-full border rounded px-2 py-1.5" /></div>
-              <div><label class="block text-gray-600 mb-0.5">مساحة البناء (م²)</label><input type="number" step="0.1" name="built_area" value="${u.built_area || u.area_sqm}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div><label class="block text-gray-600 mb-0.5">رقم/رمز الوحدة</label><input type="text" name="code" value="${escapeHtml(u.code)}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div><label class="block text-gray-600 mb-0.5">السعر (د.ع)</label><input type="number" step="1000" name="price" value="${u.price}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div><label class="block text-gray-600 mb-0.5">المساحة الكلية (م²)</label><input type="number" step="0.5" name="area_sqm" value="${u.area_sqm}" required class="w-full border rounded px-2 py-1.5" /></div>
               <div><label class="block text-gray-600 mb-0.5">نسبة الإنجاز (%)</label><input type="number" min="0" max="100" name="completion_pct" value="${pct}" required class="w-full border rounded px-2 py-1.5" /></div>
-              <div class="sm:col-span-2"><label class="block text-gray-600 mb-0.5">الواجهة / الإطلالة</label><input type="text" name="direction" value="${escapeHtml(u.direction)}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div><label class="block text-gray-600 mb-0.5">مساحة البناء (م²)</label><input type="number" step="0.5" name="built_area" value="${u.built_area || u.area_sqm}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div><label class="block text-gray-600 mb-0.5">الواجهة / الإطلالة</label><input type="text" name="direction" value="${escapeHtml(u.direction)}" required class="w-full border rounded px-2 py-1.5" /></div>
               <div class="sm:col-span-2"><label class="block text-gray-600 mb-0.5">مرحلة البناء</label><input type="text" name="stage" value="${escapeHtml(u.stage)}" required class="w-full border rounded px-2 py-1.5" /></div>
               <div class="sm:col-span-4"><label class="block text-gray-600 mb-0.5">ملاحظات الوحدة</label><input type="text" name="notes" value="${escapeHtml(u.notes || '')}" class="w-full border rounded px-2 py-1.5" /></div>
             </div>
@@ -1043,6 +1118,7 @@
         const preResCard = buyer ? escapeHtml(buyer.residence_card || '') : '';
         const preAddress = buyer ? escapeHtml(buyer.address || '') : '';
         const todayStr = localTodayStr();
+        const defaultDown = roundIQD(u.price * 0.2);
 
         actionSectionHtml = `
           ${u.status === 'reserved' && c ? `
@@ -1089,13 +1165,13 @@
                 <input name="contract_notes" placeholder="ملاحظات العقد (إن وجدت)" class="border rounded-lg px-3 py-2 text-xs bg-white" />
               </div>
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-                <div><label class="text-[11px] text-gray-600 font-bold">الخصم ($)</label><input type="number" step="0.01" name="discount" value="0" min="0" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
-                <div><label class="text-[11px] text-gray-600 font-bold">المقدمة ($)</label><input type="number" step="0.01" name="down_payment" value="${Math.round(u.price * 0.2)}" min="0" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
+                <div><label class="text-[11px] text-gray-600 font-bold">الخصم (د.ع)</label><input type="number" step="1000" name="discount" value="0" min="0" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
+                <div><label class="text-[11px] text-gray-600 font-bold">المقدمة (د.ع)</label><input type="number" step="1000" name="down_payment" value="${defaultDown}" min="0" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
                 <div><label class="text-[11px] text-gray-600 font-bold">الأقساط (شهر)</label><input type="number" name="months" value="60" min="0" max="180" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
                 <div><label class="text-[11px] text-gray-600 font-bold">بدء الأقساط</label><input type="date" name="start_date" value="${todayStr}" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
               </div>
               <button type="submit" class="w-full bg-olive-dark hover:bg-olive-mid text-white font-bold py-2.5 rounded-lg text-sm">
-                ✅ تحويل الوحدة إلى مباعة وتوليد الأقساط
+                ✅ تحويل الوحدة إلى مباعة وتوليد الأقساط بالدينار العراقي
               </button>
             </form>
           </div>
@@ -1104,8 +1180,8 @@
         const unitInstallments = state.installments.filter(i => i.contract_id === c.id).sort((a, b) => a.installment_no - b.installment_no);
         const unitPayments = state.payments.filter(p => p.contract_id === c.id).sort((a, b) => b.id - a.id);
         const unitTransfers = state.transfers.filter(t => t.contract_id === c.id).sort((a, b) => b.id - a.id);
-        const totalPaid = round2(unitPayments.filter(p => p.payment_type !== 'transfer_fee').reduce((s, p) => s + p.amount, 0));
-        const remainingContract = round2(Math.max(0, c.final_price - totalPaid));
+        const totalPaid = roundIQD(unitPayments.filter(p => p.payment_type !== 'transfer_fee').reduce((s, p) => s + p.amount, 0));
+        const remainingContract = roundIQD(Math.max(0, c.final_price - totalPaid));
 
         actionSectionHtml = `
           <div class="bg-rose-50/40 border-2 border-rose-200 rounded-xl p-4 space-y-4">
@@ -1152,7 +1228,7 @@
               <input name="new_buyer_address" placeholder="عنوان السكن" class="border rounded-lg px-3 py-2 text-xs bg-white" />
             </div>
             <div class="flex flex-wrap items-center gap-3">
-              <div class="w-48"><label class="text-[11px] font-bold text-indigo-900">رسوم التنازل ($)</label><input required type="number" step="0.01" name="transfer_fee" value="1500" min="0" class="w-full border rounded-lg px-3 py-1.5 text-xs bg-white" /></div>
+              <div class="w-56"><label class="text-[11px] font-bold text-indigo-900">رسوم التنازل (د.ع)</label><input required type="number" step="1000" name="transfer_fee" value="2000000" min="0" class="w-full border rounded-lg px-3 py-1.5 text-xs bg-white" /></div>
               <button type="submit" class="mt-4 bg-indigo-700 hover:bg-indigo-800 text-white px-5 py-2 rounded-lg text-xs font-bold">تأكيد التنازل ونقل الملكية</button>
             </div>
           </form>
@@ -1167,7 +1243,7 @@
                 <tbody class="divide-y">
                   ${unitInstallments.length === 0 ? '<tr><td colspan="7" class="p-4 text-center text-gray-400">البيع نقدي بالكامل (لا توجد أقساط)</td></tr>' :
                     unitInstallments.map(inst => {
-                      const rem = round2(Math.max(0, inst.amount_due - inst.paid_amount));
+                      const rem = roundIQD(Math.max(0, inst.amount_due - inst.paid_amount));
                       const stBadge = inst.status === 'paid'
                         ? '<span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">مسدد</span>'
                         : (inst.status === 'partial'
@@ -1233,8 +1309,64 @@
     function closeUnitModal() { document.getElementById('unitModal').classList.add('hidden'); }
 
     // ==========================================
-    // 8. عمليات التعديل والحفظ والبيع والأقساط
+    // 8. تسعير النماذج، التعديل، البيع، الأقساط، التنازل
     // ==========================================
+    function openCategorySettingsModal() {
+      const cats = state.categories || DEFAULT_CATEGORIES;
+      const rows = Object.keys(cats).map(key => {
+        const c = cats[key];
+        return `
+          <div class="grid grid-cols-12 gap-2 items-center bg-[#faf8f4] p-2.5 rounded-lg border">
+            <div class="col-span-3 font-black text-olive-dark">${key} — ${escapeHtml(c.label)}</div>
+            <div class="col-span-3">
+              <label class="text-[10px] text-gray-500 block">المساحة الكلية (م²)</label>
+              <input type="number" step="0.5" name="area_${key}" value="${c.area}" required class="w-full border rounded px-2 py-1 bg-white" />
+            </div>
+            <div class="col-span-2">
+              <label class="text-[10px] text-gray-500 block">البناء (م²)</label>
+              <input type="number" step="0.5" name="built_${key}" value="${c.built}" required class="w-full border rounded px-2 py-1 bg-white" />
+            </div>
+            <div class="col-span-4">
+              <label class="text-[10px] text-gray-500 block">السعر الرسمي (د.ع)</label>
+              <input type="number" step="1000" name="price_${key}" value="${c.price}" required class="w-full border rounded px-2 py-1 bg-white font-bold" />
+            </div>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('categorySettingsRows').innerHTML = rows;
+      document.getElementById('categorySettingsModal').classList.remove('hidden');
+    }
+
+    async function submitCategorySettings(e) {
+      e.preventDefault();
+      const form = Object.fromEntries(new FormData(e.target));
+      let updatedCount = 0;
+
+      Object.keys(state.categories).forEach(key => {
+        const area = Number(form[`area_${key}`]);
+        const built = Number(form[`built_${key}`]);
+        const price = roundIQD(form[`price_${key}`]);
+        state.categories[key].area = area;
+        state.categories[key].built = built;
+        state.categories[key].price = price;
+
+        state.units.forEach(u => {
+          if (u.category === key && u.status !== 'sold') {
+            u.area_sqm = area;
+            u.built_area = built;
+            u.price = price;
+            updatedCount++;
+          }
+        });
+      });
+
+      addAuditLog('تحديث تسعير النماذج', `تحديث المساحات والأسعار بالدينار العراقي لـ ${updatedCount} وحدة غير مباعة`);
+      await saveStorage();
+      await refreshAll();
+      document.getElementById('categorySettingsModal').classList.add('hidden');
+      alert(`تم تحديث الأسعار والمساحات لـ ${updatedCount} وحدة بنجاح!`);
+    }
+
     async function submitEditUnit(e, unitId) {
       e.preventDefault();
       const form = Object.fromEntries(new FormData(e.target));
@@ -1244,9 +1376,10 @@
       const pct = parseInt(form.completion_pct, 10);
       if (isNaN(pct) || pct < 0 || pct > 100) return alert('نسبة الإنجاز يجب أن تكون بين 0 و 100');
 
-      u.price = round2(parseFloat(form.price));
-      u.area_sqm = round2(parseFloat(form.area_sqm));
-      u.built_area = round2(parseFloat(form.built_area));
+      u.code = form.code.trim();
+      u.price = roundIQD(form.price);
+      u.area_sqm = Number(form.area_sqm);
+      u.built_area = Number(form.built_area);
       u.completion_pct = pct;
       u.direction = form.direction.trim();
       u.stage = form.stage.trim();
@@ -1269,18 +1402,14 @@
 
       let count = 0;
       state.units.forEach(u => {
-        if (u.zone === zone) {
-          u.completion_pct = pct;
-          u.stage = stage;
-          count++;
-        }
+        if (u.zone === zone) { u.completion_pct = pct; u.stage = stage; count++; }
       });
 
-      addAuditLog('تحديث إنجاز جماعي', `تحديث نسبة إنجاز ${zone} (${count} وحدة) إلى ${pct}% - ${stage}`);
+      addAuditLog('تحديث إنجاز جماعي', `تحديث نسبة إنجاز زون ${zone} (${count} وحدة) إلى ${pct}% - ${stage}`);
       await saveStorage();
       await refreshAll();
       document.getElementById('bulkProgressModal').classList.add('hidden');
-      alert(`تم تحديث نسبة الإنجاز لـ ${count} وحدة في ${zone} إلى ${pct}%`);
+      alert(`تم تحديث نسبة الإنجاز لـ ${count} وحدة في زون ${zone} إلى ${pct}%`);
     }
 
     async function submitReserve(e, unitId) {
@@ -1346,14 +1475,14 @@
       const u = state.units.find(x => x.id === unitId);
       if (!u || u.status === 'sold') return alert('هذه الوحدة مباعة بالفعل!');
 
-      const discount = round2(parseFloat(form.discount || 0));
-      const downPayment = round2(parseFloat(form.down_payment || 0));
+      const discount = roundIQD(form.discount || 0);
+      const downPayment = roundIQD(form.down_payment || 0);
       const months = parseInt(form.months || 0, 10);
-      const finalPrice = round2(u.price - discount);
+      const finalPrice = roundIQD(u.price - discount);
 
       if (finalPrice <= 0 || discount < 0) return alert('قيمة الخصم غير صالحة');
       if (downPayment < 0 || downPayment > finalPrice) return alert('الدفعة المقدمة غير صالحة');
-      const remainingAfterDown = round2(finalPrice - downPayment);
+      const remainingAfterDown = roundIQD(finalPrice - downPayment);
       if (remainingAfterDown > 0 && months <= 0) return alert('يرجى تحديد عدد أشهر الأقساط للمبلغ المتبقي');
 
       const now = localNowStr();
@@ -1419,7 +1548,7 @@
           buyer_id: buyer.id,
           payment_type: 'down_payment',
           amount: downPayment,
-          payment_method: 'نقدي',
+          payment_method: 'نقدي (دينار عراقي)',
           notes: `الدفعة المقدمة عند توقيع العقد للوحدة ${u.code}`,
           paid_at: now
         });
@@ -1427,12 +1556,12 @@
 
       if (remainingAfterDown > 0 && months > 0) {
         const startDate = form.start_date || localTodayStr();
-        const baseInstallment = round2(remainingAfterDown / months);
+        const baseInstallment = Math.floor(remainingAfterDown / months);
         let accumulated = 0;
         for (let i = 1; i <= months; i++) {
           const dueDate = addMonths(startDate, i);
-          const amt = i < months ? baseInstallment : round2(remainingAfterDown - accumulated);
-          if (i < months) accumulated = round2(accumulated + amt);
+          const amt = i < months ? baseInstallment : roundIQD(remainingAfterDown - accumulated);
+          if (i < months) accumulated += amt;
           state.installments.push({
             id: state.seq.installment++,
             contract_id: contract.id,
@@ -1453,21 +1582,21 @@
     }
 
     async function payInstallment(instId, defaultRemaining, unitId) {
-      const input = prompt(`أدخل المبلغ المراد تسديده بالدولار (المتبقي للقسط: ${defaultRemaining}$):`, defaultRemaining);
+      const input = prompt(`أدخل المبلغ المراد تسديده بالدينار العراقي (المتبقي للقسط: ${Number(defaultRemaining).toLocaleString('en-US')} د.ع):`, defaultRemaining);
       if (input === null) return;
-      const amount = round2(parseFloat(input));
+      const amount = roundIQD(input);
       if (isNaN(amount) || amount <= 0) return alert('مبلغ غير صالح');
 
       const inst = state.installments.find(i => i.id === instId);
       if (!inst) return;
-      const rem = round2(inst.amount_due - inst.paid_amount);
-      if (amount > rem) return alert(`المبلغ المدخل أكبر من المتبقي لهذا القسط (${rem}$)`);
+      const rem = roundIQD(inst.amount_due - inst.paid_amount);
+      if (amount > rem) return alert(`المبلغ المدخل أكبر من المتبقي لهذا القسط (${fmtMoney(rem)})`);
 
       const contract = state.contracts.find(c => c.id === inst.contract_id);
       const u = state.units.find(x => x.id === unitId);
 
-      inst.paid_amount = round2(inst.paid_amount + amount);
-      inst.status = inst.paid_amount >= inst.amount_due - 0.001 ? 'paid' : 'partial';
+      inst.paid_amount = roundIQD(inst.paid_amount + amount);
+      inst.status = inst.paid_amount >= inst.amount_due ? 'paid' : 'partial';
 
       const receiptNo = genReceiptNo('REC');
       state.payments.push({
@@ -1478,7 +1607,7 @@
         buyer_id: contract.buyer_id,
         payment_type: 'installment',
         amount,
-        payment_method: 'نقدي',
+        payment_method: 'نقدي (دينار عراقي)',
         notes: `تسديد القسط رقم ${inst.installment_no} للوحدة ${u.code}`,
         paid_at: localNowStr()
       });
@@ -1496,7 +1625,7 @@
       const contract = state.contracts.find(c => c.id === contractId);
       const u = state.units.find(x => x.id === unitId);
       const oldBuyer = state.buyers.find(b => b.id === contract.buyer_id);
-      const fee = round2(parseFloat(form.transfer_fee || 0));
+      const fee = roundIQD(form.transfer_fee || 0);
       if (fee < 0) return alert('رسوم التنازل غير صالحة');
 
       const now = localNowStr();
@@ -1532,7 +1661,7 @@
           buyer_id: newBuyer.id,
           payment_type: 'transfer_fee',
           amount: fee,
-          payment_method: 'نقدي',
+          payment_method: 'نقدي (دينار عراقي)',
           notes: `رسوم تنازل عن الوحدة ${u.code}`,
           paid_at: now
         });
@@ -1557,7 +1686,7 @@
             ${getLogoHtml('w-14 h-14')}
             <div>
               <h3 class="text-xl font-black text-olive-dark">مجمع حلم الحياة السكني</h3>
-              <p class="text-xs text-gray-500 font-bold">DREAM OF LIFE • وصل قبض مالي</p>
+              <p class="text-xs text-gray-500 font-bold">DREAM OF LIFE • وصل قبض مالي (د.ع)</p>
             </div>
           </div>
           <div class="text-left">
@@ -1584,7 +1713,7 @@
       if (!u) return;
       const c = state.contracts.find(x => x.unit_id === unitId && (x.status === 'hold' || x.status === 'active'));
       const buyer = c ? state.buyers.find(b => b.id === c.buyer_id) : null;
-      const paid = c ? round2(state.payments.filter(p => p.contract_id === c.id && p.payment_type !== 'transfer_fee').reduce((s, p) => s + p.amount, 0)) : 0;
+      const paid = c ? roundIQD(state.payments.filter(p => p.contract_id === c.id && p.payment_type !== 'transfer_fee').reduce((s, p) => s + p.amount, 0)) : 0;
 
       document.getElementById('printableContent').innerHTML = `
         <div class="flex justify-between items-center border-b-2 border-[#38401e] pb-4 mb-4">
@@ -1604,10 +1733,9 @@
             <div class="grid grid-cols-3 gap-2.5">
               <div><span class="text-gray-500">الزون:</span> <b>${escapeHtml(u.zone)}</b></div>
               <div><span class="text-gray-500">النموذج:</span> <b>${escapeHtml(u.unit_type)}</b></div>
-              <div><span class="text-gray-500">الطابق:</span> <b>${u.floor}</b></div>
               <div><span class="text-gray-500">المساحة الكلية:</span> <b>${u.area_sqm} م²</b></div>
               <div><span class="text-gray-500">مساحة البناء:</span> <b>${u.built_area || u.area_sqm} م²</b></div>
-              <div><span class="text-gray-500">السعر الأساسي:</span> <b>${fmtMoney(u.price)}</b></div>
+              <div class="col-span-2"><span class="text-gray-500">السعر الأساسي:</span> <b>${fmtMoney(u.price)}</b></div>
               <div class="col-span-2"><span class="text-gray-500">الواجهة:</span> <b>${escapeHtml(u.direction)}</b></div>
               <div><span class="text-gray-500">نسبة الإنجاز:</span> <b>${u.completion_pct}% (${escapeHtml(u.stage)})</b></div>
             </div>
@@ -1651,7 +1779,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `dream_of_life_backup_${localTodayStr()}.json`;
+      a.download = `dream_of_life_iqd_backup_${localTodayStr()}.json`;
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -1679,7 +1807,7 @@
     }
 
     async function resetDemoData() {
-      if (!confirm('تحذير: سيتم مسح جميع العقود والمدفوعات وإرجاع الـ 520 وحدة للحالة الافتراضية. هل أنت متأكد؟')) return;
+      if (!confirm('تحذير: سيتم مسح جميع العقود والمدفوعات وإرجاع كافة الوحدات للحالة الافتراضية. هل أنت متأكد؟')) return;
       const keptLogo = state.custom_logo || null;
       const keptMap = state.custom_masterplan || null;
       state = createInitialState();
@@ -1699,6 +1827,7 @@
         state = createInitialState();
         await saveStorage();
       }
+      renderFallbackZoneBoxes();
       applyCustomMedia();
       populateZoneSelects();
       await refreshAll();
@@ -1706,3 +1835,14 @@
   </script>
 </body>
 </html>
+
+خطوتان فقط ليظهر المخطط والشعار بأجمل شكل في GitHub:
+
+1.  في مستودعك على GitHub، ارفع 3 ملفات بجانب بعضها:
+      - index.html (الكود أعلاه).
+      - logo.jpg (صورة شعار مجمع حلم الحياة).
+      - masterplan.jpg (صورة المخطط الهندسي الذي أرفقته الآن — يفضّل النسخة
+        النظيفة بدون الدائرة الخضراء إن وجدت عندك).
+2.  بعد فتح الموقع، اضغط على زر ⚙️ أسعار ومساحات النماذج لتثبيت المساحة والسعر
+    الرسمي بالدينار العراقي لكل نموذج (A1, A2, A3, B1, B2, C1, C2, E4) حسب
+    تسعيرة المستثمر الرسمية.
