@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مجمع حلم الحياة السكني | المخطط التفاعلي والزونات</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+    :root {
+      --olive-dark: #38401e;
+      --olive-mid: #4e592b;
+      --olive-light: #6d7a40;
+      --cream-bg: #f6f2ea;
+      --sand-border: #dcd4c3;
+    }
+    body { font-family: 'Cairo', sans-serif; background-color: var(--cream-bg); color: #2b3019; }
+    .bg-olive-dark { background-color: var(--olive-dark); }
+    .bg-olive-mid { background-color: var(--olive-mid); }
+    .text-olive-dark { color: var(--olive-dark); }
+    .border-olive { border-color: var(--sand-border); }
+
+    @media print {
+      body * { visibility: hidden !important; }
+      #printableArea, #printableArea * { visibility: visible !important; }
+      #printableArea {
+        position: fixed !important;
+        top: 0; right: 0; left: 0;
+        width: 100%; background: white; padding: 24px;
+        box-shadow: none !important; border: none !important;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الشريط العلوي -->
+  <header class="bg-olive-dark text-[#f6f2ea] shadow-lg sticky top-0 z-30 border-b-2 border-[#6d7a40]">
+    <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[#ede6d8] border-2 border-[#9da67c] overflow-hidden flex items-center justify-center shrink-0 shadow">
+          <img id="headerLogoImg" src="logo.jpg" alt="شعار مجمع حلم الحياة"
+            class="w-full h-full object-cover"
+            onerror="this.classList.add('hidden'); document.getElementById('headerLogoFallback').classList.remove('hidden');" />
+          <svg id="headerLogoFallback" class="hidden w-10 h-10 text-[#38401e]" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M12 46 L38 22 L46 29 L46 78 L36 78 L36 52 L22 52 L22 78 L12 78 Z" />
+            <path d="M52 22 L88 78 L76 78 L66 60 L54 60 L54 78 L46 78 L46 22 Z M54 49 L62 49 L54 35 Z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-xl font-black tracking-wide">مجمع حلم الحياة السكني</h1>
+          <p class="text-[10px] sm:text-[11px] text-[#d4ccb9] font-bold tracking-wider">DREAM OF LIFE • المخطط التفاعلي وإدارة المبيعات (520 وحدة)</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-1.5">
+        <label class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer">
+          🖼️ الشعار
+          <input type="file" accept="image/*" onchange="uploadCustomLogo(event)" class="hidden" />
+        </label>
+        <label class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer">
+          🗺️ رفع صورة المخطط
+          <input type="file" accept="image/*" onchange="uploadCustomMasterplan(event)" class="hidden" />
+        </label>
+        <button onclick="openBulkProgressModal()" class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
+          🏗️ نسب الإنجاز
+        </button>
+        <button onclick="openAuditModal()" class="bg-slate-700 hover:bg-slate-600 px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
+          📜 التدقيق
+        </button>
+        <button onclick="exportBackup()" class="bg-emerald-700 hover:bg-emerald-600 px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
+          ⬇️ تصدير
+        </button>
+        <label class="bg-blue-700 hover:bg-blue-600 px-2.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer">
+          ⬆️ استيراد
+          <input type="file" accept=".json" onchange="importBackup(event)" class="hidden" />
+        </label>
+        <button onclick="resetDemoData()" class="bg-rose-800 hover:bg-rose-700 px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
+          🗑️ تصفير
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-5 space-y-6">
+
+    <!-- لوحة مؤشرات المستثمر -->
+    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-[#38401e]">
+        <div class="text-xs text-gray-500 font-bold">إجمالي الوحدات</div>
+        <div id="kpiTotal" class="text-2xl font-black text-olive-dark mt-1">0</div>
+        <div id="kpiAvgProgress" class="text-[11px] text-[#5a6633] font-bold mt-0.5">متوسط الإنجاز: 0%</div>
+      </div>
+      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-emerald-600">
+        <div class="text-xs text-gray-500 font-bold">🟢 متاحة للبيع</div>
+        <div id="kpiAvailable" class="text-2xl font-black text-emerald-700 mt-1">0</div>
+      </div>
+      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-amber-500">
+        <div class="text-xs text-gray-500 font-bold">🟡 محجوزة مؤقتاً</div>
+        <div id="kpiReserved" class="text-2xl font-black text-amber-600 mt-1">0</div>
+      </div>
+      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-rose-600">
+        <div class="text-xs text-gray-500 font-bold">🔴 وحدات مباعة</div>
+        <div id="kpiSold" class="text-2xl font-black text-rose-700 mt-1">0</div>
+      </div>
+      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-blue-700">
+        <div class="text-xs text-gray-500 font-bold">إجمالي قيمة العقود</div>
+        <div id="kpiSalesVal" class="text-lg font-black text-blue-800 mt-1">0 $</div>
+        <div id="kpiTransferFees" class="text-[11px] text-gray-500 mt-0.5">رسوم التنازل: 0 $</div>
+      </div>
+      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-teal-700">
+        <div class="text-xs text-gray-500 font-bold">المقبوضات الفعلية</div>
+        <div id="kpiCollected" class="text-lg font-black text-teal-800 mt-1">0 $</div>
+        <div id="kpiRemaining" class="text-[11px] text-gray-500 mt-0.5">متبقي: 0 $</div>
+      </div>
+    </section>
+
+    <!-- أزرار التحكم بالعرض -->
+    <section class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-xl shadow-sm border border-olive">
+      <div class="flex flex-wrap gap-2">
+        <button onclick="setMainView('both')" id="viewBtnBoth" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition bg-olive-dark text-white">
+          📑 عرض القسمين معاً
+        </button>
+        <button onclick="setMainView('map')" id="viewBtnMap" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition bg-[#ede6d8] text-olive-dark hover:bg-[#e2d8c5]">
+          🗺️ المخطط التفاعلي للمشروع فقط
+        </button>
+        <button onclick="setMainView('matrix')" id="viewBtnMatrix" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition bg-[#ede6d8] text-olive-dark hover:bg-[#e2d8c5]">
+          🔲 الوحدات السكنية والزونات فقط
+        </button>
+      </div>
+      <div class="flex items-center gap-3 text-xs font-bold">
+        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-emerald-500 inline-block"></span> متاحة</span>
+        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-amber-400 inline-block"></span> محجوزة</span>
+        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-rose-500 inline-block"></span> مباعة</span>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- القسم الأول: المخطط التفاعلي للمشروع -->
+    <!-- ========================================================= -->
+    <section id="masterplanSection" class="bg-white rounded-2xl shadow-sm border border-olive overflow-hidden">
+      <div class="bg-[#faf8f4] border-b border-olive px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base sm:text-lg font-black text-olive-dark">🗺️ المخطط التفاعلي للمشروع</h2>
+          <p class="text-xs text-gray-500">اضغط على أي وحدة سكنية في المخطط لعرض بطاقتها وتفاصيلها وتغيير حالتها</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- فلتر حالة على المخطط -->
+          <select id="mapStatusFilter" onchange="renderMasterplan()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
+            <option value="">كل الحالات على المخطط</option>
+            <option value="available">🟢 المتاحة فقط</option>
+            <option value="reserved">🟡 المحجوزة فقط</option>
+            <option value="sold">🔴 المباعة فقط</option>
+          </select>
+
+          <!-- أزرار التكبير -->
+          <div class="flex border border-olive rounded-lg overflow-hidden text-xs font-bold">
+            <button onclick="setMapZoom(1)" id="zoomBtn1" class="px-2.5 py-1.5 bg-olive-dark text-white">100%</button>
+            <button onclick="setMapZoom(1.4)" id="zoomBtn14" class="px-2.5 py-1.5 bg-white hover:bg-gray-100">140%</button>
+            <button onclick="setMapZoom(1.8)" id="zoomBtn18" class="px-2.5 py-1.5 bg-white hover:bg-gray-100">180%</button>
+          </div>
+
+          <!-- زر وضع تحديد المواقع على مخطط المستخدم -->
+          <button onclick="toggleMappingMode()" id="mappingBtn" class="bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-400 px-3 py-1.5 rounded-lg text-xs font-bold transition">
+            📍 تثبيت مواقع الوحدات على المخطط
+          </button>
+        </div>
+      </div>
+
+      <!-- شريط أداة تثبيت المواقع (يظهر عند التفعيل) -->
+      <div id="mappingToolbar" class="hidden bg-amber-50 border-b border-amber-300 px-5 py-3 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="font-black text-amber-900">وضع التوزيع التفاعلي مفعّل:</span>
+          <span>اختر الوحدة:</span>
+          <select id="mappingUnitSelect" class="border border-amber-400 rounded-lg px-2.5 py-1.5 bg-white font-bold"></select>
+          <span class="text-amber-800 font-semibold">← ثم اضغط على موقعها في المخطط (سينتقل للوحدة التالية تلقائياً)</span>
+        </div>
+        <button onclick="toggleMappingMode()" class="bg-amber-600 text-white px-3 py-1 rounded-lg font-bold">إنهاء التوزيع</button>
+      </div>
+
+      <!-- حاوية المخطط القابلة للتمرير والتكبير -->
+      <div class="p-4 bg-[#efeae0] overflow-auto max-h-[680px] relative">
+        <div id="mapCanvasInner" onclick="handleMapCanvasClick(event)"
+          class="relative mx-auto bg-[#f7f4ec] border-2 border-[#b9b09c] rounded-xl shadow-inner overflow-hidden select-none"
+          style="width: 100%; min-width: 920px; aspect-ratio: 16 / 10;">
+
+          <!-- صورة المخطط المخصصة (تظهر عند رفع صورة أو وجود masterplan.jpg) -->
+          <img id="customMasterplanImg" src="masterplan.jpg" alt="مخطط مجمع حلم الحياة"
+            class="absolute inset-0 w-full h-full object-fill pointer-events-none"
+            onerror="this.classList.add('hidden'); document.getElementById('svgMasterplanFallback').classList.remove('hidden');" />
+
+          <!-- المخطط الهندسي الافتراضي المدمج (SVG) يظهر تلقائياً إذا لم تتوفر صورة -->
+          <svg id="svgMasterplanFallback" class="hidden absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1600 1000" preserveAspectRatio="none">
+            <!-- أرضية المجمع -->
+            <rect width="1600" height="1000" fill="#efe9dc" />
+            <!-- الشوارع المحيطة والداخلية -->
+            <rect x="40" y="40" width="1520" height="920" rx="24" fill="#f7f3ea" stroke="#9ea681" stroke-width="6" />
+            <!-- الشارع الرئيسي الأفقي والحديقة المركزية -->
+            <rect x="40" y="455" width="1520" height="90" fill="#d5d0c3" />
+            <line x1="40" y1="500" x2="1560" y2="500" stroke="#ffffff" stroke-width="4" stroke-dasharray="20,14" />
+            <rect x="640" y="465" width="320" height="70" rx="18" fill="#c7d5b5" stroke="#5a6633" stroke-width="3" />
+            <text x="800" y="507" text-anchor="middle" fill="#38401e" font-size="22" font-weight="bold">البوليفارد والحديقة المركزية - حلم الحياة</text>
+
+            <!-- الشوارع العمودية الفاصلة بين الزونات -->
+            <rect x="528" y="40" width="36" height="920" fill="#d5d0c3" />
+            <rect x="1036" y="40" width="36" height="920" fill="#d5d0c3" />
+
+            <!-- خلفية الزونات الـ 6 -->
+            <!-- زون A -->
+            <rect x="1090" y="75" width="445" height="360" rx="16" fill="#ffffff" stroke="#8c966a" stroke-width="3" />
+            <text x="1312" y="108" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون A (100 وحدة)</text>
+            <!-- زون B -->
+            <rect x="580" y="75" width="440" height="360" rx="16" fill="#ffffff" stroke="#8c966a" stroke-width="3" />
+            <text x="800" y="108" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون B (100 وحدة)</text>
+            <!-- زون C -->
+            <rect x="65" y="75" width="445" height="360" rx="16" fill="#ffffff" stroke="#8c966a" stroke-width="3" />
+            <text x="287" y="108" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون C (100 وحدة)</text>
+
+            <!-- زون D -->
+            <rect x="1090" y="565" width="445" height="360" rx="16" fill="#ffffff" stroke="#8c966a" stroke-width="3" />
+            <text x="1312" y="598" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون D (100 وحدة)</text>
+            <!-- زون E -->
+            <rect x="580" y="565" width="440" height="360" rx="16" fill="#ffffff" stroke="#8c966a" stroke-width="3" />
+            <text x="800" y="598" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون E (100 وحدة)</text>
+            <!-- زون الفلل V -->
+            <rect x="65" y="565" width="445" height="360" rx="16" fill="#f3f7ec" stroke="#4e592b" stroke-width="3" />
+            <text x="287" y="598" text-anchor="middle" fill="#38401e" font-size="22" font-weight="900">زون الفلل V (20 فيلا VIP)</text>
+          </svg>
+
+          <!-- طبقة نقاط/مربعات الوحدات التفاعلية على المخطط -->
+          <div id="mapPinsLayer" class="absolute inset-0"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- القسم الثاني: الوحدات السكنية والزونات (مصفوفة المربعات) -->
+    <!-- ========================================================= -->
+    <section id="zonesMatrixSection" class="bg-white rounded-2xl shadow-sm border border-olive overflow-hidden">
+      <div class="bg-[#faf8f4] border-b border-olive px-5 py-4 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-base sm:text-lg font-black text-olive-dark">🔲 الوحدات السكنية والزونات (مصفوفة المبيعات والإنجاز)</h2>
+            <p class="text-xs text-gray-500">اختر الزون أو القسم الذي تعمل عليه لعرض مصفوفة المربعات ونسب الإنجاز</p>
+          </div>
+
+          <!-- شريط البحث والفلترة داخل الزون -->
+          <div class="flex flex-wrap items-center gap-2">
+            <input id="filterSearch" type="text" placeholder="بحث برقم الوحدة أو المشتري..." oninput="debouncedRenderMatrix()"
+              class="border border-olive rounded-lg px-3 py-1.5 text-xs bg-white w-52 focus:outline-none focus:ring-2 focus:ring-[#4e592b]" />
+            <select id="filterStatus" onchange="renderMatrix()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
+              <option value="">كل الحالات</option>
+              <option value="available">🟢 متاح</option>
+              <option value="reserved">🟡 محجوز</option>
+              <option value="sold">🔴 مباع</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- أزرار اختيار الزونات (Zones Switcher) -->
+        <div id="zonePills" class="flex flex-wrap gap-2 pt-1"></div>
+      </div>
+
+      <!-- مصفوفة المربعات -->
+      <div id="matrixContainer" class="p-5 space-y-6 bg-[#fcfbf8]"></div>
+    </section>
+
+  </main>
+
+  <!-- تلميح عائم عند تمرير الماوس على المخطط -->
+  <div id="mapTooltip" class="fixed z-50 hidden pointer-events-none bg-slate-900/95 text-white text-xs rounded-xl px-3 py-2 shadow-xl border border-[#8fa058] max-w-xs"></div>
+
+  <!-- نافذة بطاقة الوحدة وتفاصيلها الكاملة -->
+  <div id="unitModal" class="fixed inset-0 bg-black/60 z-40 hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[92vh] overflow-y-auto border border-olive">
+      <div class="sticky top-0 bg-olive-dark text-[#f6f2ea] px-6 py-4 flex justify-between items-center rounded-t-2xl z-10">
+        <div>
+          <h2 id="modalTitle" class="text-lg font-extrabold">بطاقة الوحدة السكنية</h2>
+          <p id="modalSubtitle" class="text-xs text-[#d4ccb9]"></p>
+        </div>
+        <button onclick="closeUnitModal()" class="text-[#d4ccb9] hover:text-white text-3xl leading-none">&times;</button>
+      </div>
+      <div id="modalBody" class="p-5 sm:p-6 space-y-6"></div>
+    </div>
+  </div>
+
+  <!-- نافذة التحديث الجماعي لنسب الإنجاز -->
+  <div id="bulkProgressModal" class="fixed inset-0 bg-black/60 z-40 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+      <div class="bg-olive-dark text-white px-6 py-4 flex justify-between items-center">
+        <h2 class="text-base font-bold">🏗️ تحديث نسبة الإنجاز لزون كامل</h2>
+        <button onclick="document.getElementById('bulkProgressModal').classList.add('hidden')" class="text-2xl">&times;</button>
+      </div>
+      <form onsubmit="submitBulkProgress(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">اختر الزون / القسم</label>
+          <select id="bulkZoneSelect" name="zone" required class="w-full border rounded-lg px-3 py-2 text-sm bg-white"></select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">نسبة الإنجاز الجديدة (%)</label>
+          <input type="number" name="completion_pct" min="0" max="100" value="80" required class="w-full border rounded-lg px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">مرحلة البناء الحالية</label>
+          <select name="stage" class="w-full border rounded-lg px-3 py-2 text-sm bg-white">
+            <option value="أعمال الأساسات">أعمال الأساسات</option>
+            <option value="الهيكل الخرساني">الهيكل الخرساني</option>
+            <option value="أعمال البناء والتأسيسات">أعمال البناء والتأسيسات</option>
+            <option value="التغليف والإنهاءات">التغليف والإنهاءات</option>
+            <option value="تشطيبات نهائية">تشطيبات نهائية</option>
+            <option value="جاهز للتسليم والسكن">جاهز للتسليم والسكن</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full bg-olive-mid hover:bg-olive-dark text-white font-bold py-2.5 rounded-lg text-sm">
+          تطبيق التحديث على كافة وحدات الزون
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- نافذة سجل التدقيق -->
+  <div id="auditModal" class="fixed inset-0 bg-black/60 z-40 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col">
+      <div class="bg-olive-dark text-white px-6 py-4 flex justify-between items-center rounded-t-2xl">
+        <h2 class="text-lg font-bold">📜 سجل الرقابة والتدقيق (آخر 100 حركة)</h2>
+        <button onclick="document.getElementById('auditModal').classList.add('hidden')" class="text-2xl">&times;</button>
+      </div>
+      <div id="auditBody" class="p-4 overflow-y-auto space-y-2 text-sm"></div>
+    </div>
+  </div>
+
+  <!-- نافذة الطباعة الموحدة -->
+  <div id="printModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div id="printableArea" class="bg-white rounded-xl shadow-2xl w-full max-w-2xl p-6 border-2 border-[#38401e] my-auto">
+      <div id="printableContent"></div>
+      <div class="mt-6 flex justify-end gap-2 no-print">
+        <button onclick="window.print()" class="bg-olive-dark hover:bg-olive-mid text-white px-5 py-2 rounded-lg text-sm font-bold">🖨️ طباعة الآن</button>
+        <button onclick="document.getElementById('printModal').classList.add('hidden')" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg text-sm font-bold">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // 1. التخزين المحلي (IndexedDB + Fallback)
+    // ==========================================
+    const DB_NAME = 'DreamOfLifeDB_v3';
+    const STORE_NAME = 'app_state';
+    const STATE_KEY = 'main_data';
+    let state = null;
+    let selectedZone = 'ALL'; // ALL أو اسم الزون
+    let isMappingMode = false;
+    let mapZoom = 1;
+    let searchTimer = null;
+
+    function openIDB() {
+      return new Promise((resolve, reject) => {
+        if (!window.indexedDB) return reject(new Error('No IndexedDB'));
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = () => {
+          const db = req.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) db.createObjectStore(STORE_NAME);
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function loadStorage() {
+      try {
+        const db = await openIDB();
+        return await new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const req = tx.objectStore(STORE_NAME).get(STATE_KEY);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => reject(req.error);
+        });
+      } catch {
+        const raw = localStorage.getItem(DB_NAME);
+        return raw ? JSON.parse(raw) : null;
+      }
+    }
+
+    async function saveStorage() {
+      try {
+        const db = await openIDB();
+        await new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          tx.objectStore(STORE_NAME).put(state, STATE_KEY);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      } catch {
+        localStorage.setItem(DB_NAME, JSON.stringify(state));
+      }
+    }
+
+    // ==========================================
+    // 2. دوال مساعدة
+    // ==========================================
+    function round2(n) { return Math.round((Number(n) + Number.EPSILON) * 100) / 100; }
+    function fmtMoney(val) { return Number(val || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' $'; }
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function pad2(n) { return String(n).padStart(2, '0'); }
+
+    function localNowStr(addHours = 0) {
+      const d = new Date(Date.now() + addHours * 3600 * 1000);
+      return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())} ${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+    }
+
+    function localTodayStr() {
+      const d = new Date();
+      return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+    }
+
+    function addMonths(dateStr, monthsToAdd) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const targetMonthIndex = (m - 1) + monthsToAdd;
+      const targetYear = y + Math.floor(targetMonthIndex / 12);
+      const targetMonth = (targetMonthIndex % 12) + 1;
+      const daysInMonth = new Date(targetYear, targetMonth, 0).getDate();
+      const targetDay = Math.min(d, daysInMonth);
+      return `${targetYear}-${pad2(targetMonth)}-${pad2(targetDay)}`;
+    }
+
+    function genReceiptNo(prefix = 'REC') {
+      const d = new Date();
+      const datePart = `${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}`;
+      const randPart = Math.random().toString(36).substring(2, 7).toUpperCase();
+      return `${prefix}-${datePart}-${randPart}`;
+    }
+
+    function addAuditLog(action, details) {
+      state.audit_logs.unshift({ id: state.seq.audit++, action, details, created_at: localNowStr() });
+      if (state.audit_logs.length > 500) state.audit_logs.length = 500;
+    }
+
+    function getLogoHtml(sizeClass = 'w-14 h-14') {
+      const src = state?.custom_logo || 'logo.jpg';
+      return `
+        <div class="${sizeClass} rounded-xl bg-[#ede6d8] border border-[#9da67c] overflow-hidden flex items-center justify-center shrink-0">
+          <img src="${src}" alt="شعار مجمع حلم الحياة" class="w-full h-full object-cover"
+            onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
+          <svg class="hidden w-4/5 h-4/5 text-[#38401e]" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M12 46 L38 22 L46 29 L46 78 L36 78 L36 52 L22 52 L22 78 L12 78 Z" />
+            <path d="M52 22 L88 78 L76 78 L66 60 L54 60 L54 78 L46 78 L46 22 Z M54 49 L62 49 L54 35 Z" />
+          </svg>
+        </div>
+      `;
+    }
+
+    function applyCustomMedia() {
+      if (state?.custom_logo) {
+        const img = document.getElementById('headerLogoImg');
+        img.src = state.custom_logo;
+        img.classList.remove('hidden');
+        document.getElementById('headerLogoFallback').classList.add('hidden');
+      }
+      if (state?.custom_masterplan) {
+        const mImg = document.getElementById('customMasterplanImg');
+        mImg.src = state.custom_masterplan;
+        mImg.classList.remove('hidden');
+        document.getElementById('svgMasterplanFallback').classList.add('hidden');
+      }
+    }
+
+    function uploadCustomLogo(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        state.custom_logo = e.target.result;
+        applyCustomMedia();
+        await saveStorage();
+        alert('تم تثبيت شعار مجمع حلم الحياة بنجاح!');
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    function uploadCustomMasterplan(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        state.custom_masterplan = e.target.result;
+        applyCustomMedia();
+        await saveStorage();
+        alert('تم رفع صورة المخطط! يمكنك الآن استخدام زر (📍 تثبيت مواقع الوحدات) لترتيب الوحدات على تصميمكم مباشرة.');
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    function getProgressColor(pct) {
+      if (pct >= 90) return 'bg-emerald-600';
+      if (pct >= 60) return 'bg-[#5a6633]';
+      if (pct >= 30) return 'bg-amber-500';
+      return 'bg-slate-400';
+    }
+
+    // ==========================================
+    // 3. تهيئة البيانات وتوزيع الإحداثيات (520 وحدة في 6 زونات)
+    // ==========================================
+    function createInitialState() {
+      const units = [];
+      let uid = 1;
+      const zoneMeta = {
+        'A': { pct: 92, stage: 'تشطيبات نهائية', xStart: 69.5, yStart: 13.5, xStep: 2.55, yStep: 2.8 },
+        'B': { pct: 75, stage: 'التغليف والإنهاءات', xStart: 37.5, yStart: 13.5, xStep: 2.55, yStep: 2.8 },
+        'C': { pct: 55, stage: 'أعمال البناء والتأسيسات', xStart: 5.5, yStart: 13.5, xStep: 2.55, yStep: 2.8 },
+        'D': { pct: 35, stage: 'الهيكل الخرساني', xStart: 69.5, yStart: 62.5, xStep: 2.55, yStep: 2.8 },
+        'E': { pct: 15, stage: 'أعمال الأساسات', xStart: 37.5, yStart: 62.5, xStep: 2.55, yStep: 2.8 }
+      };
+      const directions = ['واجهة أمامية - حديقة', 'ركن - شارع رئيسي', 'واجهة شرقية', 'واجهة غربية'];
+
+      for (const z of ['A', 'B', 'C', 'D', 'E']) {
+        const meta = zoneMeta[z];
+        for (let row = 0; row < 10; row++) {
+          for (let col = 0; col < 10; col++) {
+            const floor = row + 1;
+            const num = col + 1;
+            const code = `${z}-${pad2(floor)}-${pad2(num)}`;
+            const area = num <= 6 ? 125 : 160;
+            const builtArea = num <= 6 ? 115 : 148;
+            const price = (area === 125 ? 95000 : 128000) + (floor * 1000);
+            units.push({
+              id: uid++,
+              code,
+              zone: `زون ${z}`,
+              floor,
+              unit_number: num,
+              unit_type: area === 125 ? 'شقة 3 غرف' : 'شقة 4 غرف',
+              area_sqm: area,
+              built_area: builtArea,
+              direction: directions[(num + floor) % directions.length],
+              price,
+              completion_pct: meta.pct,
+              stage: meta.stage,
+              notes: 'تشطيب درجة أولى مع خدمات مركزية ومصاعد حديثة',
+              status: 'available',
+              x: round2(meta.xStart + (col * meta.xStep)),
+              y: round2(meta.yStart + (row * meta.yStep))
+            });
+          }
+        }
+      }
+
+      // زون الفلل V (20 فيلا: 4 صفوف × 5 أعمدة)
+      for (let idx = 0; idx < 20; idx++) {
+        const row = Math.floor(idx / 5);
+        const col = idx % 5;
+        const num = idx + 1;
+        units.push({
+          id: uid++,
+          code: `V-${pad2(num)}`,
+          zone: 'زون الفلل V',
+          floor: 1,
+          unit_number: num,
+          unit_type: 'فيلا مستقلة (طابقين)',
+          area_sqm: 300,
+          built_area: 240,
+          direction: num % 2 === 0 ? 'ركن - إطلالة بوليفارد' : 'واجهة حديقة مركزية',
+          price: 285000,
+          completion_pct: 85,
+          stage: 'تشطيبات نهائية',
+          notes: 'فيلا مستقلة مع كراج وحديقة خاصة',
+          status: 'available',
+          x: round2(7.0 + (col * 5.0)),
+          y: round2(64.0 + (row * 6.5))
+        });
+      }
+
+      return {
+        custom_logo: null,
+        custom_masterplan: null,
+        units,
+        buyers: [],
+        contracts: [],
+        installments: [],
+        payments: [],
+        transfers: [],
+        audit_logs: [{
+          id: 1,
+          action: 'تهيئة النظام',
+          details: 'تم إنشاء بيانات مجمع حلم الحياة السكني (520 وحدة) وربط المخطط التفاعلي ومصفوفة الزونات',
+          created_at: localNowStr()
+        }],
+        seq: { buyer: 1, contract: 1, installment: 1, payment: 1, transfer: 1, audit: 2 }
+      };
+    }
+
+    function expireOldHolds() {
+      const now = localNowStr();
+      let changed = false;
+      state.contracts.forEach(c => {
+        if (c.status === 'hold' && c.hold_expires_at && c.hold_expires_at < now) {
+          c.status = 'expired';
+          const u = state.units.find(x => x.id === c.unit_id);
+          if (u && u.status === 'reserved') {
+            u.status = 'available';
+            addAuditLog('انتهاء حجز مؤقت', `انتهت مهلة الحجز للوحدة ${u.code} وعادت متاحة`);
+          }
+          changed = true;
+        }
+      });
+      return changed;
+    }
+
+    // ==========================================
+    // 4. التحكم بالعرض ولوحة المستثمر
+    // ==========================================
+    function setMainView(mode) {
+      const mapSec = document.getElementById('masterplanSection');
+      const matSec = document.getElementById('zonesMatrixSection');
+      const btns = {
+        both: document.getElementById('viewBtnBoth'),
+        map: document.getElementById('viewBtnMap'),
+        matrix: document.getElementById('viewBtnMatrix')
+      };
+
+      Object.values(btns).forEach(b => {
+        b.classList.remove('bg-olive-dark', 'text-white');
+        b.classList.add('bg-[#ede6d8]', 'text-olive-dark');
+      });
+      btns[mode].classList.remove('bg-[#ede6d8]', 'text-olive-dark');
+      btns[mode].classList.add('bg-olive-dark', 'text-white');
+
+      mapSec.classList.toggle('hidden', mode === 'matrix');
+      matSec.classList.toggle('hidden', mode === 'map');
+    }
+
+    function renderDashboard() {
+      const total = state.units.length;
+      const available = state.units.filter(u => u.status === 'available').length;
+      const reserved = state.units.filter(u => u.status === 'reserved').length;
+      const sold = state.units.filter(u => u.status === 'sold').length;
+      const avgPct = total > 0 ? Math.round(state.units.reduce((s, u) => s + (u.completion_pct || 0), 0) / total) : 0;
+
+      const activeContracts = state.contracts.filter(c => c.status === 'active');
+      const activeIds = new Set(activeContracts.map(c => c.id));
+      const totalSalesVal = round2(activeContracts.reduce((s, c) => s + c.final_price, 0));
+      const totalCollected = round2(state.payments.filter(p => p.payment_type !== 'transfer_fee' && activeIds.has(p.contract_id)).reduce((s, p) => s + p.amount, 0));
+      const totalTransferFees = round2(state.payments.filter(p => p.payment_type === 'transfer_fee').reduce((s, p) => s + p.amount, 0));
+
+      const today = localTodayStr();
+      const overdueAmt = round2(
+        state.installments
+          .filter(i => activeIds.has(i.contract_id) && i.status !== 'paid' && i.due_date < today)
+          .reduce((s, i) => s + Math.max(0, i.amount_due - i.paid_amount), 0)
+      );
+
+      document.getElementById('kpiTotal').textContent = total;
+      document.getElementById('kpiAvgProgress').textContent = `متوسط الإنجاز: ${avgPct}%`;
+      document.getElementById('kpiAvailable').textContent = available;
+      document.getElementById('kpiReserved').textContent = reserved;
+      document.getElementById('kpiSold').textContent = sold;
+      document.getElementById('kpiSalesVal').textContent = fmtMoney(totalSalesVal);
+      document.getElementById('kpiTransferFees').textContent = 'رسوم التنازل: ' + fmtMoney(totalTransferFees);
+      document.getElementById('kpiCollected').textContent = fmtMoney(totalCollected);
+      document.getElementById('kpiRemaining').textContent =
+        'متبقي: ' + fmtMoney(Math.max(0, totalSalesVal - totalCollected)) +
+        (overdueAmt > 0 ? ` | متأخر: ${fmtMoney(overdueAmt)}` : '');
+    }
+
+    // ==========================================
+    // 5. القسم الأول: المخطط التفاعلي للمشروع
+    // ==========================================
+    function setMapZoom(z) {
+      mapZoom = z;
+      const inner = document.getElementById('mapCanvasInner');
+      inner.style.width = `${100 * z}%`;
+      inner.style.minWidth = `${920 * z}px`;
+
+      ['zoomBtn1', 'zoomBtn14', 'zoomBtn18'].forEach(id => {
+        const btn = document.getElementById(id);
+        btn.classList.remove('bg-olive-dark', 'text-white');
+        btn.classList.add('bg-white');
+      });
+      const activeId = z === 1 ? 'zoomBtn1' : (z === 1.4 ? 'zoomBtn14' : 'zoomBtn18');
+      document.getElementById(activeId).classList.remove('bg-white');
+      document.getElementById(activeId).classList.add('bg-olive-dark', 'text-white');
+    }
+
+    function toggleMappingMode() {
+      isMappingMode = !isMappingMode;
+      const toolbar = document.getElementById('mappingToolbar');
+      const btn = document.getElementById('mappingBtn');
+      const canvas = document.getElementById('mapCanvasInner');
+
+      if (isMappingMode) {
+        const sel = document.getElementById('mappingUnitSelect');
+        sel.innerHTML = state.units.map(u => `<option value="${u.id}">${escapeHtml(u.code)} (${escapeHtml(u.zone)})</option>`).join('');
+        toolbar.classList.remove('hidden');
+        btn.classList.add('ring-2', 'ring-amber-600');
+        canvas.classList.add('cursor-crosshair');
+      } else {
+        toolbar.classList.add('hidden');
+        btn.classList.remove('ring-2', 'ring-amber-600');
+        canvas.classList.remove('cursor-crosshair');
+      }
+    }
+
+    async function handleMapCanvasClick(event) {
+      if (!isMappingMode) return;
+      const canvas = document.getElementById('mapCanvasInner');
+      const rect = canvas.getBoundingClientRect();
+      const xPct = round2(Math.max(1, Math.min(98, ((event.clientX - rect.left) / rect.width) * 100)));
+      const yPct = round2(Math.max(1, Math.min(98, ((event.clientY - rect.top) / rect.height) * 100)));
+
+      const sel = document.getElementById('mappingUnitSelect');
+      const unitId = parseInt(sel.value, 10);
+      const u = state.units.find(x => x.id === unitId);
+      if (!u) return;
+
+      u.x = xPct;
+      u.y = yPct;
+      await saveStorage();
+      renderMasterplan();
+
+      // الانتقال تلقائياً للوحدة التالية لتسريع عملية توزيع المخطط
+      if (sel.selectedIndex < sel.options.length - 1) {
+        sel.selectedIndex += 1;
+      }
+    }
+
+    function renderMasterplan() {
+      const statusFilter = document.getElementById('mapStatusFilter').value;
+      const contractByUnit = new Map();
+      state.contracts.forEach(c => {
+        if (c.status === 'hold' || c.status === 'active') contractByUnit.set(c.unit_id, c);
+      });
+      const buyerById = new Map(state.buyers.map(b => [b.id, b]));
+
+      const pinColors = {
+        available: 'bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-800',
+        reserved: 'bg-amber-400 hover:bg-amber-500 text-slate-900 border-amber-700',
+        sold: 'bg-rose-600 hover:bg-rose-700 text-white border-rose-900'
+      };
+
+      const layer = document.getElementById('mapPinsLayer');
+      layer.innerHTML = state.units.map(u => {
+        const dimmed = statusFilter && u.status !== statusFilter;
+        const isVilla = u.zone.includes('الفلل');
+        const shortLabel = isVilla ? u.code : u.code.slice(2); // مثلا 01-01 أو V-01
+        const c = contractByUnit.get(u.id);
+        const b = c ? buyerById.get(c.buyer_id) : null;
+        const buyerInfo = b ? escapeHtml(b.full_name) : '';
+
+        return `
+          <button type="button"
+            onclick="onMapPinClick(event, ${u.id})"
+            onmouseenter="showMapTooltip(event, ${u.id})"
+            onmousemove="moveMapTooltip(event)"
+            onmouseleave="hideMapTooltip()"
+            style="left: ${u.x}%; top: ${u.y}%;"
+            class="absolute -translate-x-1/2 -translate-y-1/2 ${isVilla ? 'w-9 h-6 text-[9px]' : 'w-6 h-4 text-[7px]'} rounded border font-black shadow-sm flex items-center justify-center transition-transform hover:scale-150 hover:z-20 ${pinColors[u.status]} ${dimmed ? 'opacity-20' : 'opacity-95'}"
+            title="${escapeHtml(u.code)} ${buyerInfo}">
+            ${escapeHtml(shortLabel)}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function onMapPinClick(event, unitId) {
+      if (isMappingMode) return; // في وضع التثبيت، يتولى handleMapCanvasClick النقرة
+      event.stopPropagation();
+      hideMapTooltip();
+      openUnitModal(unitId);
+    }
+
+    function showMapTooltip(event, unitId) {
+      const u = state.units.find(x => x.id === unitId);
+      if (!u) return;
+      const c = state.contracts.find(x => x.unit_id === unitId && (x.status === 'hold' || x.status === 'active'));
+      const b = c ? state.buyers.find(x => x.id === c.buyer_id) : null;
+      const statusText = u.status === 'available' ? '🟢 متاحة للبيع' : (u.status === 'reserved' ? '🟡 محجوزة مؤقتاً' : '🔴 مباعة');
+
+      const tip = document.getElementById('mapTooltip');
+      tip.innerHTML = `
+        <div class="font-black text-sm text-[#e3dcbe]">${escapeHtml(u.code)} — ${escapeHtml(u.zone)}</div>
+        <div class="text-[11px]">${statusText} | الإنجاز: <b>${u.completion_pct}%</b></div>
+        <div class="text-[11px]">${escapeHtml(u.unit_type)} • ${u.area_sqm} م² • <b>${fmtMoney(u.price)}</b></div>
+        ${b ? `<div class="mt-1 pt-1 border-t border-slate-700 text-amber-300 font-bold">👤 ${escapeHtml(b.full_name)} (${escapeHtml(b.phone)})</div>` : ''}
+      `;
+      tip.classList.remove('hidden');
+      moveMapTooltip(event);
+    }
+
+    function moveMapTooltip(event) {
+      const tip = document.getElementById('mapTooltip');
+      tip.style.left = `${Math.min(window.innerWidth - 260, event.clientX + 14)}px`;
+      tip.style.top = `${Math.min(window.innerHeight - 110, event.clientY + 14)}px`;
+    }
+
+    function hideMapTooltip() {
+      document.getElementById('mapTooltip').classList.add('hidden');
+    }
+
+    // ==========================================
+    // 6. القسم الثاني: الوحدات السكنية والزونات (مصفوفة المربعات)
+    // ==========================================
+    function getZonesList() {
+      return [...new Set(state.units.map(u => u.zone))];
+    }
+
+    function populateZoneSelects() {
+      const zones = getZonesList();
+      document.getElementById('bulkZoneSelect').innerHTML = zones.map(z => `<option value="${escapeHtml(z)}">${escapeHtml(z)}</option>`).join('');
+    }
+
+    function selectZone(zoneName) {
+      selectedZone = zoneName;
+      renderZonePills();
+      renderMatrix();
+    }
+
+    function renderZonePills() {
+      const zones = getZonesList();
+      const container = document.getElementById('zonePills');
+
+      const allAvail = state.units.filter(u => u.status === 'available').length;
+      const allBtnClass = selectedZone === 'ALL'
+        ? 'bg-olive-dark text-white border-olive-dark shadow'
+        : 'bg-white text-olive-dark border-olive hover:bg-[#ede6d8]';
+
+      let html = `
+        <button onclick="selectZone('ALL')" class="border px-3.5 py-2 rounded-xl text-xs font-extrabold transition ${allBtnClass}">
+          كل الزونات (${state.units.length})
+          <span class="block text-[10px] opacity-80 font-semibold">متاح: ${allAvail}</span>
+        </button>
+      `;
+
+      zones.forEach(z => {
+        const zUnits = state.units.filter(u => u.zone === z);
+        const zAvail = zUnits.filter(u => u.status === 'available').length;
+        const zAvgPct = Math.round(zUnits.reduce((s, u) => s + (u.completion_pct || 0), 0) / zUnits.length);
+        const isActive = selectedZone === z;
+        const cls = isActive
+          ? 'bg-olive-dark text-white border-olive-dark shadow'
+          : 'bg-white text-olive-dark border-olive hover:bg-[#ede6d8]';
+
+        html += `
+          <button onclick="selectZone('${escapeHtml(z)}')" class="border px-3.5 py-2 rounded-xl text-xs font-extrabold transition ${cls}">
+            ${escapeHtml(z)} (${zUnits.length})
+            <span class="block text-[10px] opacity-85 font-semibold">متاح: ${zAvail} • إنجاز: ${zAvgPct}%</span>
+          </button>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function debouncedRenderMatrix() {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(renderMatrix, 200);
+    }
+
+    function renderMatrix() {
+      const status = document.getElementById('filterStatus').value;
+      const search = document.getElementById('filterSearch').value.trim().toLowerCase();
+
+      const contractByUnit = new Map();
+      state.contracts.forEach(c => {
+        if (c.status === 'hold' || c.status === 'active') contractByUnit.set(c.unit_id, c);
+      });
+      const buyerById = new Map(state.buyers.map(b => [b.id, b]));
+
+      const zonesToShow = selectedZone === 'ALL' ? getZonesList() : [selectedZone];
+      const container = document.getElementById('matrixContainer');
+      let totalMatched = 0;
+
+      const squareStyles = {
+        available: 'bg-emerald-50 border-emerald-500 hover:bg-emerald-100 text-emerald-950',
+        reserved: 'bg-amber-100 border-amber-500 hover:bg-amber-200 text-amber-950',
+        sold: 'bg-rose-100 border-rose-500 hover:bg-rose-200 text-rose-950'
+      };
+      const dotStyles = {
+        available: 'bg-emerald-600',
+        reserved: 'bg-amber-500',
+        sold: 'bg-rose-600'
+      };
+
+      const blocksHtml = zonesToShow.map(z => {
+        const zUnits = state.units.filter(u => {
+          if (u.zone !== z) return false;
+          if (status && u.status !== status) return false;
+          if (search) {
+            const c = contractByUnit.get(u.id);
+            const b = c ? buyerById.get(c.buyer_id) : null;
+            const matchCode = u.code.toLowerCase().includes(search);
+            const matchName = b && b.full_name.toLowerCase().includes(search);
+            const matchPhone = b && b.phone.toLowerCase().includes(search);
+            if (!matchCode && !matchName && !matchPhone) return false;
+          }
+          return true;
+        });
+
+        if (zUnits.length === 0) return '';
+        totalMatched += zUnits.length;
+
+        const avgPct = Math.round(zUnits.reduce((s, u) => s + (u.completion_pct || 0), 0) / zUnits.length);
+
+        return `
+          <div class="space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-olive pb-2">
+              <div class="flex items-center gap-2">
+                <span class="bg-olive-dark text-white text-xs font-black px-3 py-1 rounded-lg">${escapeHtml(z)}</span>
+                <span class="text-xs font-bold text-gray-600">عدد الوحدات المعروضة: ${zUnits.length}</span>
+              </div>
+              <span class="text-xs font-extrabold text-olive-dark bg-[#ede6d8] px-3 py-1 rounded-lg">نسبة إنجاز القسم: ${avgPct}%</span>
+            </div>
+
+            <!-- مصفوفة المربعات -->
+            <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-2">
+              ${zUnits.map(u => {
+                const c = contractByUnit.get(u.id);
+                const b = c ? buyerById.get(c.buyer_id) : null;
+                const pct = u.completion_pct ?? 0;
+                return `
+                  <div onclick="openUnitModal(${u.id})"
+                    class="cursor-pointer border-2 rounded-xl p-2 transition transform hover:-translate-y-0.5 hover:shadow-md flex flex-col justify-between min-h-[78px] ${squareStyles[u.status]}">
+                    <div class="flex items-center justify-between gap-1">
+                      <span class="font-black text-xs tracking-tight">${escapeHtml(u.code)}</span>
+                      <span class="w-2.5 h-2.5 rounded-full shrink-0 ${dotStyles[u.status]}"></span>
+                    </div>
+
+                    <div class="text-[10px] font-bold opacity-80 truncate mt-0.5">
+                      ${b ? `👤 ${escapeHtml(b.full_name)}` : fmtMoney(u.price)}
+                    </div>
+
+                    <div class="mt-1.5">
+                      <div class="flex justify-between text-[9px] font-black mb-0.5">
+                        <span>إنجاز</span>
+                        <span>${pct}%</span>
+                      </div>
+                      <div class="w-full bg-white/80 rounded-full h-1.5 overflow-hidden border border-black/10">
+                        <div class="${getProgressColor(pct)} h-1.5 rounded-full" style="width: ${pct}%"></div>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = totalMatched > 0
+        ? blocksHtml
+        : '<div class="text-center py-12 text-gray-400 font-bold">لا توجد وحدات مطابقة لخيارات البحث الحالية</div>';
+    }
+
+    async function refreshAll() {
+      if (expireOldHolds()) await saveStorage();
+      renderDashboard();
+      renderMasterplan();
+      renderZonePills();
+      renderMatrix();
+    }
+
+    // ==========================================
+    // 7. بطاقة الوحدة التفصيلية وبطاقة المشتري الكاملة
+    // ==========================================
+    function openUnitModal(unitId) {
+      if (expireOldHolds()) { saveStorage(); refreshAll(); }
+
+      const u = state.units.find(x => x.id === unitId);
+      if (!u) return;
+      const c = state.contracts.find(x => x.unit_id === unitId && (x.status === 'hold' || x.status === 'active'));
+      const buyer = c ? state.buyers.find(b => b.id === c.buyer_id) : null;
+
+      document.getElementById('modalTitle').textContent = `بطاقة الوحدة السكنية: ${u.code} (${u.zone})`;
+      document.getElementById('modalSubtitle').textContent = `${u.unit_type} | الطابق ${u.floor} | المساحة ${u.area_sqm} م² | الإنجاز ${u.completion_pct}%`;
+
+      const pct = u.completion_pct ?? 0;
+      const statusLabels = { available: '🟢 متاحة للبيع', reserved: '🟡 محجوزة مؤقتاً', sold: '🔴 مباعة' };
+
+      const unitSpecCardHtml = `
+        <div class="bg-[#faf8f4] border border-olive rounded-xl p-4 space-y-3">
+          <div class="flex flex-wrap justify-between items-center gap-2 border-b border-olive pb-2">
+            <h3 class="font-extrabold text-olive-dark text-sm">📋 بطاقة بيانات الوحدة ونسبة الإنجاز</h3>
+            <div class="flex items-center gap-2">
+              <button onclick="printUnitCard(${u.id})" class="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1 rounded-lg text-xs font-bold">
+                🖨️ طباعة بطاقة الوحدة
+              </button>
+              <button onclick="document.getElementById('editUnitForm').classList.toggle('hidden')" class="bg-olive-mid hover:bg-olive-dark text-white px-3 py-1 rounded-lg text-xs font-bold">
+                ✏️ تعديل بيانات الوحدة
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div><span class="text-gray-500 block">رقم الوحدة / الزون:</span><b class="text-sm text-olive-dark">${escapeHtml(u.code)} (${escapeHtml(u.zone)})</b></div>
+            <div><span class="text-gray-500 block">الحالة:</span><b>${statusLabels[u.status]}</b></div>
+            <div><span class="text-gray-500 block">السعر الأساسي:</span><b class="text-sm text-emerald-800">${fmtMoney(u.price)}</b></div>
+            <div><span class="text-gray-500 block">النموذج:</span><b>${escapeHtml(u.unit_type)}</b></div>
+            <div><span class="text-gray-500 block">المساحة الكلية:</span><b>${u.area_sqm} م²</b></div>
+            <div><span class="text-gray-500 block">مساحة البناء:</span><b>${u.built_area || u.area_sqm} م²</b></div>
+            <div><span class="text-gray-500 block">الطابق / الواجهة:</span><b>طابق ${u.floor} • ${escapeHtml(u.direction)}</b></div>
+            <div><span class="text-gray-500 block">مرحلة البناء:</span><b class="text-olive-dark">${escapeHtml(u.stage)}</b></div>
+          </div>
+
+          <div class="bg-white p-3 rounded-lg border border-olive">
+            <div class="flex justify-between text-xs font-bold mb-1">
+              <span>نسبة الإنجاز الحالية للوحدة</span>
+              <span class="text-olive-dark font-black text-sm">${pct}%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+              <div class="${getProgressColor(pct)} h-2.5 rounded-full transition-all" style="width: ${pct}%"></div>
+            </div>
+            ${u.notes ? `<div class="text-[11px] text-gray-600 mt-2">📝 <b>ملاحظات:</b> ${escapeHtml(u.notes)}</div>` : ''}
+          </div>
+
+          <form id="editUnitForm" onsubmit="submitEditUnit(event, ${u.id})" class="hidden bg-white p-4 rounded-xl border-2 border-[#6d7a40] space-y-3">
+            <div class="font-bold text-xs text-olive-dark">تعديل بيانات الوحدة ونسبة الإنجاز:</div>
+            <div class="grid sm:grid-cols-4 gap-2 text-xs">
+              <div><label class="block text-gray-600 mb-0.5">السعر ($)</label><input type="number" step="0.01" name="price" value="${u.price}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div><label class="block text-gray-600 mb-0.5">المساحة الكلية (م²)</label><input type="number" step="0.1" name="area_sqm" value="${u.area_sqm}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div><label class="block text-gray-600 mb-0.5">مساحة البناء (م²)</label><input type="number" step="0.1" name="built_area" value="${u.built_area || u.area_sqm}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div><label class="block text-gray-600 mb-0.5">نسبة الإنجاز (%)</label><input type="number" min="0" max="100" name="completion_pct" value="${pct}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div class="sm:col-span-2"><label class="block text-gray-600 mb-0.5">الواجهة / الإطلالة</label><input type="text" name="direction" value="${escapeHtml(u.direction)}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div class="sm:col-span-2"><label class="block text-gray-600 mb-0.5">مرحلة البناء</label><input type="text" name="stage" value="${escapeHtml(u.stage)}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div class="sm:col-span-4"><label class="block text-gray-600 mb-0.5">ملاحظات الوحدة</label><input type="text" name="notes" value="${escapeHtml(u.notes || '')}" class="w-full border rounded px-2 py-1.5" /></div>
+            </div>
+            <button type="submit" class="bg-olive-dark hover:bg-olive-mid text-white px-4 py-1.5 rounded-lg text-xs font-bold">💾 حفظ التعديلات</button>
+          </form>
+        </div>
+      `;
+
+      let actionSectionHtml = '';
+
+      if (u.status === 'available' || u.status === 'reserved') {
+        const preName = buyer ? escapeHtml(buyer.full_name) : '';
+        const prePhone = buyer ? escapeHtml(buyer.phone) : '';
+        const preAltPhone = buyer ? escapeHtml(buyer.alt_phone || '') : '';
+        const preNid = buyer ? escapeHtml(buyer.national_id) : '';
+        const preResCard = buyer ? escapeHtml(buyer.residence_card || '') : '';
+        const preAddress = buyer ? escapeHtml(buyer.address || '') : '';
+        const todayStr = localTodayStr();
+
+        actionSectionHtml = `
+          ${u.status === 'reserved' && c ? `
+            <div class="bg-amber-50 border border-amber-300 p-4 rounded-xl flex flex-wrap justify-between items-center gap-3">
+              <div>
+                <div class="font-bold text-amber-900">🟡 محجوزة مؤقتاً لـ: ${preName} (${prePhone})</div>
+                <div class="text-xs text-amber-700 mt-1">تنتهي مهلة الحجز في: <span dir="ltr">${c.hold_expires_at}</span></div>
+              </div>
+              <button onclick="cancelHold(${u.id})" class="bg-white border border-rose-400 text-rose-600 hover:bg-rose-50 px-3 py-1.5 rounded-lg text-xs font-bold">
+                ❌ إلغاء الحجز وإرجاعها متاحة
+              </button>
+            </div>
+          ` : ''}
+
+          <div class="grid md:grid-cols-2 gap-5">
+            ${u.status === 'available' ? `
+              <form onsubmit="submitReserve(event, ${u.id})" class="bg-slate-50 p-4 rounded-xl border space-y-2.5">
+                <h3 class="font-bold text-amber-700 border-b pb-2 text-sm">⏳ حجز مؤقت (Hold)</h3>
+                <input required name="buyer_name" placeholder="اسم الزبون الكامل *" class="w-full border rounded-lg px-3 py-2 text-xs bg-white" />
+                <div class="grid grid-cols-2 gap-2">
+                  <input required name="buyer_phone" placeholder="رقم الهاتف *" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+                  <input required name="buyer_national_id" placeholder="رقم البطاقة الوطنية *" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+                </div>
+                <div>
+                  <label class="text-xs text-gray-600">مدة الحجز (ساعة)</label>
+                  <input type="number" name="hold_hours" value="48" min="1" max="168" class="w-full border rounded-lg px-3 py-2 text-xs bg-white" />
+                </div>
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 rounded-lg text-xs">حجز الوحدة مؤقتاً</button>
+              </form>
+            ` : ''}
+
+            <form onsubmit="submitSell(event, ${u.id})" class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-300 space-y-2.5 ${u.status === 'reserved' ? 'md:col-span-2' : ''}">
+              <h3 class="font-bold text-emerald-900 border-b border-emerald-200 pb-2 text-sm">✍️ تحويل لمباعة وإدخال بيانات المشتري الكاملة</h3>
+              <div class="grid sm:grid-cols-2 gap-2">
+                <input required name="buyer_name" value="${preName}" placeholder="الاسم الرباعي للمشتري *" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+                <input required name="buyer_phone" value="${prePhone}" placeholder="رقم الهاتف الأساسي *" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+                <input name="buyer_alt_phone" value="${preAltPhone}" placeholder="رقم هاتف بديل (اختياري)" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+                <input required name="buyer_national_id" value="${preNid}" placeholder="رقم البطاقة الوطنية الموحدة *" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+                <input name="buyer_residence_card" value="${preResCard}" placeholder="رقم بطاقة السكن" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+                <input name="buyer_address" value="${preAddress}" placeholder="عنوان السكن الحالي" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+              </div>
+              <div class="grid sm:grid-cols-2 gap-2">
+                <input name="sales_agent" placeholder="اسم موظف المبيعات / الوسيط" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+                <input name="contract_notes" placeholder="ملاحظات العقد (إن وجدت)" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                <div><label class="text-[11px] text-gray-600 font-bold">الخصم ($)</label><input type="number" step="0.01" name="discount" value="0" min="0" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
+                <div><label class="text-[11px] text-gray-600 font-bold">المقدمة ($)</label><input type="number" step="0.01" name="down_payment" value="${Math.round(u.price * 0.2)}" min="0" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
+                <div><label class="text-[11px] text-gray-600 font-bold">الأقساط (شهر)</label><input type="number" name="months" value="60" min="0" max="180" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
+                <div><label class="text-[11px] text-gray-600 font-bold">بدء الأقساط</label><input type="date" name="start_date" value="${todayStr}" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
+              </div>
+              <button type="submit" class="w-full bg-olive-dark hover:bg-olive-mid text-white font-bold py-2.5 rounded-lg text-sm">
+                ✅ تحويل الوحدة إلى مباعة وتوليد الأقساط
+              </button>
+            </form>
+          </div>
+        `;
+      } else if (u.status === 'sold' && c && buyer) {
+        const unitInstallments = state.installments.filter(i => i.contract_id === c.id).sort((a, b) => a.installment_no - b.installment_no);
+        const unitPayments = state.payments.filter(p => p.contract_id === c.id).sort((a, b) => b.id - a.id);
+        const unitTransfers = state.transfers.filter(t => t.contract_id === c.id).sort((a, b) => b.id - a.id);
+        const totalPaid = round2(unitPayments.filter(p => p.payment_type !== 'transfer_fee').reduce((s, p) => s + p.amount, 0));
+        const remainingContract = round2(Math.max(0, c.final_price - totalPaid));
+
+        actionSectionHtml = `
+          <div class="bg-rose-50/40 border-2 border-rose-200 rounded-xl p-4 space-y-4">
+            <div class="flex flex-wrap justify-between items-center gap-2 border-b border-rose-200 pb-2">
+              <h3 class="font-black text-rose-900 text-sm">👤 بطاقة بيانات المشتري الكاملة والعقد (#${c.id})</h3>
+              <button onclick="document.getElementById('transferBox').classList.toggle('hidden')"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+                🔄 تنازل / نقل ملكية لمشترٍ جديد
+              </button>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-4 text-xs">
+              <div class="bg-white p-3 rounded-lg border space-y-1">
+                <div class="text-gray-400 font-bold text-[11px]">البيانات الشخصية للمالك</div>
+                <div><span class="text-gray-500">الاسم:</span> <b class="text-sm text-slate-900">${escapeHtml(buyer.full_name)}</b></div>
+                <div><span class="text-gray-500">الهاتف الأساسي:</span> <b dir="ltr">${escapeHtml(buyer.phone)}</b></div>
+                <div><span class="text-gray-500">هاتف بديل:</span> <b dir="ltr">${escapeHtml(buyer.alt_phone || '—')}</b></div>
+              </div>
+              <div class="bg-white p-3 rounded-lg border space-y-1">
+                <div class="text-gray-400 font-bold text-[11px]">المستمسكات والعنوان</div>
+                <div><span class="text-gray-500">البطاقة الوطنية:</span> <b>${escapeHtml(buyer.national_id)}</b></div>
+                <div><span class="text-gray-500">بطاقة السكن:</span> <b>${escapeHtml(buyer.residence_card || '—')}</b></div>
+                <div><span class="text-gray-500">عنوان السكن:</span> <b>${escapeHtml(buyer.address || '—')}</b></div>
+              </div>
+              <div class="bg-white p-3 rounded-lg border space-y-1">
+                <div class="text-gray-400 font-bold text-[11px]">الموقف المالي للعقد</div>
+                <div><span class="text-gray-500">السعر النهائي:</span> <b>${fmtMoney(c.final_price)}</b> (خصم: ${fmtMoney(c.discount)})</div>
+                <div><span class="text-gray-500">إجمالي المدفوع:</span> <b class="text-emerald-700">${fmtMoney(totalPaid)}</b></div>
+                <div><span class="text-gray-500">المتبقي بالذمة:</span> <b class="text-rose-700">${fmtMoney(remainingContract)}</b></div>
+                <div class="text-[11px] text-gray-500 pt-1">تاريخ التوقيع: ${c.signed_at || c.created_at} • المندوب: ${escapeHtml(c.sales_agent || 'المبيعات')}</div>
+              </div>
+            </div>
+            ${c.contract_notes ? `<div class="text-xs bg-white p-2.5 rounded border text-gray-700">📌 <b>ملاحظات العقد:</b> ${escapeHtml(c.contract_notes)}</div>` : ''}
+          </div>
+
+          <form id="transferBox" onsubmit="submitTransfer(event, ${c.id}, ${u.id})" class="hidden bg-indigo-50 border border-indigo-300 p-4 rounded-xl space-y-3">
+            <h4 class="font-bold text-indigo-900 text-sm">نقل ملكية الوحدة مع استمرار جدول الأقساط الحالي</h4>
+            <div class="grid sm:grid-cols-3 gap-2">
+              <input required name="new_buyer_name" placeholder="اسم المشتري الجديد الكامل *" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+              <input required name="new_buyer_phone" placeholder="هاتف المشتري الجديد *" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+              <input name="new_buyer_alt_phone" placeholder="هاتف بديل" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+              <input required name="new_buyer_national_id" placeholder="البطاقة الوطنية *" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+              <input name="new_buyer_residence_card" placeholder="بطاقة السكن" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+              <input name="new_buyer_address" placeholder="عنوان السكن" class="border rounded-lg px-3 py-2 text-xs bg-white" />
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="w-48"><label class="text-[11px] font-bold text-indigo-900">رسوم التنازل ($)</label><input required type="number" step="0.01" name="transfer_fee" value="1500" min="0" class="w-full border rounded-lg px-3 py-1.5 text-xs bg-white" /></div>
+              <button type="submit" class="mt-4 bg-indigo-700 hover:bg-indigo-800 text-white px-5 py-2 rounded-lg text-xs font-bold">تأكيد التنازل ونقل الملكية</button>
+            </div>
+          </form>
+
+          <div>
+            <h3 class="font-bold text-olive-dark mb-2 text-sm">📅 جدول الأقساط (${unitInstallments.length} قسط)</h3>
+            <div class="border rounded-xl overflow-hidden max-h-60 overflow-y-auto">
+              <table class="w-full text-xs text-right">
+                <thead class="bg-[#ede6d8] text-olive-dark sticky top-0">
+                  <tr><th class="p-2">#</th><th class="p-2">تاريخ الاستحقاق</th><th class="p-2">المطلوب</th><th class="p-2">المدفوع</th><th class="p-2">المتبقي</th><th class="p-2">الحالة</th><th class="p-2">إجراء</th></tr>
+                </thead>
+                <tbody class="divide-y">
+                  ${unitInstallments.length === 0 ? '<tr><td colspan="7" class="p-4 text-center text-gray-400">البيع نقدي بالكامل (لا توجد أقساط)</td></tr>' :
+                    unitInstallments.map(inst => {
+                      const rem = round2(Math.max(0, inst.amount_due - inst.paid_amount));
+                      const stBadge = inst.status === 'paid'
+                        ? '<span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">مسدد</span>'
+                        : (inst.status === 'partial'
+                          ? '<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">جزئي</span>'
+                          : '<span class="bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full font-bold">غير مدفوع</span>');
+                      return `
+                        <tr class="hover:bg-slate-50">
+                          <td class="p-2 font-bold">${inst.installment_no}</td>
+                          <td class="p-2" dir="ltr">${inst.due_date}</td>
+                          <td class="p-2 font-semibold">${fmtMoney(inst.amount_due)}</td>
+                          <td class="p-2 text-emerald-700">${fmtMoney(inst.paid_amount)}</td>
+                          <td class="p-2 text-rose-700 font-bold">${fmtMoney(rem)}</td>
+                          <td class="p-2">${stBadge}</td>
+                          <td class="p-2">${rem > 0 ? `<button onclick="payInstallment(${inst.id}, ${rem}, ${u.id})" class="bg-olive-mid hover:bg-olive-dark text-white px-2.5 py-1 rounded font-bold">💵 تسديد</button>` : '—'}</td>
+                        </tr>
+                      `;
+                    }).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-bold text-olive-dark mb-2 text-sm">🧾 سجل الوصولات والمدفوعات</h3>
+            <div class="border rounded-xl overflow-hidden max-h-44 overflow-y-auto">
+              <table class="w-full text-xs text-right">
+                <thead class="bg-[#ede6d8] text-olive-dark">
+                  <tr><th class="p-2">رقم الوصل</th><th class="p-2">البيان</th><th class="p-2">المبلغ</th><th class="p-2">التاريخ</th><th class="p-2">طباعة</th></tr>
+                </thead>
+                <tbody class="divide-y">
+                  ${unitPayments.length === 0 ? '<tr><td colspan="5" class="p-4 text-center text-gray-400">لا توجد مدفوعات مسجلة</td></tr>' :
+                    unitPayments.map(p => `
+                      <tr>
+                        <td class="p-2 font-mono font-bold text-blue-700">${escapeHtml(p.receipt_no)}</td>
+                        <td class="p-2">${escapeHtml(p.notes)}</td>
+                        <td class="p-2 font-bold text-emerald-700">${fmtMoney(p.amount)}</td>
+                        <td class="p-2" dir="ltr">${p.paid_at}</td>
+                        <td class="p-2"><button onclick="openReceiptById(${p.id})" class="bg-slate-700 hover:bg-slate-800 text-white px-2 py-1 rounded">🖨️ وصل</button></td>
+                      </tr>
+                    `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          ${unitTransfers.length > 0 ? `
+            <div class="bg-indigo-50/50 p-3 rounded-xl border text-xs space-y-1">
+              <div class="font-bold text-indigo-900">سجل التنازلات على هذه الوحدة:</div>
+              ${unitTransfers.map(t => {
+                const fromB = state.buyers.find(b => b.id === t.from_buyer_id);
+                const toB = state.buyers.find(b => b.id === t.to_buyer_id);
+                return `<div>• بتاريخ ${t.transfer_date}: من <b>${escapeHtml(fromB?.full_name)}</b> إلى <b>${escapeHtml(toB?.full_name)}</b> (رسوم: ${fmtMoney(t.transfer_fee)})</div>`;
+              }).join('')}
+            </div>
+          ` : ''}
+        `;
+      }
+
+      document.getElementById('modalBody').innerHTML = unitSpecCardHtml + actionSectionHtml;
+      document.getElementById('unitModal').classList.remove('hidden');
+    }
+
+    function closeUnitModal() { document.getElementById('unitModal').classList.add('hidden'); }
+
+    // ==========================================
+    // 8. عمليات التعديل والحفظ والبيع والأقساط
+    // ==========================================
+    async function submitEditUnit(e, unitId) {
+      e.preventDefault();
+      const form = Object.fromEntries(new FormData(e.target));
+      const u = state.units.find(x => x.id === unitId);
+      if (!u) return;
+
+      const pct = parseInt(form.completion_pct, 10);
+      if (isNaN(pct) || pct < 0 || pct > 100) return alert('نسبة الإنجاز يجب أن تكون بين 0 و 100');
+
+      u.price = round2(parseFloat(form.price));
+      u.area_sqm = round2(parseFloat(form.area_sqm));
+      u.built_area = round2(parseFloat(form.built_area));
+      u.completion_pct = pct;
+      u.direction = form.direction.trim();
+      u.stage = form.stage.trim();
+      u.notes = form.notes.trim();
+
+      addAuditLog('تعديل بطاقة وحدة', `تحديث بيانات الوحدة ${u.code}: السعر ${fmtMoney(u.price)}، الإنجاز ${u.completion_pct}%`);
+      await saveStorage();
+      await refreshAll();
+      openUnitModal(unitId);
+    }
+
+    function openBulkProgressModal() { document.getElementById('bulkProgressModal').classList.remove('hidden'); }
+
+    async function submitBulkProgress(e) {
+      e.preventDefault();
+      const form = Object.fromEntries(new FormData(e.target));
+      const zone = form.zone;
+      const pct = parseInt(form.completion_pct, 10);
+      const stage = form.stage;
+
+      let count = 0;
+      state.units.forEach(u => {
+        if (u.zone === zone) {
+          u.completion_pct = pct;
+          u.stage = stage;
+          count++;
+        }
+      });
+
+      addAuditLog('تحديث إنجاز جماعي', `تحديث نسبة إنجاز ${zone} (${count} وحدة) إلى ${pct}% - ${stage}`);
+      await saveStorage();
+      await refreshAll();
+      document.getElementById('bulkProgressModal').classList.add('hidden');
+      alert(`تم تحديث نسبة الإنجاز لـ ${count} وحدة في ${zone} إلى ${pct}%`);
+    }
+
+    async function submitReserve(e, unitId) {
+      e.preventDefault();
+      const form = Object.fromEntries(new FormData(e.target));
+      const u = state.units.find(x => x.id === unitId);
+      if (!u || u.status !== 'available') return alert('الوحدة لم تعد متاحة!');
+
+      const hours = parseInt(form.hold_hours || 48, 10);
+      const buyer = {
+        id: state.seq.buyer++,
+        full_name: form.buyer_name.trim(),
+        phone: form.buyer_phone.trim(),
+        alt_phone: '',
+        national_id: form.buyer_national_id.trim(),
+        residence_card: '',
+        address: '',
+        created_at: localNowStr()
+      };
+      state.buyers.push(buyer);
+
+      state.contracts.push({
+        id: state.seq.contract++,
+        unit_id: unitId,
+        buyer_id: buyer.id,
+        status: 'hold',
+        total_price: u.price,
+        discount: 0,
+        final_price: u.price,
+        down_payment: 0,
+        months: 0,
+        sales_agent: '',
+        contract_notes: '',
+        hold_expires_at: localNowStr(hours),
+        created_at: localNowStr(),
+        signed_at: null
+      });
+
+      u.status = 'reserved';
+      addAuditLog('حجز مؤقت', `حجز الوحدة ${u.code} للزبون ${buyer.full_name} لمدة ${hours} ساعة`);
+      await saveStorage();
+      await refreshAll();
+      openUnitModal(unitId);
+    }
+
+    async function cancelHold(unitId) {
+      if (!confirm('هل أنت متأكد من إلغاء الحجز وإرجاع الوحدة متاحة؟')) return;
+      const u = state.units.find(x => x.id === unitId);
+      const c = state.contracts.find(x => x.unit_id === unitId && x.status === 'hold');
+      if (c) c.status = 'cancelled';
+      if (u) {
+        u.status = 'available';
+        addAuditLog('إلغاء حجز', `تم إلغاء الحجز المؤقت للوحدة ${u.code} وإعادتها متاحة`);
+      }
+      await saveStorage();
+      await refreshAll();
+      closeUnitModal();
+    }
+
+    async function submitSell(e, unitId) {
+      e.preventDefault();
+      const form = Object.fromEntries(new FormData(e.target));
+      const u = state.units.find(x => x.id === unitId);
+      if (!u || u.status === 'sold') return alert('هذه الوحدة مباعة بالفعل!');
+
+      const discount = round2(parseFloat(form.discount || 0));
+      const downPayment = round2(parseFloat(form.down_payment || 0));
+      const months = parseInt(form.months || 0, 10);
+      const finalPrice = round2(u.price - discount);
+
+      if (finalPrice <= 0 || discount < 0) return alert('قيمة الخصم غير صالحة');
+      if (downPayment < 0 || downPayment > finalPrice) return alert('الدفعة المقدمة غير صالحة');
+      const remainingAfterDown = round2(finalPrice - downPayment);
+      if (remainingAfterDown > 0 && months <= 0) return alert('يرجى تحديد عدد أشهر الأقساط للمبلغ المتبقي');
+
+      const now = localNowStr();
+      let contract = state.contracts.find(x => x.unit_id === unitId && x.status === 'hold');
+      let buyer;
+
+      if (contract) {
+        buyer = state.buyers.find(b => b.id === contract.buyer_id);
+        buyer.full_name = form.buyer_name.trim();
+        buyer.phone = form.buyer_phone.trim();
+        buyer.alt_phone = (form.buyer_alt_phone || '').trim();
+        buyer.national_id = form.buyer_national_id.trim();
+        buyer.residence_card = (form.buyer_residence_card || '').trim();
+        buyer.address = (form.buyer_address || '').trim();
+
+        contract.status = 'active';
+        contract.total_price = u.price;
+        contract.discount = discount;
+        contract.final_price = finalPrice;
+        contract.down_payment = downPayment;
+        contract.months = months;
+        contract.sales_agent = (form.sales_agent || '').trim();
+        contract.contract_notes = (form.contract_notes || '').trim();
+        contract.hold_expires_at = null;
+        contract.signed_at = now;
+      } else {
+        buyer = {
+          id: state.seq.buyer++,
+          full_name: form.buyer_name.trim(),
+          phone: form.buyer_phone.trim(),
+          alt_phone: (form.buyer_alt_phone || '').trim(),
+          national_id: form.buyer_national_id.trim(),
+          residence_card: (form.buyer_residence_card || '').trim(),
+          address: (form.buyer_address || '').trim(),
+          created_at: now
+        };
+        state.buyers.push(buyer);
+        contract = {
+          id: state.seq.contract++,
+          unit_id: unitId,
+          buyer_id: buyer.id,
+          status: 'active',
+          total_price: u.price,
+          discount,
+          final_price: finalPrice,
+          down_payment: downPayment,
+          months,
+          sales_agent: (form.sales_agent || '').trim(),
+          contract_notes: (form.contract_notes || '').trim(),
+          hold_expires_at: null,
+          created_at: now,
+          signed_at: now
+        };
+        state.contracts.push(contract);
+      }
+
+      if (downPayment > 0) {
+        state.payments.push({
+          id: state.seq.payment++,
+          receipt_no: genReceiptNo('REC'),
+          contract_id: contract.id,
+          installment_id: null,
+          buyer_id: buyer.id,
+          payment_type: 'down_payment',
+          amount: downPayment,
+          payment_method: 'نقدي',
+          notes: `الدفعة المقدمة عند توقيع العقد للوحدة ${u.code}`,
+          paid_at: now
+        });
+      }
+
+      if (remainingAfterDown > 0 && months > 0) {
+        const startDate = form.start_date || localTodayStr();
+        const baseInstallment = round2(remainingAfterDown / months);
+        let accumulated = 0;
+        for (let i = 1; i <= months; i++) {
+          const dueDate = addMonths(startDate, i);
+          const amt = i < months ? baseInstallment : round2(remainingAfterDown - accumulated);
+          if (i < months) accumulated = round2(accumulated + amt);
+          state.installments.push({
+            id: state.seq.installment++,
+            contract_id: contract.id,
+            installment_no: i,
+            due_date: dueDate,
+            amount_due: amt,
+            paid_amount: 0,
+            status: 'unpaid'
+          });
+        }
+      }
+
+      u.status = 'sold';
+      addAuditLog('تثبيت بيع وعقد', `بيع الوحدة ${u.code} للمشتري ${buyer.full_name} بسعر ${fmtMoney(finalPrice)}`);
+      await saveStorage();
+      await refreshAll();
+      openUnitModal(unitId);
+    }
+
+    async function payInstallment(instId, defaultRemaining, unitId) {
+      const input = prompt(`أدخل المبلغ المراد تسديده بالدولار (المتبقي للقسط: ${defaultRemaining}$):`, defaultRemaining);
+      if (input === null) return;
+      const amount = round2(parseFloat(input));
+      if (isNaN(amount) || amount <= 0) return alert('مبلغ غير صالح');
+
+      const inst = state.installments.find(i => i.id === instId);
+      if (!inst) return;
+      const rem = round2(inst.amount_due - inst.paid_amount);
+      if (amount > rem) return alert(`المبلغ المدخل أكبر من المتبقي لهذا القسط (${rem}$)`);
+
+      const contract = state.contracts.find(c => c.id === inst.contract_id);
+      const u = state.units.find(x => x.id === unitId);
+
+      inst.paid_amount = round2(inst.paid_amount + amount);
+      inst.status = inst.paid_amount >= inst.amount_due - 0.001 ? 'paid' : 'partial';
+
+      const receiptNo = genReceiptNo('REC');
+      state.payments.push({
+        id: state.seq.payment++,
+        receipt_no: receiptNo,
+        contract_id: contract.id,
+        installment_id: inst.id,
+        buyer_id: contract.buyer_id,
+        payment_type: 'installment',
+        amount,
+        payment_method: 'نقدي',
+        notes: `تسديد القسط رقم ${inst.installment_no} للوحدة ${u.code}`,
+        paid_at: localNowStr()
+      });
+
+      addAuditLog('استلام دفعة قسط', `وصل ${receiptNo}: استلام ${fmtMoney(amount)} للوحدة ${u.code}`);
+      await saveStorage();
+      await refreshAll();
+      openUnitModal(unitId);
+    }
+
+    async function submitTransfer(e, contractId, unitId) {
+      e.preventDefault();
+      if (!confirm('تأكيد نقل ملكية الوحدة للمشتري الجديد؟')) return;
+      const form = Object.fromEntries(new FormData(e.target));
+      const contract = state.contracts.find(c => c.id === contractId);
+      const u = state.units.find(x => x.id === unitId);
+      const oldBuyer = state.buyers.find(b => b.id === contract.buyer_id);
+      const fee = round2(parseFloat(form.transfer_fee || 0));
+      if (fee < 0) return alert('رسوم التنازل غير صالحة');
+
+      const now = localNowStr();
+      const newBuyer = {
+        id: state.seq.buyer++,
+        full_name: form.new_buyer_name.trim(),
+        phone: form.new_buyer_phone.trim(),
+        alt_phone: (form.new_buyer_alt_phone || '').trim(),
+        national_id: form.new_buyer_national_id.trim(),
+        residence_card: (form.new_buyer_residence_card || '').trim(),
+        address: (form.new_buyer_address || '').trim(),
+        created_at: now
+      };
+      state.buyers.push(newBuyer);
+
+      state.transfers.push({
+        id: state.seq.transfer++,
+        contract_id: contract.id,
+        from_buyer_id: oldBuyer.id,
+        to_buyer_id: newBuyer.id,
+        transfer_fee: fee,
+        transfer_date: now
+      });
+
+      contract.buyer_id = newBuyer.id;
+
+      if (fee > 0) {
+        state.payments.push({
+          id: state.seq.payment++,
+          receipt_no: genReceiptNo('TRF'),
+          contract_id: contract.id,
+          installment_id: null,
+          buyer_id: newBuyer.id,
+          payment_type: 'transfer_fee',
+          amount: fee,
+          payment_method: 'نقدي',
+          notes: `رسوم تنازل عن الوحدة ${u.code}`,
+          paid_at: now
+        });
+      }
+
+      addAuditLog('تنازل ونقل ملكية', `نقل ملكية الوحدة ${u.code} من (${oldBuyer.full_name}) إلى (${newBuyer.full_name}) برسوم ${fmtMoney(fee)}`);
+      await saveStorage();
+      await refreshAll();
+      openUnitModal(unitId);
+    }
+
+    // ==========================================
+    // 9. الطباعة والتدقيق والنسخ الاحتياطي
+    // ==========================================
+    function openReceiptById(paymentId) {
+      const p = state.payments.find(x => x.id === paymentId);
+      if (!p) return;
+      const b = state.buyers.find(x => x.id === p.buyer_id);
+      document.getElementById('printableContent').innerHTML = `
+        <div class="flex justify-between items-center border-b-2 border-[#38401e] pb-4 mb-5">
+          <div class="flex items-center gap-3">
+            ${getLogoHtml('w-14 h-14')}
+            <div>
+              <h3 class="text-xl font-black text-olive-dark">مجمع حلم الحياة السكني</h3>
+              <p class="text-xs text-gray-500 font-bold">DREAM OF LIFE • وصل قبض مالي</p>
+            </div>
+          </div>
+          <div class="text-left">
+            <div class="font-mono font-bold text-sm text-blue-800">${escapeHtml(p.receipt_no)}</div>
+            <div class="text-xs text-gray-500" dir="ltr">${p.paid_at}</div>
+          </div>
+        </div>
+        <div class="space-y-3 text-sm bg-[#faf8f4] p-4 rounded-xl border border-olive">
+          <div class="flex justify-between"><span class="text-gray-600">استلمنا من السيد/ة:</span><span class="font-bold text-base">${escapeHtml(b ? b.full_name : '')}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600">مبلغاً وقدره:</span><span class="font-black text-lg text-emerald-700">${fmtMoney(p.amount)}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600">طريقة الدفع:</span><span class="font-semibold">${escapeHtml(p.payment_method)}</span></div>
+          <div class="flex justify-between"><span class="text-gray-600">وذلك عن:</span><span class="font-semibold text-left max-w-[65%]">${escapeHtml(p.notes)}</span></div>
+        </div>
+        <div class="mt-10 pt-4 border-t flex justify-between text-xs text-gray-600 font-bold">
+          <span>توقيع المحاسب: ........................</span>
+          <span>ختم إدارة المجمع: ........................</span>
+        </div>
+      `;
+      document.getElementById('printModal').classList.remove('hidden');
+    }
+
+    function printUnitCard(unitId) {
+      const u = state.units.find(x => x.id === unitId);
+      if (!u) return;
+      const c = state.contracts.find(x => x.unit_id === unitId && (x.status === 'hold' || x.status === 'active'));
+      const buyer = c ? state.buyers.find(b => b.id === c.buyer_id) : null;
+      const paid = c ? round2(state.payments.filter(p => p.contract_id === c.id && p.payment_type !== 'transfer_fee').reduce((s, p) => s + p.amount, 0)) : 0;
+
+      document.getElementById('printableContent').innerHTML = `
+        <div class="flex justify-between items-center border-b-2 border-[#38401e] pb-4 mb-4">
+          <div class="flex items-center gap-3">
+            ${getLogoHtml('w-16 h-16')}
+            <div>
+              <h3 class="text-xl font-black text-olive-dark">مجمع حلم الحياة السكني</h3>
+              <p class="text-xs text-gray-500 font-bold">بطاقة تعريف الوحدة السكنية والمشتري</p>
+            </div>
+          </div>
+          <div class="text-left text-xs text-gray-500">تاريخ الطباعة:<br/><b dir="ltr">${localNowStr()}</b></div>
+        </div>
+
+        <div class="space-y-4 text-xs">
+          <div class="bg-[#faf8f4] p-4 rounded-xl border border-olive">
+            <h4 class="font-black text-olive-dark text-sm mb-2 border-b pb-1">بيانات الوحدة (${escapeHtml(u.code)})</h4>
+            <div class="grid grid-cols-3 gap-2.5">
+              <div><span class="text-gray-500">الزون:</span> <b>${escapeHtml(u.zone)}</b></div>
+              <div><span class="text-gray-500">النموذج:</span> <b>${escapeHtml(u.unit_type)}</b></div>
+              <div><span class="text-gray-500">الطابق:</span> <b>${u.floor}</b></div>
+              <div><span class="text-gray-500">المساحة الكلية:</span> <b>${u.area_sqm} م²</b></div>
+              <div><span class="text-gray-500">مساحة البناء:</span> <b>${u.built_area || u.area_sqm} م²</b></div>
+              <div><span class="text-gray-500">السعر الأساسي:</span> <b>${fmtMoney(u.price)}</b></div>
+              <div class="col-span-2"><span class="text-gray-500">الواجهة:</span> <b>${escapeHtml(u.direction)}</b></div>
+              <div><span class="text-gray-500">نسبة الإنجاز:</span> <b>${u.completion_pct}% (${escapeHtml(u.stage)})</b></div>
+            </div>
+          </div>
+
+          ${buyer && c ? `
+            <div class="bg-white p-4 rounded-xl border-2 border-[#38401e]">
+              <h4 class="font-black text-olive-dark text-sm mb-2 border-b pb-1">بيانات المشتري والعقد (#${c.id})</h4>
+              <div class="grid grid-cols-2 gap-2.5">
+                <div><span class="text-gray-500">الاسم الكامل:</span> <b>${escapeHtml(buyer.full_name)}</b></div>
+                <div><span class="text-gray-500">الهاتف:</span> <b dir="ltr">${escapeHtml(buyer.phone)}</b></div>
+                <div><span class="text-gray-500">البطاقة الوطنية:</span> <b>${escapeHtml(buyer.national_id)}</b></div>
+                <div><span class="text-gray-500">بطاقة السكن:</span> <b>${escapeHtml(buyer.residence_card || '—')}</b></div>
+                <div class="col-span-2"><span class="text-gray-500">العنوان:</span> <b>${escapeHtml(buyer.address || '—')}</b></div>
+                <div><span class="text-gray-500">القيمة النهائية للعقد:</span> <b>${fmtMoney(c.final_price)}</b></div>
+                <div><span class="text-gray-500">المدفوع / المتبقي:</span> <b>${fmtMoney(paid)} / ${fmtMoney(Math.max(0, c.final_price - paid))}</b></div>
+              </div>
+            </div>
+          ` : '<div class="p-3 bg-emerald-50 rounded-lg text-center font-bold text-emerald-800">هذه الوحدة متاحة حالياً للبيع</div>'}
+        </div>
+      `;
+      document.getElementById('printModal').classList.remove('hidden');
+    }
+
+    function openAuditModal() {
+      const logs = state.audit_logs.slice(0, 100);
+      document.getElementById('auditBody').innerHTML = logs.map(l => `
+        <div class="bg-[#faf8f4] border border-olive rounded-lg p-3 flex justify-between items-start gap-4">
+          <div>
+            <span class="bg-olive-dark text-white text-[10px] px-2 py-0.5 rounded font-bold">${escapeHtml(l.action)}</span>
+            <span class="text-slate-800 font-semibold mr-2">${escapeHtml(l.details)}</span>
+          </div>
+          <div class="text-[11px] text-gray-500 whitespace-nowrap" dir="ltr">${l.created_at}</div>
+        </div>
+      `).join('');
+      document.getElementById('auditModal').classList.remove('hidden');
+    }
+
+    function exportBackup() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dream_of_life_backup_${localTodayStr()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (!Array.isArray(parsed.units) || !parsed.seq) return alert('ملف النسخة الاحتياطية غير صالح!');
+          state = parsed;
+          applyCustomMedia();
+          await saveStorage();
+          populateZoneSelects();
+          await refreshAll();
+          alert('تم استيراد البيانات بنجاح!');
+        } catch {
+          alert('حدث خطأ أثناء قراءة الملف');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    async function resetDemoData() {
+      if (!confirm('تحذير: سيتم مسح جميع العقود والمدفوعات وإرجاع الـ 520 وحدة للحالة الافتراضية. هل أنت متأكد؟')) return;
+      const keptLogo = state.custom_logo || null;
+      const keptMap = state.custom_masterplan || null;
+      state = createInitialState();
+      state.custom_logo = keptLogo;
+      state.custom_masterplan = keptMap;
+      await saveStorage();
+      populateZoneSelects();
+      await refreshAll();
+    }
+
+    // ==========================================
+    // 10. التشغيل الأولي
+    // ==========================================
+    (async function initApp() {
+      state = await loadStorage();
+      if (!state || !Array.isArray(state.units) || state.units.length === 0) {
+        state = createInitialState();
+        await saveStorage();
+      }
+      applyCustomMedia();
+      populateZoneSelects();
+      await refreshAll();
+    })();
+  </script>
+</body>
+</html>
