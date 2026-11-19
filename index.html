@@ -286,8 +286,9 @@
 
     <section class="view" id="view-plan">
       <div class="plan-tools">
+        <button class="btn btn-sm btn-green" id="reloadRepoSvgBtn" type="button">🔄 تحديث من المستودع</button>
         <label class="btn btn-sm" style="cursor:pointer; display:inline-block; margin:0; background:#0284c7; color:#fff;">
-          📁 رفع ملف التصميم (SVG)
+          📁 رفع ملف تصميم بديل (SVG)
           <input id="planSvgUpload" type="file" accept=".svg" style="display:none;">
         </label>
         <button class="btn btn-sm btn-danger" id="clearPlanSvgBtn" type="button">إزالة المخطط</button>
@@ -309,8 +310,8 @@
       <div class="plan-viewport" id="planViewport">
         <div class="svg-stage" id="svgStage">
           <div style="text-align:center; padding:40px; color:var(--text-muted);">
-            <p style="font-size:16px; font-weight:600; margin-bottom:8px;">لم يتم إدراج ملف التصميم الهندسي (SVG) بعد</p>
-            <p style="font-size:13px;">اضغط على زر <b>"📁 رفع ملف التصميم (SVG)"</b> أعلاه لتحميل المخطط. سيتم تفعيل الوحدات السكنية بشكلها الحقيقي وحفظ المخطط تلقائياً في النظام.</p>
+            <p style="font-size:16px; font-weight:600; margin-bottom:8px;">جاري تحميل المخطط الهندسي (plan.svg)...</p>
+            <p style="font-size:13px;">يتم جلب التصميم من المستودع وتفعيل الوحدات السكنية عليه تلقائياً.</p>
           </div>
         </div>
       </div>
@@ -353,18 +354,20 @@
 <div class="toast" id="toast"></div>
 
 <script>
+const DEFAULT_SVG_FILE = "./plan.svg"; // مسار ملف المخطط في نفس مستودع GitHub
+
 const STATUS = {
   under_construction: { label: "قيد الإنجاز", cls: "st-under" },
   available:          { label: "معروض للبيع", cls: "st-available" },
   sold:               { label: "مباع",        cls: "st-sold" }
 };
-const KEY_UNITS = "halam_units_v22";
-const KEY_STAFF = "halam_staff_v22";
+const KEY_UNITS = "halam_units_v23";
+const KEY_STAFF = "halam_staff_v23";
 const MAX_STAFF = 5;
 const DEFAULT_INST = 6;
 const DELIVERY_THRESHOLD = 80000000;
 
-/* قاعدة بيانات IndexedDB لتخزين ملفات الـ SVG الكبيرة بسلاسة لمرة واحدة */
+/* قاعدة بيانات IndexedDB لتخزين ملفات الـ SVG الكبيرة بسلاسة */
 const DB_NAME = "HalamMasterPlanDB";
 const STORE_NAME = "svgStore";
 
@@ -406,6 +409,39 @@ async function loadSvgFromDB() {
   } catch (e) { return ""; }
 }
 
+/* دالة جلب ملف plan.svg تلقائياً من مستودع GitHub */
+async function fetchSvgFromRepo(forceRefresh = false) {
+  const infoEl = document.getElementById("planMatchStatus");
+  if (infoEl) infoEl.textContent = "جاري جلب المخطط (plan.svg) من المستودع...";
+
+  try {
+    const url = forceRefresh ? `${DEFAULT_SVG_FILE}?t=${Date.now()}` : DEFAULT_SVG_FILE;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("لم يتم العثور على ملف plan.svg في المستودع");
+
+    const svgText = await response.text();
+    if (svgText && svgText.includes("<svg")) {
+      rawSvgContent = svgText;
+      await saveSvgToDB(rawSvgContent);
+      renderSvgMasterPlan();
+      if (forceRefresh) toast("تم تحديث المخطط من المستودع بنجاح");
+      return true;
+    }
+  } catch (err) {
+    console.warn("تنبيه جلب plan.svg:", err.message);
+    if (infoEl) infoEl.textContent = "بانتظار رفع ملف plan.svg إلى المستودع أو رفعه يدوياً";
+    const stage = document.getElementById("svgStage");
+    if (stage && !rawSvgContent) {
+      stage.innerHTML = `
+        <div style="text-align:center; padding:40px; color:var(--text-muted);">
+          <p style="font-size:16px; font-weight:600; margin-bottom:8px;">لم يتم العثور على ملف (plan.svg) جاهز بعد</p>
+          <p style="font-size:13px;">تأكد من رفع الملف بصيغة <b>SVG</b> وباسم <b>plan.svg</b> في مستودع GitHub، أو اضغط على <b>"📁 رفع ملف تصميم بديل (SVG)"</b>.</p>
+        </div>`;
+    }
+  }
+  return false;
+}
+
 function load(key, fallback) {
   try {
     const v = localStorage.getItem(key);
@@ -433,7 +469,7 @@ const state = {
   panY: 0
 };
 let draft = null;
-const svgUnitMap = new Map(); // ربط كود الوحدة بعناصرها الحقيقية داخل الـ SVG
+const svgUnitMap = new Map();
 
 function save() {
   try {
@@ -578,7 +614,7 @@ function importBackup(e) {
   reader.readAsText(file);
 }
 
-/* معالجة رفع ملف الـ SVG الأصلي وتفعيله وحفظه */
+/* معالجة رفع ملف الـ SVG البديل يدوياً وتفعيله وحفظه */
 function handlePlanSvgUpload(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -602,25 +638,22 @@ async function clearPlanSvg() {
   document.getElementById("svgStage").innerHTML = `
     <div style="text-align:center; padding:40px; color:var(--text-muted);">
       <p style="font-size:16px; font-weight:600; margin-bottom:8px;">تمت إزالة المخطط الهندسي</p>
-      <p style="font-size:13px;">اضغط على زر <b>"📁 رفع ملف التصميم (SVG)"</b> لإدراج تصميم جديد.</p>
+      <p style="font-size:13px;">اضغط على <b>"🔄 تحديث من المستودع"</b> لإعادة جلب plan.svg أو ارفع ملفاً بديلاً.</p>
     </div>`;
-  toast("تمت إزالة المخطط من النظام");
+  toast("تمت إزالة المخطط من ذاكرة المتصفح");
 }
 
 function renderSvgMasterPlan() {
   const stage = document.getElementById("svgStage");
-  if (!stage) return;
-
-  if (!rawSvgContent) return;
+  if (!stage || !rawSvgContent) return;
 
   stage.innerHTML = rawSvgContent;
   const svgEl = stage.querySelector("svg");
   if (!svgEl) {
-    toast("الملف المرفوع لا يحتوي على وسم SVG صالح");
+    toast("الملف لا يحتوي على وسم SVG صالح");
     return;
   }
 
-  // إزالة الأبعاد الثابتة إن وجدت لضمان استجابة المخطط للتكبير والدوران بسلاسة
   if (!svgEl.getAttribute("viewBox") && svgEl.getAttribute("width") && svgEl.getAttribute("height")) {
     const w = parseFloat(svgEl.getAttribute("width"));
     const h = parseFloat(svgEl.getAttribute("height"));
@@ -642,24 +675,20 @@ function bindSvgInteractiveUnits() {
   svgUnitMap.clear();
   let matchedCount = 0;
 
-  // جمع كافة العناصر ذات المعرفات (IDs) داخل الـ SVG
   const allIdElements = Array.from(svgEl.querySelectorAll("[id]"));
 
   units.forEach(u => {
     const codeUpper = u.code.toUpperCase();
-    // استخراج الرقم الصافي أيضاً (مثلاً B-001 -> 001 و 1) للمطابقة المرنة
     const numOnly = codeUpper.replace(/[^0-9]/g, "");
     const numNoZero = numOnly ? String(parseInt(numOnly, 10)) : "";
 
     let targetEl = null;
 
-    // 1. مطابقة مباشرة بالـ ID الكامل (مثل B-001 أو B_001)
     targetEl = allIdElements.find(el => {
       const id = el.id.toUpperCase().replace(/_/g, "-");
       return id === codeUpper || id === "UNIT-" + codeUpper || id === "PLOT-" + codeUpper;
     });
 
-    // 2. مطابقة بالرقم فقط إذا لم يطابق الكود الكامل
     if (!targetEl && numOnly) {
       targetEl = allIdElements.find(el => {
         const id = el.id.toUpperCase();
@@ -672,7 +701,6 @@ function bindSvgInteractiveUnits() {
       svgUnitMap.set(u.code, targetEl);
       targetEl.classList.add("svg-unit-interactive");
       
-      // إضافة تلميح عند تمرير الماوس يظهر تفاصيل الوحدة والزون ونسبة الإنجاز
       let titleTag = targetEl.querySelector("title");
       if (!titleTag) {
         titleTag = document.createElementNS("http://www.w3.org/2000/svg", "title");
@@ -680,7 +708,6 @@ function bindSvgInteractiveUnits() {
       }
       titleTag.textContent = `الوحدة: ${u.code} | ${u.zone} | الحالة: ${STATUS[u.status].label} | الإنجاز: ${u.completion}%`;
 
-      // تفعيل النقر المباشر على شكل الوحدة نفسه
       targetEl.onclick = (e) => {
         e.stopPropagation();
         select(u.code);
@@ -689,11 +716,9 @@ function bindSvgInteractiveUnits() {
     }
   });
 
-  // إذا لم تكن الوحدات مسماة بـ IDs داخل الـ SVG، نتيح النقر على أي شكل هندسي (path/polygon/rect) وتعيينه
   if (matchedCount === 0) {
     const shapes = svgEl.querySelectorAll("path, polygon, rect, circle");
     shapes.forEach((shape, idx) => {
-      // تجاهل الخلفيات الكبيرة جداً
       const bbox = shape.getBBox ? shape.getBBox() : null;
       if (bbox && bbox.width > 0 && bbox.height > 0 && idx < units.length) {
         const u = units[idx];
@@ -710,7 +735,7 @@ function bindSvgInteractiveUnits() {
 
   const infoEl = document.getElementById("planMatchStatus");
   if (infoEl) {
-    infoEl.textContent = `تم ربط ${matchedCount} وحدة تفاعلية على المخطط`;
+    infoEl.textContent = `تم تفعيل ${matchedCount} وحدة تفاعلية على المخطط`;
   }
 
   updatePlanColors();
@@ -731,7 +756,6 @@ function updatePlanColors() {
       el.classList.add("svg-unit-selected");
     }
 
-    // تحديث التلميح عند تغيير البيانات
     const titleTag = el.querySelector("title");
     if (titleTag) {
       titleTag.textContent = `الوحدة: ${u.code} | ${u.zone} | الحالة: ${STATUS[u.status].label} | الإنجاز: ${u.completion}%`;
@@ -1332,6 +1356,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   /* أحداث التحكم بالمخطط الهندسي SVG */
+  const reloadRepoSvgBtn = document.getElementById("reloadRepoSvgBtn");
+  if (reloadRepoSvgBtn) reloadRepoSvgBtn.onclick = () => fetchSvgFromRepo(true);
+
   const planSvgUpload = document.getElementById("planSvgUpload");
   if (planSvgUpload) planSvgUpload.onchange = handlePlanSvgUpload;
 
@@ -1403,10 +1430,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   save();
   refreshAll();
 
-  // استرجاع ملف الـ SVG المخزن سابقاً إن وجد
+  // استرجاع المخطط من ذاكرة المتصفح أولاً أو جلبه تلقائياً من plan.svg في مستودع GitHub
   rawSvgContent = await loadSvgFromDB();
   if (rawSvgContent) {
     renderSvgMasterPlan();
+  } else {
+    await fetchSvgFromRepo(false);
   }
 
   if (units.length > 0) {
