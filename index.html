@@ -20,7 +20,6 @@
     .text-olive-dark { color: var(--olive-dark); }
     .border-olive { border-color: var(--sand-border); }
 
-    /* حركة الوميض المستمر لطلبات البيع المعلقة على المخطط */
     @keyframes blinkPin {
       0%, 100% {
         background-color: #ea580c;
@@ -42,7 +41,6 @@
       z-index: 35 !important;
     }
 
-    /* حركة الوميض المستمر لطلبات البيع في مصفوفة المربعات */
     @keyframes blinkMatrixCard {
       0%, 100% {
         background-color: #ffedd5;
@@ -65,7 +63,7 @@
       #printableArea {
         position: fixed !important;
         top: 0; right: 0; left: 0;
-        width: 100%; background: white; padding: 24px;
+        width: 100%; background: white; padding: 20px;
         box-shadow: none !important; border: none !important;
       }
       .no-print { display: none !important; }
@@ -120,7 +118,7 @@
   </div>
 
   <!-- ========================================================= -->
-  <!-- الواجهة الرئيسية للنظام (تظهر بعد تسجيل الدخول) -->
+  <!-- الواجهة الرئيسية للنظام -->
   <!-- ========================================================= -->
   <div id="appShell" class="hidden">
 
@@ -143,7 +141,6 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-1.5">
-          <!-- زر إشعارات طلبات البيع المعلقة (للمدير والمدقق) -->
           <button id="pendingNotifBtn" type="button" onclick="openPendingModal()" class="hidden bg-amber-500 hover:bg-amber-600 text-slate-950 px-3 py-1.5 rounded-lg text-xs font-black shadow transition">
             🔔 طلبات بيع معلقة (<span id="pendingNotifCount">0</span>)
           </button>
@@ -160,7 +157,7 @@
         </div>
       </div>
 
-      <!-- شريط التبويبات الرئيسي -->
+      <!-- شريط التبويبات -->
       <nav class="bg-[#2c3317] border-t border-[#4e592b]">
         <div class="max-w-7xl mx-auto px-4 flex flex-wrap gap-1 py-1.5 text-xs font-extrabold">
           <button type="button" onclick="switchTab('mapTab')" id="tabBtn_mapTab" class="px-4 py-2 rounded-lg transition bg-[#f6f2ea] text-olive-dark">
@@ -183,7 +180,7 @@
 
     <main class="max-w-7xl mx-auto px-4 py-5 space-y-6">
 
-      <!-- شريط إشعارات طلبات البيع المعلقة (يظهر للمدير والمدقق عند وجود طلبات) -->
+      <!-- شريط إشعارات طلبات البيع المعلقة -->
       <section id="pendingBannerSection" class="hidden bg-gradient-to-l from-amber-100 to-orange-100 border-2 border-orange-500 rounded-2xl p-4 shadow-md space-y-3">
         <div class="flex flex-wrap justify-between items-center gap-2">
           <div class="flex items-center gap-2">
@@ -204,8 +201,8 @@
       <!-- ========================================================= -->
       <div id="tab_mapTab" class="space-y-6">
 
-        <!-- لوحة المؤشرات السريعة -->
-        <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-3">
+        <!-- المؤشرات السريعة -->
+        <section class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
           <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-[#38401e]">
             <div class="text-[11px] text-gray-500 font-bold">إجمالي الوحدات</div>
             <div id="kpiTotal" class="text-xl font-black text-olive-dark mt-0.5">0</div>
@@ -226,6 +223,7 @@
           <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-rose-600">
             <div class="text-[11px] text-gray-500 font-bold">🔴 مباعة ومعتمدة</div>
             <div id="kpiSold" class="text-xl font-black text-rose-700 mt-0.5">0</div>
+            <div id="kpiSoldPct" class="text-[10px] text-rose-700 font-bold">نسبة البيع: 0%</div>
           </div>
           <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-blue-700">
             <div class="text-[11px] text-gray-500 font-bold">قيمة العقود المعتمدة</div>
@@ -234,10 +232,11 @@
           <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-teal-700">
             <div class="text-[11px] text-gray-500 font-bold">المقبوضات الفعلية</div>
             <div id="kpiCollected" class="text-sm font-black text-teal-800 mt-1">0 د.ع</div>
+            <div id="kpiCollectPct" class="text-[10px] text-teal-700 font-bold">تحصيل: 0%</div>
           </div>
         </section>
 
-        <!-- أزرار التحكم بعرض المخطط والمصفوفة -->
+        <!-- أزرار التحكم بالعرض -->
         <section class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-xl shadow-sm border border-olive">
           <div class="flex flex-wrap gap-2">
             <button type="button" onclick="setMainView('both')" id="viewBtnBoth" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition bg-olive-dark text-white">
@@ -351,11 +350,22 @@
         <div class="bg-white rounded-2xl shadow-sm border border-olive p-5 flex flex-wrap justify-between items-center gap-3">
           <div>
             <h2 class="text-lg font-black text-olive-dark">📊 القسم المالي والإحصائيات المحاسبية الشاملة</h2>
-            <p class="text-xs text-gray-500">تحليل التدفقات النقدية، الذمم، الأقساط المتأخرة، والمبيعات حسب النماذج والزونات (بالدينار العراقي)</p>
+            <p class="text-xs text-gray-500">تحليل التدفقات النقدية، توقعات السيولة، الأقساط المتأخرة، دليل المشترين، وتصدير ملفات Excel</p>
           </div>
-          <button type="button" onclick="printFinancialReport()" class="bg-olive-dark hover:bg-olive-mid text-white px-4 py-2 rounded-xl text-xs font-black shadow">
-            🖨️ طباعة التقرير المالي الشامل
-          </button>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="exportUnitsCSV()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-2 rounded-xl text-xs font-bold shadow">
+              📥 Excel الوحدات والمبيعات
+            </button>
+            <button type="button" onclick="exportOverdueCSV()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow">
+              📥 Excel الأقساط المستحقة
+            </button>
+            <button type="button" onclick="exportPaymentsCSV()" class="bg-blue-700 hover:bg-blue-800 text-white px-3 py-2 rounded-xl text-xs font-bold shadow">
+              📥 Excel سجل المقبوضات
+            </button>
+            <button type="button" onclick="printFinancialReport()" class="bg-olive-dark hover:bg-olive-mid text-white px-4 py-2 rounded-xl text-xs font-black shadow">
+              🖨️ طباعة التقرير المالي
+            </button>
+          </div>
         </div>
         <div id="accountingContent" class="space-y-6"></div>
       </div>
@@ -374,7 +384,7 @@
         <div class="bg-white rounded-2xl shadow-sm border border-olive p-5 flex flex-wrap justify-between items-center gap-3">
           <div>
             <h2 class="text-lg font-black text-olive-dark">📜 سجل الرقابة والتدقيق وإدارة النسخ الاحتياطي</h2>
-            <p class="text-xs text-gray-500">تسجيل آلي لجميع عمليات البيع، التعديل، التسديد، الموافقات، وإدارة الحسابات</p>
+            <p class="text-xs text-gray-500">تسجيل آلي لجميع عمليات البيع، تعديل بيانات المشترين، تغيير مراحل البناء، والموافقات</p>
           </div>
           <div class="flex flex-wrap gap-2">
             <button type="button" onclick="exportBackup()" class="bg-emerald-700 hover:bg-emerald-600 text-white px-3.5 py-2 rounded-lg text-xs font-bold">⬇️ تصدير نسخة احتياطية</button>
@@ -400,7 +410,7 @@
   <!-- تلميح المخطط -->
   <div id="mapTooltip" class="fixed z-50 hidden pointer-events-none bg-slate-900/95 text-white text-xs rounded-xl px-3 py-2 shadow-xl border border-[#8fa058] max-w-xs"></div>
 
-  <!-- نافذة مراجعة طلبات البيع المعلقة (للمدير والمدقق) -->
+  <!-- نافذة مراجعة طلبات البيع المعلقة -->
   <div id="pendingModal" class="fixed inset-0 bg-black/60 z-40 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[88vh] flex flex-col border border-olive">
       <div class="bg-orange-700 text-white px-6 py-4 flex justify-between items-center rounded-t-2xl">
@@ -460,14 +470,7 @@
         </div>
         <div>
           <label class="block text-xs font-bold text-gray-700 mb-1">مرحلة البناء الحالية</label>
-          <select name="stage" class="w-full border rounded-lg px-3 py-2 text-sm bg-white">
-            <option value="أعمال الأساسات">أعمال الأساسات</option>
-            <option value="الهيكل الخرساني">الهيكل الخرساني</option>
-            <option value="أعمال البناء والتأسيسات">أعمال البناء والتأسيسات</option>
-            <option value="التغليف والإنهاءات">التغليف والإنهاءات</option>
-            <option value="تشطيبات نهائية">تشطيبات نهائية</option>
-            <option value="جاهز للتسليم والسكن">جاهز للتسليم والسكن</option>
-          </select>
+          <select id="bulkStageSelect" name="stage" class="w-full border rounded-lg px-3 py-2 text-sm bg-white"></select>
         </div>
         <button type="submit" class="w-full bg-olive-mid hover:bg-olive-dark text-white font-bold py-2.5 rounded-lg text-sm">
           تطبيق التحديث على كافة وحدات الزون
@@ -501,6 +504,15 @@
     const STATE_KEY = 'main_data';
     const SESSION_KEY = 'dream_logged_user_id';
 
+    const CONSTRUCTION_STAGES = [
+      'أعمال الأساسات',
+      'الهيكل الخرساني',
+      'أعمال البناء والتأسيسات',
+      'التغليف والإنهاءات',
+      'تشطيبات نهائية',
+      'جاهز للتسليم والسكن'
+    ];
+
     let state = null;
     let currentUser = null;
     let currentTab = 'mapTab';
@@ -508,6 +520,8 @@
     let isMappingMode = false;
     let mapZoom = 1;
     let searchTimer = null;
+    let accInstFilter = 'overdue'; // overdue | this_month | next_month
+    let buyerSearchQuery = '';
 
     // ==========================================
     // 1. التخزين المحلي الآمن
@@ -576,8 +590,8 @@
              pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
     }
 
-    function localTodayStr() {
-      var d = new Date();
+    function localTodayStr(addDays) {
+      var d = new Date(Date.now() + (addDays || 0) * 86400 * 1000);
       return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
     }
 
@@ -605,11 +619,15 @@
       return 'موظف مبيعات';
     }
 
+    function isManagementUser() {
+      return currentUser && (currentUser.role === 'admin' || currentUser.role === 'auditor');
+    }
+
     function addAuditLog(action, details, categoryType) {
       state.audit_logs.unshift({
         id: state.seq.audit++,
         action: action,
-        category_type: categoryType || 'general', // sale_submit, sale_approve, sale_reject, reserve, payment, unit_edit, user_mgmt
+        category_type: categoryType || 'general',
         details: details,
         actor_id: currentUser ? currentUser.id : 0,
         actor_name: currentUser ? currentUser.full_name : 'النظام',
@@ -635,8 +653,16 @@
       return 'bg-slate-400';
     }
 
+    function buildStageOptionsHtml(currentStage) {
+      var list = CONSTRUCTION_STAGES.slice();
+      if (currentStage && list.indexOf(currentStage) === -1) list.unshift(currentStage);
+      return list.map(function(st) {
+        return '<option value="' + escapeHtml(st) + '"' + (st === currentStage ? ' selected' : '') + '>' + escapeHtml(st) + '</option>';
+      }).join('');
+    }
+
     // ==========================================
-    // 3. بيانات المخطط والوحدات والمستخدمين الافتراضيين
+    // 3. بيانات المخطط والوحدات والمستخدمين
     // ==========================================
     const DEFAULT_CATEGORIES = {
       'A3': { label: 'دار سكنية A3', area: 200, built: 185, price: 210000000 },
@@ -743,7 +769,7 @@
             completion_pct: z.pct,
             stage: z.stage,
             notes: 'ضمن مخطط ' + z.id + ' - نموذج ' + cat,
-            status: 'available', // available, reserved, pending_approval, sold
+            status: 'available',
             x: x,
             y: y
           });
@@ -843,7 +869,7 @@
       document.getElementById('appShell').classList.remove('hidden');
       document.getElementById('userHeaderBadge').textContent = '👤 ' + currentUser.full_name + ' • الصلاحية: ' + roleLabel(currentUser.role);
 
-      var isMgmt = (currentUser.role === 'admin' || currentUser.role === 'auditor');
+      var isMgmt = isManagementUser();
       document.getElementById('btnCatSettings').classList.toggle('hidden', !isMgmt);
       document.getElementById('btnBulkProgress').classList.toggle('hidden', !isMgmt);
       document.getElementById('mappingBtn').classList.toggle('hidden', !isMgmt);
@@ -851,6 +877,7 @@
       document.getElementById('tabBtn_staffTab').classList.toggle('hidden', !isMgmt);
       document.getElementById('tabBtn_auditTab').classList.toggle('hidden', !isMgmt);
 
+      document.getElementById('bulkStageSelect').innerHTML = buildStageOptionsHtml(CONSTRUCTION_STAGES[3]);
       switchTab('mapTab');
       renderFallbackZoneBoxes();
       populateZoneSelects();
@@ -881,7 +908,7 @@
     // ==========================================
     function updatePendingNotifications() {
       var pendingContracts = state.contracts.filter(function(c) { return c.status === 'pending_approval'; });
-      var isMgmt = currentUser && (currentUser.role === 'admin' || currentUser.role === 'auditor');
+      var isMgmt = isManagementUser();
       var btn = document.getElementById('pendingNotifBtn');
       var banner = document.getElementById('pendingBannerSection');
 
@@ -907,11 +934,15 @@
         body.innerHTML = pendingContracts.map(function(c) {
           var u = state.units.find(function(x) { return x.id === c.unit_id; });
           var b = state.buyers.find(function(x) { return x.id === c.buyer_id; });
+          var discountAlert = c.discount > 0
+            ? '<span class="bg-rose-100 text-rose-800 border border-rose-300 px-2 py-0.5 rounded font-black">⚠️ طلب خصم: ' + fmtMoney(c.discount) + '</span>'
+            : 'بدون خصم';
+
           return '<div class="bg-orange-50 border-2 border-orange-400 rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">' +
             '<div class="space-y-1 text-xs">' +
               '<div class="font-black text-base text-orange-950">🏠 الوحدة ' + escapeHtml(u ? u.code : '') + ' (زون ' + escapeHtml(u ? u.zone : '') + ') — <span class="text-emerald-800">' + fmtMoney(c.final_price) + '</span></div>' +
               '<div><b>المشتري:</b> ' + escapeHtml(b ? b.full_name : '') + ' | 📞 ' + escapeHtml(b ? b.phone : '') + ' | البطاقة: ' + escapeHtml(b ? b.national_id : '') + '</div>' +
-              '<div><b>التفاصيل المالية:</b> المقدمة ' + fmtMoney(c.down_payment) + ' | الخصم ' + fmtMoney(c.discount) + ' | الأقساط ' + c.months + ' شهر</div>' +
+              '<div><b>التفاصيل المالية:</b> المقدمة ' + fmtMoney(c.down_payment) + ' | ' + discountAlert + ' | الأقساط ' + c.months + ' شهر</div>' +
               '<div class="text-orange-800 font-bold">👤 مقدم الطلب: ' + escapeHtml(c.submitted_by_name || 'موظف مبيعات') + ' • بتاريخ: <span dir="ltr">' + c.created_at + '</span></div>' +
             '</div>' +
             '<div class="flex gap-2">' +
@@ -925,7 +956,7 @@
     }
 
     async function approvePendingSale(contractId) {
-      if (!currentUser || currentUser.role === 'sales') return alert('هذه الصلاحية لمدير النظام أو المدقق فقط!');
+      if (!isManagementUser()) return alert('هذه الصلاحية لمدير النظام أو المدقق فقط!');
       var contract = state.contracts.find(function(c) { return c.id === contractId && c.status === 'pending_approval'; });
       if (!contract) return;
       var u = state.units.find(function(x) { return x.id === contract.unit_id; });
@@ -984,8 +1015,8 @@
     }
 
     async function rejectPendingSale(contractId) {
-      if (!currentUser || currentUser.role === 'sales') return alert('هذه الصلاحية لمدير النظام أو المدقق فقط!');
-      var reason = prompt('اذكر سبب رفض طلب البيع (اختياري):', 'عدم مطابقة شروط الدفعة');
+      if (!isManagementUser()) return alert('هذه الصلاحية لمدير النظام أو المدقق فقط!');
+      var reason = prompt('اذكر سبب رفض طلب البيع (اختياري):', 'عدم مطابقة شروط الدفعة أو السعر');
       if (reason === null) return;
 
       var contract = state.contracts.find(function(c) { return c.id === contractId && c.status === 'pending_approval'; });
@@ -1033,11 +1064,13 @@
       var pending = state.units.filter(function(u) { return u.status === 'pending_approval'; }).length;
       var sold = state.units.filter(function(u) { return u.status === 'sold'; }).length;
       var avgPct = total > 0 ? Math.round(state.units.reduce(function(s, u) { return s + (u.completion_pct || 0); }, 0) / total) : 0;
+      var soldPct = total > 0 ? Math.round((sold / total) * 100) : 0;
 
       var activeContracts = state.contracts.filter(function(c) { return c.status === 'active'; });
       var activeIds = new Set(activeContracts.map(function(c) { return c.id; }));
       var totalSalesVal = roundIQD(activeContracts.reduce(function(s, c) { return s + c.final_price; }, 0));
       var totalCollected = roundIQD(state.payments.filter(function(p) { return p.payment_type !== 'transfer_fee' && activeIds.has(p.contract_id); }).reduce(function(s, p) { return s + p.amount; }, 0));
+      var collectPct = totalSalesVal > 0 ? Math.round((totalCollected / totalSalesVal) * 100) : 0;
 
       document.getElementById('kpiTotal').textContent = total;
       document.getElementById('kpiAvgProgress').textContent = 'إنجاز: ' + avgPct + '%';
@@ -1045,8 +1078,10 @@
       document.getElementById('kpiReserved').textContent = reserved;
       document.getElementById('kpiPending').textContent = pending;
       document.getElementById('kpiSold').textContent = sold;
+      document.getElementById('kpiSoldPct').textContent = 'نسبة البيع: ' + soldPct + '%';
       document.getElementById('kpiSalesVal').textContent = fmtMoney(totalSalesVal);
       document.getElementById('kpiCollected').textContent = fmtMoney(totalCollected);
+      document.getElementById('kpiCollectPct').textContent = 'تحصيل: ' + collectPct + '%';
     }
 
     function setMapZoom(z) {
@@ -1065,6 +1100,7 @@
     }
 
     function toggleMappingMode() {
+      if (!isManagementUser()) return;
       isMappingMode = !isMappingMode;
       var toolbar = document.getElementById('mappingToolbar');
       var btn = document.getElementById('mappingBtn');
@@ -1301,8 +1337,28 @@
     }
 
     // ==========================================
-    // 7. بطاقة الوحدة والمشتري
+    // 7. بطاقة الوحدة والمشتري (مع تعديل بيانات المشتري وحماية السعر)
     // ==========================================
+    function buildBuyerEditFormHtml(buyer, contract, unitId) {
+      return `
+        <form id="editBuyerForm" onsubmit="submitEditBuyer(event, ${buyer.id}, ${contract.id}, ${unitId})" class="hidden bg-white p-4 rounded-xl border-2 border-[#6d7a40] space-y-3 mt-3">
+          <div class="flex justify-between items-center border-b pb-1.5">
+            <span class="font-black text-xs text-olive-dark">✏️ تعديل بيانات المشتري والعقد (يُسجل التعديل في سجل الرقابة)</span>
+          </div>
+          <div class="grid sm:grid-cols-3 gap-2 text-xs">
+            <div><label class="block text-gray-600 mb-0.5">الاسم الكامل للمشتري *</label><input required name="full_name" value="${escapeHtml(buyer.full_name)}" class="w-full border rounded px-2.5 py-1.5" /></div>
+            <div><label class="block text-gray-600 mb-0.5">الهاتف الأساسي *</label><input required name="phone" value="${escapeHtml(buyer.phone)}" class="w-full border rounded px-2.5 py-1.5" /></div>
+            <div><label class="block text-gray-600 mb-0.5">هاتف بديل</label><input name="alt_phone" value="${escapeHtml(buyer.alt_phone || '')}" class="w-full border rounded px-2.5 py-1.5" /></div>
+            <div><label class="block text-gray-600 mb-0.5">رقم البطاقة الوطنية *</label><input required name="national_id" value="${escapeHtml(buyer.national_id)}" class="w-full border rounded px-2.5 py-1.5" /></div>
+            <div><label class="block text-gray-600 mb-0.5">رقم بطاقة السكن</label><input name="residence_card" value="${escapeHtml(buyer.residence_card || '')}" class="w-full border rounded px-2.5 py-1.5" /></div>
+            <div><label class="block text-gray-600 mb-0.5">عنوان السكن</label><input name="address" value="${escapeHtml(buyer.address || '')}" class="w-full border rounded px-2.5 py-1.5" /></div>
+            <div class="sm:col-span-3"><label class="block text-gray-600 mb-0.5">ملاحظات العقد</label><input name="contract_notes" value="${escapeHtml(contract.contract_notes || '')}" class="w-full border rounded px-2.5 py-1.5" /></div>
+          </div>
+          <button type="submit" class="bg-olive-dark hover:bg-olive-mid text-white px-4 py-1.5 rounded-lg text-xs font-bold">💾 حفظ بيانات المشتري</button>
+        </form>
+      `;
+    }
+
     function openUnitModal(unitId) {
       if (expireOldHolds()) { saveStorage(); refreshAll(); }
 
@@ -1310,7 +1366,7 @@
       if (!u) return;
       var c = state.contracts.find(function(x) { return x.unit_id === unitId && (x.status === 'hold' || x.status === 'pending_approval' || x.status === 'active'); });
       var buyer = c ? state.buyers.find(function(b) { return b.id === c.buyer_id; }) : null;
-      var isMgmt = currentUser && (currentUser.role === 'admin' || currentUser.role === 'auditor');
+      var isMgmt = isManagementUser();
 
       document.getElementById('modalTitle').textContent = 'بطاقة الوحدة السكنية: ' + u.code + ' (زون ' + u.zone + ')';
       document.getElementById('modalSubtitle').textContent = u.unit_type + ' | المساحة ' + u.area_sqm + ' م² | الإنجاز ' + u.completion_pct + '%';
@@ -1327,8 +1383,8 @@
         <div class="bg-[#faf8f4] border border-olive rounded-xl p-4 space-y-3">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-olive pb-2">
             <h3 class="font-extrabold text-olive-dark text-sm">📋 بطاقة بيانات الوحدة ونسبة الإنجاز</h3>
-            <div class="flex items-center gap-2">
-              <button type="button" onclick="printUnitCard(${u.id})" class="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1 rounded-lg text-xs font-bold">🖨️ طباعة بطاقة الوحدة</button>
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" onclick="printUnitCard(${u.id})" class="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1 rounded-lg text-xs font-bold">🖨️ طباعة البطاقة</button>
               <button type="button" onclick="document.getElementById('editUnitForm').classList.toggle('hidden')" class="bg-olive-mid hover:bg-olive-dark text-white px-3 py-1 rounded-lg text-xs font-bold">✏️ تعديل بيانات الوحدة</button>
             </div>
           </div>
@@ -1352,16 +1408,28 @@
             </div>
             ${u.notes ? '<div class="text-[11px] text-gray-600 mt-2">📝 <b>ملاحظات:</b> ' + escapeHtml(u.notes) + '</div>' : ''}
           </div>
+
           <form id="editUnitForm" onsubmit="submitEditUnit(event, ${u.id})" class="hidden bg-white p-4 rounded-xl border-2 border-[#6d7a40] space-y-3">
-            <div class="font-bold text-xs text-olive-dark">تعديل بيانات الوحدة (سيُسجل التعديل باسمك في سجل الرقابة):</div>
+            <div class="flex flex-wrap justify-between items-center gap-2">
+              <span class="font-bold text-xs text-olive-dark">تعديل بيانات الوحدة (يُسجل في سجل الرقابة):</span>
+              ${!isMgmt ? '<span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-bold">🔒 تعديل السعر الأساسي محصور بمدير النظام والمدقق فقط</span>' : ''}
+            </div>
             <div class="grid sm:grid-cols-4 gap-2 text-xs">
-              <div><label class="block text-gray-600 mb-0.5">رقم/رمز الوحدة</label><input type="text" name="code" value="${escapeHtml(u.code)}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
-              <div><label class="block text-gray-600 mb-0.5">السعر (د.ع)</label><input type="number" step="1000" name="price" value="${u.price}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
-              <div><label class="block text-gray-600 mb-0.5">المساحة الكلية (م²)</label><input type="number" step="0.5" name="area_sqm" value="${u.area_sqm}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
-              <div><label class="block text-gray-600 mb-0.5">نسبة الإنجاز (%)</label><input type="number" min="0" max="100" name="completion_pct" value="${pct}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
-              <div><label class="block text-gray-600 mb-0.5">مساحة البناء (م²)</label><input type="number" step="0.5" name="built_area" value="${u.built_area || u.area_sqm}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
+              <div><label class="block text-gray-600 mb-0.5">رقم/رمز الوحدة</label><input type="text" name="code" value="${escapeHtml(u.code)}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100 text-gray-500'}" /></div>
+              <div>
+                <label class="block text-gray-600 mb-0.5">السعر (د.ع) ${isMgmt ? '' : '🔒'}</label>
+                <input type="number" step="1000" name="price" value="${u.price}" ${isMgmt ? '' : 'disabled'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100 text-gray-500 cursor-not-allowed'}" />
+              </div>
+              <div><label class="block text-gray-600 mb-0.5">المساحة الكلية (م²)</label><input type="number" step="0.5" name="area_sqm" value="${u.area_sqm}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100 text-gray-500'}" /></div>
+              <div><label class="block text-gray-600 mb-0.5">نسبة الإنجاز (%)</label><input type="number" min="0" max="100" name="completion_pct" value="${pct}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100 text-gray-500'}" /></div>
+              <div><label class="block text-gray-600 mb-0.5">مساحة البناء (م²)</label><input type="number" step="0.5" name="built_area" value="${u.built_area || u.area_sqm}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100 text-gray-500'}" /></div>
               <div><label class="block text-gray-600 mb-0.5">الواجهة / الإطلالة</label><input type="text" name="direction" value="${escapeHtml(u.direction)}" required class="w-full border rounded px-2 py-1.5" /></div>
-              <div class="sm:col-span-2"><label class="block text-gray-600 mb-0.5">مرحلة البناء</label><input type="text" name="stage" value="${escapeHtml(u.stage)}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
+              <div class="sm:col-span-2">
+                <label class="block text-gray-600 mb-0.5">مرحلة البناء (قائمة)</label>
+                <select name="stage" required class="w-full border rounded px-2 py-1.5 bg-white font-semibold">
+                  ${buildStageOptionsHtml(u.stage)}
+                </select>
+              </div>
               <div class="sm:col-span-4"><label class="block text-gray-600 mb-0.5">ملاحظات الوحدة</label><input type="text" name="notes" value="${escapeHtml(u.notes || '')}" class="w-full border rounded px-2 py-1.5" /></div>
             </div>
             <button type="submit" class="bg-olive-dark hover:bg-olive-mid text-white px-4 py-1.5 rounded-lg text-xs font-bold">💾 حفظ التعديلات</button>
@@ -1372,6 +1440,7 @@
       var actionSectionHtml = '';
 
       if (u.status === 'pending_approval' && c && buyer) {
+        var discountBadge = c.discount > 0 ? '<span class="text-rose-700 font-black">(خصم مقترح: ' + fmtMoney(c.discount) + ')</span>' : '(بدون خصم)';
         actionSectionHtml = `
           <div class="bg-orange-50 border-2 border-orange-500 rounded-xl p-5 space-y-4">
             <div class="flex flex-wrap justify-between items-center gap-3 border-b border-orange-300 pb-3">
@@ -1379,21 +1448,23 @@
                 <h3 class="font-black text-orange-950 text-base">🟠 طلب بيع معلق (بانتظار موافقة مدير النظام)</h3>
                 <p class="text-xs text-orange-800">مقدم الطلب: <b>${escapeHtml(c.submitted_by_name || '')}</b> • بتاريخ <span dir="ltr">${c.created_at}</span></p>
               </div>
-              ${isMgmt ? `
-                <div class="flex gap-2">
+              <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="document.getElementById('editBuyerForm').classList.toggle('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-xl text-xs font-bold shadow">✏️ تعديل بيانات المشتري</button>
+                ${isMgmt ? `
                   <button type="button" onclick="approvePendingSale(${c.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-black shadow">✅ موافقة واعتماد البيع</button>
                   <button type="button" onclick="rejectPendingSale(${c.id})" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl text-xs font-black shadow">❌ رفض وإرجاع الوحدة</button>
-                </div>
-              ` : '<span class="bg-amber-200 text-amber-950 px-3 py-1.5 rounded-lg text-xs font-black">⏳ بانتظار موافقة مدير النظام</span>'}
+                ` : '<span class="bg-amber-200 text-amber-950 px-3 py-2 rounded-lg text-xs font-black">⏳ بانتظار موافقة مدير النظام</span>'}
+              </div>
             </div>
             <div class="grid sm:grid-cols-3 gap-3 text-xs bg-white p-3.5 rounded-xl border">
               <div><span class="text-gray-500 block">اسم المشتري:</span><b>${escapeHtml(buyer.full_name)}</b></div>
-              <div><span class="text-gray-500 block">الهاتف:</span><b dir="ltr">${escapeHtml(buyer.phone)}</b></div>
-              <div><span class="text-gray-500 block">البطاقة الوطنية:</span><b>${escapeHtml(buyer.national_id)}</b></div>
-              <div><span class="text-gray-500 block">السعر النهائي:</span><b class="text-emerald-800">${fmtMoney(c.final_price)}</b> (خصم ${fmtMoney(c.discount)})</div>
+              <div><span class="text-gray-500 block">الهاتف الأساسي / البديل:</span><b dir="ltr">${escapeHtml(buyer.phone)}</b> ${buyer.alt_phone ? ' / ' + escapeHtml(buyer.alt_phone) : ''}</div>
+              <div><span class="text-gray-500 block">البطاقة الوطنية / السكن:</span><b>${escapeHtml(buyer.national_id)}</b> ${buyer.residence_card ? ' | ' + escapeHtml(buyer.residence_card) : ''}</div>
+              <div><span class="text-gray-500 block">السعر النهائي:</span><b class="text-emerald-800">${fmtMoney(c.final_price)}</b> ${discountBadge}</div>
               <div><span class="text-gray-500 block">الدفعة المقدمة:</span><b>${fmtMoney(c.down_payment)}</b></div>
               <div><span class="text-gray-500 block">خطة الأقساط:</span><b>${c.months} شهر</b></div>
             </div>
+            ${buildBuyerEditFormHtml(buyer, c, u.id)}
           </div>
         `;
       } else if (u.status === 'available' || u.status === 'reserved') {
@@ -1475,7 +1546,10 @@
                 : (inst.status === 'partial'
                   ? '<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">جزئي</span>'
                   : '<span class="bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full font-bold">غير مدفوع</span>');
-              return '<tr class="hover:bg-slate-50"><td class="p-2 font-bold">' + inst.installment_no + '</td><td class="p-2" dir="ltr">' + inst.due_date + '</td><td class="p-2 font-semibold">' + fmtMoney(inst.amount_due) + '</td><td class="p-2 text-emerald-700">' + fmtMoney(inst.paid_amount) + '</td><td class="p-2 text-rose-700 font-bold">' + fmtMoney(rem) + '</td><td class="p-2">' + stBadge + '</td><td class="p-2">' + (rem > 0 ? '<button type="button" onclick="payInstallment(' + inst.id + ', ' + rem + ', ' + u.id + ')" class="bg-olive-mid hover:bg-olive-dark text-white px-2.5 py-1 rounded font-bold">💵 تسديد</button>' : '—') + '</td></tr>';
+              return '<tr class="hover:bg-slate-50"><td class="p-2 font-bold">' + inst.installment_no + '</td><td class="p-2" dir="ltr">' + inst.due_date + '</td><td class="p-2 font-semibold">' + fmtMoney(inst.amount_due) + '</td><td class="p-2 text-emerald-700">' + fmtMoney(inst.paid_amount) + '</td><td class="p-2 text-rose-700 font-bold">' + fmtMoney(rem) + '</td><td class="p-2">' + stBadge + '</td><td class="p-2 flex gap-1">' +
+                (rem > 0 ? '<button type="button" onclick="payInstallment(' + inst.id + ', ' + rem + ', ' + u.id + ')" class="bg-olive-mid hover:bg-olive-dark text-white px-2 py-1 rounded font-bold">💵 تسديد</button>' : '—') +
+                (rem > 0 ? '<button type="button" onclick="openWhatsAppForInstallment(' + inst.id + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded font-bold" title="إرسال تذكير واتساب">💬</button>' : '') +
+              '</td></tr>';
             }).join('');
 
         var payRowsHtml = unitPayments.length === 0
@@ -1497,7 +1571,12 @@
           <div class="bg-rose-50/40 border-2 border-rose-200 rounded-xl p-4 space-y-4">
             <div class="flex flex-wrap justify-between items-center gap-2 border-b border-rose-200 pb-2">
               <h3 class="font-black text-rose-900 text-sm">👤 بطاقة بيانات المشتري الكاملة والعقد (#${c.id})</h3>
-              ${isMgmt ? '<button type="button" onclick="document.getElementById(\'transferBox\').classList.toggle(\'hidden\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🔄 تنازل / نقل ملكية لمشترٍ جديد</button>' : ''}
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" onclick="document.getElementById('editBuyerForm').classList.toggle('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">✏️ تعديل بيانات المشتري</button>
+                <button type="button" onclick="printInstallmentSchedule(${u.id})" class="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🖨️ طباعة جدول الأقساط</button>
+                ${isMgmt ? '<button type="button" onclick="document.getElementById(\'transferBox\').classList.toggle(\'hidden\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🔄 تنازل</button>' : ''}
+                ${isMgmt ? '<button type="button" onclick="cancelSoldContract(' + c.id + ', ' + u.id + ')" class="bg-rose-700 hover:bg-rose-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🚫 فسخ العقد</button>' : ''}
+              </div>
             </div>
             <div class="grid sm:grid-cols-3 gap-4 text-xs">
               <div class="bg-white p-3 rounded-lg border space-y-1">
@@ -1521,6 +1600,7 @@
               </div>
             </div>
             ${c.contract_notes ? '<div class="text-xs bg-white p-2.5 rounded border text-gray-700">📌 <b>ملاحظات العقد:</b> ' + escapeHtml(c.contract_notes) + '</div>' : ''}
+            ${buildBuyerEditFormHtml(buyer, c, u.id)}
           </div>
 
           <form id="transferBox" onsubmit="submitTransfer(event, ${c.id}, ${u.id})" class="hidden bg-indigo-50 border border-indigo-300 p-4 rounded-xl space-y-3">
@@ -1573,7 +1653,7 @@
     function closeUnitModal() { document.getElementById('unitModal').classList.add('hidden'); }
 
     // ==========================================
-    // 8. عمليات البيع، التعديل، الأقساط، التنازل
+    // 8. عمليات التعديل والبيع والأقساط والتنازل والفسخ
     // ==========================================
     async function submitEditUnit(e, unitId) {
       e.preventDefault();
@@ -1581,7 +1661,7 @@
       var u = state.units.find(function(x) { return x.id === unitId; });
       if (!u) return;
 
-      var isMgmt = currentUser && (currentUser.role === 'admin' || currentUser.role === 'auditor');
+      var isMgmt = isManagementUser();
       if (isMgmt) {
         var pct = parseInt(form.completion_pct, 10);
         if (isNaN(pct) || pct < 0 || pct > 100) return alert('نسبة الإنجاز يجب أن تكون بين 0 و 100');
@@ -1590,15 +1670,62 @@
         u.area_sqm = Number(form.area_sqm);
         u.built_area = Number(form.built_area);
         u.completion_pct = pct;
-        u.stage = form.stage.trim();
       }
-      u.direction = form.direction.trim();
-      u.notes = form.notes.trim();
+      // مرحلة البناء والواجهة والملاحظات متاحة للتحديث
+      u.stage = (form.stage || u.stage).trim();
+      u.direction = (form.direction || u.direction).trim();
+      u.notes = (form.notes || '').trim();
 
-      addAuditLog('تعديل وحدة', 'قام (' + currentUser.full_name + ') بتعديل بيانات الوحدة ' + u.code + ' (السعر: ' + fmtMoney(u.price) + '، الإنجاز: ' + u.completion_pct + '%)', 'unit_edit');
+      addAuditLog('تعديل بيانات وحدة', 'قام (' + currentUser.full_name + ') بتحديث الوحدة ' + u.code + ' (المرحلة: ' + u.stage + '، السعر: ' + fmtMoney(u.price) + ')', 'unit_edit');
       await saveStorage();
       await refreshAll();
       openUnitModal(unitId);
+    }
+
+    async function submitEditBuyer(e, buyerId, contractId, unitId) {
+      e.preventDefault();
+      var form = Object.fromEntries(new FormData(e.target));
+      var buyer = state.buyers.find(function(b) { return b.id === buyerId; });
+      var contract = state.contracts.find(function(c) { return c.id === contractId; });
+      var u = state.units.find(function(x) { return x.id === unitId; });
+      if (!buyer || !contract) return;
+
+      var oldName = buyer.full_name;
+      buyer.full_name = form.full_name.trim();
+      buyer.phone = form.phone.trim();
+      buyer.alt_phone = (form.alt_phone || '').trim();
+      buyer.national_id = form.national_id.trim();
+      buyer.residence_card = (form.residence_card || '').trim();
+      buyer.address = (form.address || '').trim();
+      contract.contract_notes = (form.contract_notes || '').trim();
+
+      addAuditLog('تعديل بيانات مشتري', 'قام (' + currentUser.full_name + ') بتحديث بيانات المشتري للوحدة ' + (u ? u.code : '') + ' (' + oldName + ' ← ' + buyer.full_name + ' | هاتف: ' + buyer.phone + ')', 'buyer_edit');
+      await saveStorage();
+      await refreshAll();
+      openUnitModal(unitId);
+      alert('تم تحديث بيانات المشتري بنجاح!');
+    }
+
+    async function cancelSoldContract(contractId, unitId) {
+      if (!isManagementUser()) return alert('هذه الصلاحية لمدير النظام والمدقق فقط!');
+      var reason = prompt('أدخل سبب فسخ العقد وإرجاع الوحدة متاحة:', 'طلب المشتري / التعثر في السداد');
+      if (reason === null) return;
+
+      var contract = state.contracts.find(function(c) { return c.id === contractId && c.status === 'active'; });
+      var u = state.units.find(function(x) { return x.id === unitId; });
+      var b = contract ? state.buyers.find(function(x) { return x.id === contract.buyer_id; }) : null;
+      if (!contract || !u) return;
+
+      contract.status = 'cancelled';
+      contract.cancelled_at = localNowStr(0);
+      contract.cancel_reason = reason;
+      u.status = 'available';
+
+      addAuditLog('فسخ عقد بيع', 'تم فسخ عقد الوحدة ' + u.code + ' (المشتري: ' + (b ? b.full_name : '') + ') وإرجاعها متاحة. السبب: ' + reason, 'sale_reject');
+      await saveStorage();
+      await refreshAll();
+      closeUnitModal();
+      alert('تم فسخ العقد وإعادة الوحدة متاحة للبيع.');
     }
 
     async function submitReserve(e, unitId) {
@@ -1676,7 +1803,7 @@
       if (remainingAfterDown > 0 && months <= 0) return alert('يرجى تحديد عدد أشهر الأقساط للمبلغ المتبقي');
 
       var now = localNowStr(0);
-      var isMgmt = (currentUser.role === 'admin' || currentUser.role === 'auditor');
+      var isMgmt = isManagementUser();
       var contract = state.contracts.find(function(x) { return x.unit_id === unitId && x.status === 'hold'; });
       var buyer;
 
@@ -1829,6 +1956,7 @@
 
     async function submitTransfer(e, contractId, unitId) {
       e.preventDefault();
+      if (!isManagementUser()) return alert('هذه الصلاحية للإدارة فقط!');
       if (!confirm('تأكيد نقل ملكية الوحدة للمشتري الجديد؟')) return;
       var form = Object.fromEntries(new FormData(e.target));
       var contract = state.contracts.find(function(c) { return c.id === contractId; });
@@ -1884,8 +2012,31 @@
       openUnitModal(unitId);
     }
 
+    function openWhatsAppForInstallment(instId) {
+      var inst = state.installments.find(function(i) { return i.id === instId; });
+      if (!inst) return;
+      var c = state.contracts.find(function(x) { return x.id === inst.contract_id; });
+      var u = c ? state.units.find(function(x) { return x.id === c.unit_id; }) : null;
+      var b = c ? state.buyers.find(function(x) { return x.id === c.buyer_id; }) : null;
+      if (!b || !u) return;
+
+      var phone = String(b.phone || '').replace(/[\s\-\(\)]/g, '');
+      if (phone.startsWith('07')) phone = '964' + phone.slice(1);
+      else if (phone.startsWith('7')) phone = '964' + phone;
+      else if (phone.startsWith('+')) phone = phone.slice(1);
+
+      var rem = roundIQD(inst.amount_due - inst.paid_amount);
+      var msg = 'السلام عليكم أستاذ/ة ' + b.full_name + ' المحترم،\n' +
+        'تذكير ودي من إدارة مبيعات *مجمع حلم الحياة السكني* بخصوص القسط رقم (' + inst.installment_no + ') للوحدة (' + u.code + ').\n' +
+        '• تاريخ الاستحقاق: ' + inst.due_date + '\n' +
+        '• المبلغ المستحق: ' + fmtMoney(rem) + '\n' +
+        'شاكرين تعاونكم معنا.';
+
+      window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
+    }
+
     // ==========================================
-    // 9. التبويب 2: الإحصائيات والحسابات المالية الشاملة
+    // 9. التبويب 2: الإحصائيات والحسابات المالية المتقدمة
     // ==========================================
     function computeFinancialSnapshot() {
       var totalInventoryValue = roundIQD(state.units.reduce(function(s, u) { return s + u.price; }, 0));
@@ -1905,28 +2056,56 @@
       var totalCashIn = roundIQD(downPaymentsSum + installmentsSum + transferFeesSum);
       var totalReceivables = roundIQD(Math.max(0, soldContractsVal - (downPaymentsSum + installmentsSum)));
 
-      var today = localTodayStr();
-      var currentMonthPrefix = today.slice(0, 7);
-      var overdueList = state.installments.filter(function(i) {
-        return activeIds.has(i.contract_id) && i.status !== 'paid' && i.due_date < today;
-      });
-      var overdueSum = roundIQD(overdueList.reduce(function(s, i) { return s + Math.max(0, i.amount_due - i.paid_amount); }, 0));
+      var today = localTodayStr(0);
+      var d30 = localTodayStr(30);
+      var d60 = localTodayStr(60);
+      var d90 = localTodayStr(90);
+      var thisMonth = today.slice(0, 7);
+      var nextMonth = addMonths(today, 1).slice(0, 7);
 
-      var dueThisMonthSum = roundIQD(state.installments.filter(function(i) {
-        return activeIds.has(i.contract_id) && i.status !== 'paid' && i.due_date.slice(0, 7) === currentMonthPrefix;
-      }).reduce(function(s, i) { return s + Math.max(0, i.amount_due - i.paid_amount); }, 0));
+      var unpaidActive = state.installments.filter(function(i) { return activeIds.has(i.contract_id) && i.status !== 'paid'; });
+
+      var overdueList = unpaidActive.filter(function(i) { return i.due_date < today; });
+      var thisMonthList = unpaidActive.filter(function(i) { return i.due_date.slice(0, 7) === thisMonth && i.due_date >= today; });
+      var nextMonthList = unpaidActive.filter(function(i) { return i.due_date.slice(0, 7) === nextMonth; });
+
+      var sumRem = function(arr) { return roundIQD(arr.reduce(function(s, i) { return s + Math.max(0, i.amount_due - i.paid_amount); }, 0)); };
+
+      var forecast30 = sumRem(unpaidActive.filter(function(i) { return i.due_date >= today && i.due_date <= d30; }));
+      var forecast60 = sumRem(unpaidActive.filter(function(i) { return i.due_date > d30 && i.due_date <= d60; }));
+      var forecast90 = sumRem(unpaidActive.filter(function(i) { return i.due_date > d60 && i.due_date <= d90; }));
 
       return {
         totalInventoryValue: totalInventoryValue, availableValue: availableValue,
         soldContractsVal: soldContractsVal, totalDiscounts: totalDiscounts, pendingVal: pendingVal,
         downPaymentsSum: downPaymentsSum, installmentsSum: installmentsSum, transferFeesSum: transferFeesSum,
         totalCashIn: totalCashIn, totalReceivables: totalReceivables,
-        overdueList: overdueList, overdueSum: overdueSum, dueThisMonthSum: dueThisMonthSum
+        overdueList: overdueList, overdueSum: sumRem(overdueList),
+        thisMonthList: thisMonthList, dueThisMonthSum: sumRem(thisMonthList),
+        nextMonthList: nextMonthList, dueNextMonthSum: sumRem(nextMonthList),
+        forecast30: forecast30, forecast60: forecast60, forecast90: forecast90,
+        activeContracts: activeContracts
       };
+    }
+
+    function setAccInstFilter(mode) {
+      accInstFilter = mode;
+      renderAccountingTab();
+    }
+
+    function onBuyerDirSearch(val) {
+      buyerSearchQuery = val;
+      renderAccountingTab();
+      var inp = document.getElementById('buyerDirSearchInput');
+      if (inp) { inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
     }
 
     function renderAccountingTab() {
       var fin = computeFinancialSnapshot();
+      var totalUnits = state.units.length;
+      var soldCount = state.units.filter(function(u) { return u.status === 'sold'; }).length;
+      var soldRate = totalUnits > 0 ? Math.round((soldCount / totalUnits) * 100) : 0;
+      var collectionRate = fin.soldContractsVal > 0 ? Math.round(((fin.downPaymentsSum + fin.installmentsSum) / fin.soldContractsVal) * 100) : 0;
 
       // إحصائيات النماذج
       var cats = state.categories || DEFAULT_CATEGORIES;
@@ -1948,6 +2127,53 @@
         '</tr>';
       }).join('');
 
+      // جدول الأقساط حسب الفلتر المختار
+      var instListToShow = accInstFilter === 'overdue' ? fin.overdueList : (accInstFilter === 'this_month' ? fin.thisMonthList : fin.nextMonthList);
+      var instTableHtml = instListToShow.length === 0
+        ? '<tr><td colspan="6" class="p-4 text-center text-emerald-700 font-bold">لا توجد أقساط في هذه القائمة ✅</td></tr>'
+        : instListToShow.slice(0, 60).map(function(inst) {
+            var c = state.contracts.find(function(x) { return x.id === inst.contract_id; });
+            var u = c ? state.units.find(function(x) { return x.id === c.unit_id; }) : null;
+            var b = c ? state.buyers.find(function(x) { return x.id === c.buyer_id; }) : null;
+            var rem = roundIQD(inst.amount_due - inst.paid_amount);
+            return '<tr class="hover:bg-slate-50">' +
+              '<td class="p-2 font-black">' + escapeHtml(u ? u.code : '') + '</td>' +
+              '<td class="p-2 font-bold">' + escapeHtml(b ? b.full_name : '') + ' (' + escapeHtml(b ? b.phone : '') + ')</td>' +
+              '<td class="p-2">قسط #' + inst.installment_no + '</td>' +
+              '<td class="p-2 font-bold ' + (accInstFilter === 'overdue' ? 'text-rose-700' : 'text-slate-700') + '" dir="ltr">' + inst.due_date + '</td>' +
+              '<td class="p-2 font-black text-rose-800">' + fmtMoney(rem) + '</td>' +
+              '<td class="p-2 flex gap-1">' +
+                '<button type="button" onclick="openUnitModal(' + (u ? u.id : 0) + ')" class="bg-olive-dark text-white px-2 py-1 rounded text-[11px] font-bold">فتح</button>' +
+                '<button type="button" onclick="openWhatsAppForInstallment(' + inst.id + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded text-[11px] font-bold">💬 واتساب</button>' +
+              '</td>' +
+            '</tr>';
+          }).join('');
+
+      // دليل المشترين
+      var q = buyerSearchQuery.trim().toLowerCase();
+      var buyerRows = fin.activeContracts.filter(function(c) {
+        if (!q) return true;
+        var b = state.buyers.find(function(x) { return x.id === c.buyer_id; });
+        var u = state.units.find(function(x) { return x.id === c.unit_id; });
+        return (b && (b.full_name.toLowerCase().includes(q) || b.phone.toLowerCase().includes(q) || b.national_id.toLowerCase().includes(q))) ||
+               (u && u.code.toLowerCase().includes(q));
+      }).map(function(c) {
+        var b = state.buyers.find(function(x) { return x.id === c.buyer_id; });
+        var u = state.units.find(function(x) { return x.id === c.unit_id; });
+        var paid = roundIQD(state.payments.filter(function(p) { return p.contract_id === c.id && p.payment_type !== 'transfer_fee'; }).reduce(function(s, p) { return s + p.amount; }, 0));
+        var rem = roundIQD(Math.max(0, c.final_price - paid));
+        return '<tr class="hover:bg-slate-50">' +
+          '<td class="p-2 font-black text-olive-dark">' + escapeHtml(u ? u.code : '') + ' (' + escapeHtml(u ? u.zone : '') + ')</td>' +
+          '<td class="p-2 font-bold">' + escapeHtml(b ? b.full_name : '') + '</td>' +
+          '<td class="p-2" dir="ltr">' + escapeHtml(b ? b.phone : '') + '</td>' +
+          '<td class="p-2">' + escapeHtml(b ? b.national_id : '') + '</td>' +
+          '<td class="p-2 font-bold">' + fmtMoney(c.final_price) + '</td>' +
+          '<td class="p-2 text-emerald-700 font-bold">' + fmtMoney(paid) + '</td>' +
+          '<td class="p-2 text-rose-700 font-bold">' + fmtMoney(rem) + '</td>' +
+          '<td class="p-2"><button type="button" onclick="openUnitModal(' + (u ? u.id : 0) + ')" class="bg-blue-600 text-white px-2.5 py-1 rounded font-bold">بطاقة</button></td>' +
+        '</tr>';
+      }).join('');
+
       // إحصائيات الزونات
       var zoneRowsHtml = ZONES_BLUEPRINT.map(function(z) {
         var zUnits = state.units.filter(function(u) { return u.zone === z.id; });
@@ -1957,51 +2183,17 @@
         var avgPct = Math.round(zUnits.reduce(function(s, u) { return s + (u.completion_pct || 0); }, 0) / zUnits.length);
         var soldIds = new Set(soldU.map(function(u) { return u.id; }));
         var rev = roundIQD(state.contracts.filter(function(c) { return c.status === 'active' && soldIds.has(c.unit_id); }).reduce(function(s, c) { return s + c.final_price; }, 0));
-        return '<tr class="hover:bg-slate-50">' +
-          '<td class="p-2 font-black text-olive-dark">' + z.id + '</td>' +
-          '<td class="p-2">' + zUnits.length + '</td>' +
-          '<td class="p-2 text-emerald-700 font-bold">' + avail + '</td>' +
-          '<td class="p-2 text-orange-600 font-bold">' + pend + '</td>' +
-          '<td class="p-2 text-rose-700 font-bold">' + soldU.length + '</td>' +
-          '<td class="p-2 font-bold">' + avgPct + '%</td>' +
-          '<td class="p-2 font-bold text-blue-800">' + fmtMoney(rev) + '</td>' +
-        '</tr>';
+        return '<tr class="hover:bg-slate-50"><td class="p-2 font-black text-olive-dark">' + z.id + '</td><td class="p-2">' + zUnits.length + '</td><td class="p-2 text-emerald-700 font-bold">' + avail + '</td><td class="p-2 text-orange-600 font-bold">' + pend + '</td><td class="p-2 text-rose-700 font-bold">' + soldU.length + '</td><td class="p-2 font-bold">' + avgPct + '%</td><td class="p-2 font-bold text-blue-800">' + fmtMoney(rev) + '</td></tr>';
       }).join('');
-
-      // الأقساط المتأخرة
-      var overdueHtml = fin.overdueList.length === 0
-        ? '<tr><td colspan="6" class="p-4 text-center text-emerald-700 font-bold">لا توجد أقساط متأخرة حالياً ✅</td></tr>'
-        : fin.overdueList.slice(0, 50).map(function(inst) {
-            var c = state.contracts.find(function(x) { return x.id === inst.contract_id; });
-            var u = c ? state.units.find(function(x) { return x.id === c.unit_id; }) : null;
-            var b = c ? state.buyers.find(function(x) { return x.id === c.buyer_id; }) : null;
-            var rem = roundIQD(inst.amount_due - inst.paid_amount);
-            return '<tr class="hover:bg-rose-50">' +
-              '<td class="p-2 font-black">' + escapeHtml(u ? u.code : '') + '</td>' +
-              '<td class="p-2 font-bold">' + escapeHtml(b ? b.full_name : '') + ' (' + escapeHtml(b ? b.phone : '') + ')</td>' +
-              '<td class="p-2">قسط #' + inst.installment_no + '</td>' +
-              '<td class="p-2 text-rose-700 font-bold" dir="ltr">' + inst.due_date + '</td>' +
-              '<td class="p-2 font-black text-rose-800">' + fmtMoney(rem) + '</td>' +
-              '<td class="p-2"><button type="button" onclick="openUnitModal(' + (u ? u.id : 0) + ')" class="bg-olive-dark text-white px-2.5 py-1 rounded text-[11px] font-bold">فتح البطاقة</button></td>' +
-            '</tr>';
-          }).join('');
 
       // سجل المقبوضات
       var ledgerHtml = state.payments.slice().reverse().slice(0, 100).map(function(p) {
         var b = state.buyers.find(function(x) { return x.id === p.buyer_id; });
-        return '<tr class="hover:bg-slate-50">' +
-          '<td class="p-2 font-mono font-bold text-blue-700">' + escapeHtml(p.receipt_no) + '</td>' +
-          '<td class="p-2 font-bold">' + escapeHtml(b ? b.full_name : '') + '</td>' +
-          '<td class="p-2">' + escapeHtml(p.notes) + '</td>' +
-          '<td class="p-2 font-black text-emerald-700">' + fmtMoney(p.amount) + '</td>' +
-          '<td class="p-2">' + escapeHtml(p.collected_by_name || 'الإدارة') + '</td>' +
-          '<td class="p-2" dir="ltr">' + p.paid_at + '</td>' +
-          '<td class="p-2"><button type="button" onclick="openReceiptById(' + p.id + ')" class="bg-slate-700 text-white px-2 py-1 rounded">🖨️</button></td>' +
-        '</tr>';
+        return '<tr class="hover:bg-slate-50"><td class="p-2 font-mono font-bold text-blue-700">' + escapeHtml(p.receipt_no) + '</td><td class="p-2 font-bold">' + escapeHtml(b ? b.full_name : '') + '</td><td class="p-2">' + escapeHtml(p.notes) + '</td><td class="p-2 font-black text-emerald-700">' + fmtMoney(p.amount) + '</td><td class="p-2">' + escapeHtml(p.collected_by_name || 'الإدارة') + '</td><td class="p-2" dir="ltr">' + p.paid_at + '</td><td class="p-2"><button type="button" onclick="openReceiptById(' + p.id + ')" class="bg-slate-700 text-white px-2 py-1 rounded">🖨️</button></td></tr>';
       }).join('');
 
       document.getElementById('accountingContent').innerHTML = `
-        <!-- بطاقات الملخص المالي التفصيلي -->
+        <!-- بطاقات الملخص المالي -->
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="bg-white p-4 rounded-2xl border border-olive shadow-sm space-y-1">
             <div class="text-xs text-gray-500 font-bold">إجمالي القيمة السوقية للمشروع</div>
@@ -2011,7 +2203,7 @@
           <div class="bg-white p-4 rounded-2xl border border-olive shadow-sm space-y-1">
             <div class="text-xs text-gray-500 font-bold">قيمة العقود المعتمدة / المعلقة</div>
             <div class="text-xl font-black text-blue-800">${fmtMoney(fin.soldContractsVal)}</div>
-            <div class="text-[11px] text-orange-700 font-bold">مبيعات معلقة للموافقة: ${fmtMoney(fin.pendingVal)} | خصومات: ${fmtMoney(fin.totalDiscounts)}</div>
+            <div class="text-[11px] text-orange-700 font-bold">مبيعات معلقة: ${fmtMoney(fin.pendingVal)} | خصومات: ${fmtMoney(fin.totalDiscounts)}</div>
           </div>
           <div class="bg-white p-4 rounded-2xl border border-olive shadow-sm space-y-1">
             <div class="text-xs text-gray-500 font-bold">إجمالي النقد الداخل للصندوق</div>
@@ -2021,62 +2213,157 @@
           <div class="bg-white p-4 rounded-2xl border border-olive shadow-sm space-y-1">
             <div class="text-xs text-gray-500 font-bold">الذمم والأقساط المتبقية</div>
             <div class="text-xl font-black text-rose-700">${fmtMoney(fin.totalReceivables)}</div>
-            <div class="text-[11px] text-rose-800 font-bold">متأخرة: ${fmtMoney(fin.overdueSum)} | مستحقة هذا الشهر: ${fmtMoney(fin.dueThisMonthSum)}</div>
+            <div class="text-[11px] text-rose-800 font-bold">متأخرة: ${fmtMoney(fin.overdueSum)} | هذا الشهر: ${fmtMoney(fin.dueThisMonthSum)}</div>
           </div>
         </div>
 
-        <!-- المبيعات حسب النموذج -->
-        <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-3">
-          <h3 class="font-black text-olive-dark text-sm">🏠 الإحصائيات المالية حسب نماذج الوحدات</h3>
-          <div class="overflow-x-auto border rounded-xl">
-            <table class="w-full text-xs text-right">
-              <thead class="bg-[#ede6d8] text-olive-dark">
-                <tr><th class="p-2.5">النموذج</th><th class="p-2.5">الإجمالي</th><th class="p-2.5">متاح</th><th class="p-2.5">معلق</th><th class="p-2.5">مباع</th><th class="p-2.5">إجمالي المبيعات (د.ع)</th></tr>
-              </thead>
-              <tbody class="divide-y">${modelRowsHtml}</tbody>
-            </table>
+        <!-- مؤشرات الإنجاز البيعي وتوقعات السيولة -->
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-white p-5 rounded-2xl border border-olive shadow-sm space-y-4">
+            <h3 class="font-black text-olive-dark text-sm">📈 نسب الإنجاز البيعي والتحصيل المالي</h3>
+            <div>
+              <div class="flex justify-between text-xs font-bold mb-1"><span>نسبة الوحدات المباعة من المشروع (${soldCount} / ${totalUnits})</span><span>${soldRate}%</span></div>
+              <div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-olive-dark h-3 rounded-full" style="width:${soldRate}%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-bold mb-1"><span>نسبة التحصيل الفعلي من العقود المباعة</span><span>${collectionRate}%</span></div>
+              <div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-emerald-600 h-3 rounded-full" style="width:${collectionRate}%"></div></div>
+            </div>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-olive shadow-sm space-y-3">
+            <h3 class="font-black text-olive-dark text-sm">💰 توقعات التدفق النقدي للأقساط القادمة (90 يوماً)</h3>
+            <div class="grid grid-cols-3 gap-2 text-xs text-center">
+              <div class="bg-[#faf8f4] border border-olive p-3 rounded-xl">
+                <div class="text-gray-500 font-bold">خلال 30 يوم</div>
+                <div class="font-black text-olive-dark mt-1">${fmtMoney(fin.forecast30)}</div>
+              </div>
+              <div class="bg-[#faf8f4] border border-olive p-3 rounded-xl">
+                <div class="text-gray-500 font-bold">31 - 60 يوم</div>
+                <div class="font-black text-olive-dark mt-1">${fmtMoney(fin.forecast60)}</div>
+              </div>
+              <div class="bg-[#faf8f4] border border-olive p-3 rounded-xl">
+                <div class="text-gray-500 font-bold">61 - 90 يوم</div>
+                <div class="font-black text-olive-dark mt-1">${fmtMoney(fin.forecast90)}</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- الأقساط المتأخرة -->
+        <!-- متابعة الأقساط والتذكير بالواتساب -->
         <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-3">
-          <h3 class="font-black text-rose-900 text-sm">⚠️ الأقساط المتأخرة والمستحقة (${fin.overdueList.length} قسط — الإجمالي: ${fmtMoney(fin.overdueSum)})</h3>
+          <div class="flex flex-wrap justify-between items-center gap-2">
+            <h3 class="font-black text-olive-dark text-sm">⏰ متابعة الأقساط والتذكير عبر واتساب</h3>
+            <div class="flex flex-wrap gap-1.5 text-xs font-bold">
+              <button type="button" onclick="setAccInstFilter('overdue')" class="px-3 py-1.5 rounded-lg border ${accInstFilter === 'overdue' ? 'bg-rose-700 text-white border-rose-700' : 'bg-white text-rose-800'}">🔴 المتأخرة (${fin.overdueList.length})</button>
+              <button type="button" onclick="setAccInstFilter('this_month')" class="px-3 py-1.5 rounded-lg border ${accInstFilter === 'this_month' ? 'bg-amber-600 text-white border-amber-600' : 'bg-white text-amber-800'}">🟡 هذا الشهر (${fin.thisMonthList.length})</button>
+              <button type="button" onclick="setAccInstFilter('next_month')" class="px-3 py-1.5 rounded-lg border ${accInstFilter === 'next_month' ? 'bg-blue-700 text-white border-blue-700' : 'bg-white text-blue-800'}">🔵 الشهر القادم (${fin.nextMonthList.length})</button>
+            </div>
+          </div>
           <div class="overflow-x-auto border rounded-xl max-h-64 overflow-y-auto">
             <table class="w-full text-xs text-right">
-              <thead class="bg-rose-50 text-rose-950 sticky top-0">
-                <tr><th class="p-2">الوحدة</th><th class="p-2">المشتري والهاتف</th><th class="p-2">القسط</th><th class="p-2">تاريخ الاستحقاق</th><th class="p-2">المتبقي</th><th class="p-2">إجراء</th></tr>
+              <thead class="bg-[#ede6d8] text-olive-dark sticky top-0">
+                <tr><th class="p-2">الوحدة</th><th class="p-2">المشتري والهاتف</th><th class="p-2">القسط</th><th class="p-2">الاستحقاق</th><th class="p-2">المتبقي</th><th class="p-2">إجراء وتذكير</th></tr>
               </thead>
-              <tbody class="divide-y">${overdueHtml}</tbody>
+              <tbody class="divide-y">${instTableHtml}</tbody>
             </table>
           </div>
         </div>
 
-        <!-- الإحصائيات حسب الزونات -->
+        <!-- دليل المشترين والعقود -->
         <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-3">
-          <h3 class="font-black text-olive-dark text-sm">🗺️ ملخص الزونات المالي ونسب الإنجاز (Z0 - Z36 &amp; C1)</h3>
-          <div class="overflow-x-auto border rounded-xl max-h-72 overflow-y-auto">
+          <div class="flex flex-wrap justify-between items-center gap-2">
+            <h3 class="font-black text-olive-dark text-sm">📒 دليل المشترين والعقود الفعالة (${fin.activeContracts.length})</h3>
+            <input id="buyerDirSearchInput" type="text" value="${escapeHtml(buyerSearchQuery)}" oninput="onBuyerDirSearch(this.value)" placeholder="بحث باسم المشتري، الهاتف، الهوية، أو الوحدة..." class="border border-olive rounded-lg px-3 py-1.5 text-xs w-64 bg-[#faf8f4]" />
+          </div>
+          <div class="overflow-x-auto border rounded-xl max-h-64 overflow-y-auto">
             <table class="w-full text-xs text-right">
               <thead class="bg-[#ede6d8] text-olive-dark sticky top-0">
-                <tr><th class="p-2">الزون</th><th class="p-2">العدد</th><th class="p-2">متاح</th><th class="p-2">معلق</th><th class="p-2">مباع</th><th class="p-2">نسبة الإنجاز</th><th class="p-2">المبيعات المعتمدة</th></tr>
+                <tr><th class="p-2">الوحدة</th><th class="p-2">اسم المشتري</th><th class="p-2">الهاتف</th><th class="p-2">البطاقة الوطنية</th><th class="p-2">العقد</th><th class="p-2">المدفوع</th><th class="p-2">المتبقي</th><th class="p-2">فتح</th></tr>
               </thead>
-              <tbody class="divide-y">${zoneRowsHtml}</tbody>
+              <tbody class="divide-y">${fin.activeContracts.length === 0 ? '<tr><td colspan="8" class="p-4 text-center text-gray-400">لا توجد عقود فعالة بعد</td></tr>' : buyerRows}</tbody>
             </table>
           </div>
         </div>
 
-        <!-- سجل المقبوضات العام -->
+        <!-- المبيعات حسب النموذج والزونات -->
+        <div class="grid lg:grid-cols-2 gap-4">
+          <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-3">
+            <h3 class="font-black text-olive-dark text-sm">🏠 الإحصائيات حسب النماذج</h3>
+            <div class="overflow-x-auto border rounded-xl">
+              <table class="w-full text-xs text-right">
+                <thead class="bg-[#ede6d8] text-olive-dark"><tr><th class="p-2">النموذج</th><th class="p-2">العدد</th><th class="p-2">متاح</th><th class="p-2">معلق</th><th class="p-2">مباع</th><th class="p-2">المبيعات</th></tr></thead>
+                <tbody class="divide-y">${modelRowsHtml}</tbody>
+              </table>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-3">
+            <h3 class="font-black text-olive-dark text-sm">🗺️ الإحصائيات حسب الزونات (Z0 - Z36 &amp; C1)</h3>
+            <div class="overflow-x-auto border rounded-xl max-h-72 overflow-y-auto">
+              <table class="w-full text-xs text-right">
+                <thead class="bg-[#ede6d8] text-olive-dark sticky top-0"><tr><th class="p-2">الزون</th><th class="p-2">العدد</th><th class="p-2">متاح</th><th class="p-2">معلق</th><th class="p-2">مباع</th><th class="p-2">الإنجاز</th><th class="p-2">المبيعات</th></tr></thead>
+                <tbody class="divide-y">${zoneRowsHtml}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- سجل المقبوضات -->
         <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-3">
           <h3 class="font-black text-olive-dark text-sm">🧾 سجل المقبوضات والوصولات المالية</h3>
-          <div class="overflow-x-auto border rounded-xl max-h-72 overflow-y-auto">
+          <div class="overflow-x-auto border rounded-xl max-h-64 overflow-y-auto">
             <table class="w-full text-xs text-right">
-              <thead class="bg-[#ede6d8] text-olive-dark sticky top-0">
-                <tr><th class="p-2">رقم الوصل</th><th class="p-2">المشتري</th><th class="p-2">البيان</th><th class="p-2">المبلغ</th><th class="p-2">المستلم</th><th class="p-2">التاريخ</th><th class="p-2">طباعة</th></tr>
-              </thead>
+              <thead class="bg-[#ede6d8] text-olive-dark sticky top-0"><tr><th class="p-2">رقم الوصل</th><th class="p-2">المشتري</th><th class="p-2">البيان</th><th class="p-2">المبلغ</th><th class="p-2">المستلم</th><th class="p-2">التاريخ</th><th class="p-2">طباعة</th></tr></thead>
               <tbody class="divide-y">${state.payments.length === 0 ? '<tr><td colspan="7" class="p-4 text-center text-gray-400">لا توجد مقبوضات مسجلة حتى الآن</td></tr>' : ledgerHtml}</tbody>
             </table>
           </div>
         </div>
       `;
+    }
+
+    function downloadCSV(filename, headers, rows) {
+      var csvEscape = function(val) {
+        var s = String(val === null || val === undefined ? '' : val).replace(/"/g, '""');
+        return '"' + s + '"';
+      };
+      var lines = [headers.map(csvEscape).join(',')].concat(rows.map(function(r) { return r.map(csvEscape).join(','); }));
+      var blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportUnitsCSV() {
+      var headers = ['رمز الوحدة', 'الزون', 'النموذج', 'المساحة م2', 'السعر الأساسي د.ع', 'نسبة الإنجاز %', 'مرحلة البناء', 'الحالة', 'اسم المشتري', 'الهاتف', 'البطاقة الوطنية', 'السعر النهائي د.ع'];
+      var rows = state.units.map(function(u) {
+        var c = state.contracts.find(function(x) { return x.unit_id === u.id && (x.status === 'hold' || x.status === 'pending_approval' || x.status === 'active'); });
+        var b = c ? state.buyers.find(function(x) { return x.id === c.buyer_id; }) : null;
+        return [u.code, u.zone, u.category, u.area_sqm, u.price, u.completion_pct, u.stage, u.status, b ? b.full_name : '', b ? b.phone : '', b ? b.national_id : '', c ? c.final_price : ''];
+      });
+      downloadCSV('dream_of_life_units_' + localTodayStr(0) + '.csv', headers, rows);
+    }
+
+    function exportOverdueCSV() {
+      var activeIds = new Set(state.contracts.filter(function(c) { return c.status === 'active'; }).map(function(c) { return c.id; }));
+      var headers = ['الوحدة', 'الزون', 'اسم المشتري', 'الهاتف', 'رقم القسط', 'تاريخ الاستحقاق', 'المبلغ المطلوب د.ع', 'المدفوع د.ع', 'المتبقي د.ع'];
+      var rows = state.installments.filter(function(i) { return activeIds.has(i.contract_id) && i.status !== 'paid'; }).map(function(inst) {
+        var c = state.contracts.find(function(x) { return x.id === inst.contract_id; });
+        var u = c ? state.units.find(function(x) { return x.id === c.unit_id; }) : null;
+        var b = c ? state.buyers.find(function(x) { return x.id === c.buyer_id; }) : null;
+        return [u ? u.code : '', u ? u.zone : '', b ? b.full_name : '', b ? b.phone : '', inst.installment_no, inst.due_date, inst.amount_due, inst.paid_amount, roundIQD(inst.amount_due - inst.paid_amount)];
+      });
+      downloadCSV('dream_of_life_installments_' + localTodayStr(0) + '.csv', headers, rows);
+    }
+
+    function exportPaymentsCSV() {
+      var headers = ['رقم الوصل', 'النوع', 'المشتري', 'المبلغ د.ع', 'المستلم', 'التاريخ', 'البيان'];
+      var rows = state.payments.map(function(p) {
+        var b = state.buyers.find(function(x) { return x.id === p.buyer_id; });
+        return [p.receipt_no, p.payment_type, b ? b.full_name : '', p.amount, p.collected_by_name || '', p.paid_at, p.notes];
+      });
+      downloadCSV('dream_of_life_payments_' + localTodayStr(0) + '.csv', headers, rows);
     }
 
     function printFinancialReport() {
@@ -2101,11 +2388,50 @@
           <div class="bg-rose-50 p-3 rounded-xl border border-rose-300"><b>إجمالي الذمم المتبقية:</b> ${fmtMoney(fin.totalReceivables)}</div>
           <div class="bg-[#faf8f4] p-3 rounded-xl border"><b>دفعات مقدمة:</b> ${fmtMoney(fin.downPaymentsSum)} | <b>أقساط:</b> ${fmtMoney(fin.installmentsSum)}</div>
           <div class="bg-[#faf8f4] p-3 rounded-xl border"><b>رسوم التنازل:</b> ${fmtMoney(fin.transferFeesSum)} | <b>المتأخرات:</b> ${fmtMoney(fin.overdueSum)}</div>
+          <div class="bg-[#faf8f4] p-3 rounded-xl border col-span-2"><b>توقعات الأقساط القادمة:</b> خلال 30 يوم: ${fmtMoney(fin.forecast30)} | 31-60 يوم: ${fmtMoney(fin.forecast60)} | 61-90 يوم: ${fmtMoney(fin.forecast90)}</div>
         </div>
         <div class="mt-8 pt-4 border-t flex justify-between text-xs text-gray-600 font-bold">
           <span>إعداد: ${escapeHtml(currentUser.full_name)}</span>
           <span>اعتماد الإدارة: ........................</span>
         </div>
+      `;
+      document.getElementById('printModal').classList.remove('hidden');
+    }
+
+    function printInstallmentSchedule(unitId) {
+      var u = state.units.find(function(x) { return x.id === unitId; });
+      if (!u) return;
+      var c = state.contracts.find(function(x) { return x.unit_id === unitId && x.status === 'active'; });
+      var buyer = c ? state.buyers.find(function(b) { return b.id === c.buyer_id; }) : null;
+      if (!c || !buyer) return;
+      var list = state.installments.filter(function(i) { return i.contract_id === c.id; }).sort(function(a, b) { return a.installment_no - b.installment_no; });
+
+      var rows = list.map(function(inst) {
+        var rem = roundIQD(Math.max(0, inst.amount_due - inst.paid_amount));
+        var st = inst.status === 'paid' ? 'مسدد' : (inst.status === 'partial' ? 'جزئي' : 'غير مدفوع');
+        return '<tr><td class="border p-1.5 font-bold">' + inst.installment_no + '</td><td class="border p-1.5" dir="ltr">' + inst.due_date + '</td><td class="border p-1.5">' + fmtMoney(inst.amount_due) + '</td><td class="border p-1.5">' + fmtMoney(inst.paid_amount) + '</td><td class="border p-1.5">' + fmtMoney(rem) + '</td><td class="border p-1.5">' + st + '</td></tr>';
+      }).join('');
+
+      document.getElementById('printableContent').innerHTML = `
+        <div class="flex justify-between items-center border-b-2 border-[#38401e] pb-3 mb-3">
+          <div class="flex items-center gap-3">
+            ${getLogoHtml('w-14 h-14')}
+            <div>
+              <h3 class="text-lg font-black text-olive-dark">مجمع حلم الحياة السكني — جدول الأقساط الرسمي</h3>
+              <p class="text-xs text-gray-500 font-bold">الوحدة: ${escapeHtml(u.code)} (${escapeHtml(u.zone)}) • العقد #${c.id}</p>
+            </div>
+          </div>
+          <div class="text-left text-xs">تاريخ الطباعة:<br/><b dir="ltr">${localNowStr(0)}</b></div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 text-xs bg-[#faf8f4] p-3 rounded-lg border mb-3">
+          <div><b>المشتري:</b> ${escapeHtml(buyer.full_name)}</div>
+          <div><b>الهاتف:</b> <span dir="ltr">${escapeHtml(buyer.phone)}</span></div>
+          <div><b>السعر النهائي:</b> ${fmtMoney(c.final_price)}</div>
+        </div>
+        <table class="w-full text-[11px] text-center border-collapse">
+          <thead class="bg-[#ede6d8]"><tr><th class="border p-1.5">#</th><th class="border p-1.5">الاستحقاق</th><th class="border p-1.5">المطلوب</th><th class="border p-1.5">المدفوع</th><th class="border p-1.5">المتبقي</th><th class="border p-1.5">الحالة</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
       `;
       document.getElementById('printModal').classList.remove('hidden');
     }
@@ -2127,7 +2453,7 @@
       var collectedSum = roundIQD(collections.reduce(function(s, p) { return s + p.amount; }, 0));
 
       var empLogs = state.audit_logs.filter(function(l) { return l.actor_id === emp.id; });
-      var editsCount = empLogs.filter(function(l) { return l.category_type === 'unit_edit'; }).length;
+      var editsCount = empLogs.filter(function(l) { return l.category_type === 'unit_edit' || l.category_type === 'buyer_edit'; }).length;
 
       var rating = 'جديد';
       if (approved.length >= 10) rating = 'ممتاز ⭐⭐⭐';
@@ -2245,11 +2571,10 @@
                   </div>
                   <div class="flex gap-2">
                     <button type="button" onclick="document.getElementById('editEmp_${emp.id}').classList.toggle('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">✏️ تعديل / باسوورد</button>
-                    ${isAuditor ? '<button type="button" onclick="deleteUser(' + emp.id + ')" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🗑️ حذف</button>' : (isAdmin ? '<button type="button" onclick="deleteUser(' + emp.id + ')" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🗑️ حذف</button>' : '')}
+                    <button type="button" onclick="deleteUser(${emp.id})" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🗑️ حذف</button>
                   </div>
                 </div>
 
-                <!-- تعديل بيانات الموظف -->
                 <form id="editEmp_${emp.id}" onsubmit="submitUpdateUser(event, ${emp.id})" class="hidden bg-slate-50 p-3 rounded-xl border space-y-2 text-xs">
                   <div class="grid sm:grid-cols-3 gap-2">
                     <input required name="full_name" value="${escapeHtml(emp.full_name)}" placeholder="الاسم" class="border rounded px-2.5 py-1.5 bg-white" />
@@ -2263,7 +2588,6 @@
                   <button type="submit" class="bg-olive-dark text-white px-4 py-1.5 rounded font-bold">💾 حفظ بيانات الموظف</button>
                 </form>
 
-                <!-- بطاقة قياس وتقييم الأداء -->
                 <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 text-xs">
                   <div class="bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl">
                     <div class="text-[10px] text-emerald-800 font-bold">مبيعات معتمدة</div>
@@ -2291,7 +2615,6 @@
                   </div>
                 </div>
 
-                <!-- سجل عمليات الموظف -->
                 <div class="bg-[#faf8f4] p-3 rounded-xl border border-olive">
                   <div class="text-xs font-black text-olive-dark mb-1.5">📌 آخر عمليات وتعديلات الموظف:</div>
                   ${logsHtml}
@@ -2442,6 +2765,7 @@
     }
 
     function openCategorySettingsModal() {
+      if (!isManagementUser()) return alert('تعديل الأسعار محصور بمدير النظام ومدقق النظام فقط!');
       var cats = state.categories || DEFAULT_CATEGORIES;
       var rows = Object.keys(cats).map(function(key) {
         var c = cats[key];
@@ -2457,6 +2781,7 @@
 
     async function submitCategorySettings(e) {
       e.preventDefault();
+      if (!isManagementUser()) return alert('تعديل الأسعار محصور بمدير النظام ومدقق النظام فقط!');
       var form = Object.fromEntries(new FormData(e.target));
       var updatedCount = 0;
 
@@ -2485,10 +2810,14 @@
       alert('تم تحديث الأسعار والمساحات لـ ' + updatedCount + ' وحدة بنجاح!');
     }
 
-    function openBulkProgressModal() { document.getElementById('bulkProgressModal').classList.remove('hidden'); }
+    function openBulkProgressModal() {
+      if (!isManagementUser()) return;
+      document.getElementById('bulkProgressModal').classList.remove('hidden');
+    }
 
     async function submitBulkProgress(e) {
       e.preventDefault();
+      if (!isManagementUser()) return;
       var form = Object.fromEntries(new FormData(e.target));
       var zone = form.zone;
       var pct = parseInt(form.completion_pct, 10);
@@ -2574,7 +2903,7 @@
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
       a.href = url;
-      a.download = 'dream_of_life_backup_' + localTodayStr() + '.json';
+      a.download = 'dream_of_life_backup_' + localTodayStr(0) + '.json';
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -2633,12 +2962,3 @@
   </script>
 </body>
 </html>
-
-تذكير سريع عند الرفع على GitHub:
-
-  - تأكد أن الملفات الثلاثة في المجلد الرئيسي للمستودع اسمها بالضبط:
-    1.  index.html
-    2.  logo.jpg
-    3.  masterplan.jpg
-  - وعند لصق الكود في index.html تأكد أن أول سطر في الملف هو <!DOCTYPE html> ولا
-    يوجد أي نص قبله.
