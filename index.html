@@ -1,45 +1,37 @@
-عرفتُ السبب الدقيق للمشكلتين، وحلّهما بسيط جداً:
+تنبيه مهم قبل النسخ: سبب ظهور النص أعلى الصفحة عندك هو أنك نسخت شرح المحادثة مع
+الكود. انسخ فقط الكود الموجود داخل المربع البرمجي بالأسفل (يجب أن يبدأ بـ
+<!DOCTYPE html> وينتهي بـ </html>).
 
-أولاً: لماذا ظهر على رابط GitHub صفحة بيضاء مكتوب فيها فقط (MK-Helem-hayat-Sale-Res-Units)؟
+تم تنفيذ جميع التعديلات المطلوبة باحترافية:
 
-هذا يحدث في GitHub Pages لسبب واحد فقط: أن ملف index.html غير موجود بهذا الاسم
-الدقيق في المجلد الرئيسي للمستودع! غالباً ما يحدث أحد أمرين:
+1.  إزالة أزرار رفع المخطط والشعار: الاعتماد فقط على ملفات logo.jpg و
+    masterplan.jpg المرفوعة في مستودع GitHub.
+2.  قسم خاص بالإحصائيات والحسابات المالية: يضم التدفقات النقدية، المقبوضات،
+    المتبقي بذمة المشترين، الأقساط المتأخرة، إحصائيات المبيعات حسب النموذج
+    (A1..E4) وحسب الزون (Z0..Z36, C1)، سجل الوصولات الكامل، وطباعة تقرير مالي
+    شامل بالدينار العراقي.
+3.  نظام حسابات وصلاحيات متكامل:
+      - مدقق النظام (auditor / كلمة المرور الافتراضية 123456): يملك كافة
+        الصلاحيات + صلاحية تعديل/حذف/تغيير باسوورد مدير النظام والموظفين.
+      - مدير النظام (admin / كلمة المرور الافتراضية 123456): يملك كافة الصلاحيات
+        + إضافة وإدارة موظفي مبيعات بعدد (2) فقط مع كامل بياناتهم وتقييم أدائهم.
+      - موظفو المبيعات (sales): يتم قياس أدائهم وتقييمهم تلقائياً (المبيعات
+        المقبولة، المعلقة، المرفوضة، الحجوزات، التحصيلات، التعديلات، والعمولة
+        المستحقة).
+4.  وميض طلبات البيع المعلقة وإشعارات الموافقة: عند إتمام موظف المبيعات لأي
+    عملية بيع، تتحول الوحدة إلى حالة "بانتظار الموافقة" وتبدأ بالوميض والتأشير
+    المستمر على المخطط الهندسي وفي مصفوفة الزونات، وتظهر إشعارات فورية لمدير
+    النظام والمدقق، ولا يتوقف الوميض إلا بعد الموافقة (فتتحول إلى مباعة 🔴 وتصدر
+    وصولاتها وأقساطها) أو الرفض (فتعود متاحة 🟢).
 
-  - إما أن ويندوز حفظ الملف باسم index.html.txt (أو اسم آخر مثل dream.html أو
-    Index.html بحرف I كبير)، فعندها لا يتعرف GitHub عليه ويعرض ملف README.md
-    الذي يحتوي فقط على اسم المشروع MK-Helem-hayat-Sale-Res-Units.
-  - أو أن الملف موجود داخل مجلد فرعي وليس في الصفحة الرئيسية للمستودع.
-
-✅ الحل المضمون 100% على GitHub (بدون الحاجة لحفظ ملف على جهازك):
-
-1.  ادخل إلى مستودعك MK-Helem-hayat-Sale-Res-Units على GitHub.
-2.  اضغط Add file ← Create new file.
-3.  في خانة اسم الملف بالأعلى اكتب بالضبط: index.html (بأحرف صغيرة).
-4.  الصق الكود بالأسفل كاملاً، ثم اضغط Commit changes.
-5.  انتظر دقيقة واحدة ثم افتح رابط GitHub Pages (أو أضف /index.html في نهاية
-    الرابط للتأكد).
-
-ثانياً: لماذا لم يظهر الشعار والمخطط والزونات عند فتحه محلياً؟
-
-1.  عدم ظهور الشعار والمخطط: الكود برمجي فقط، ولا يحتوي على الصور تلقائياً إلا
-    إذا وضعت صورتي logo.jpg و masterplan.jpg في نفس مجلد index.html (أو رفعتهما
-    من داخل الصفحة).
-2.  زر رفع الصور والزونات: قمتُ بتحسين الكود بالأسفل بحيث:
-      - أصبحت أزرار رفع الشعار والمخطط تعمل بـ onclick مباشر (تعمل على كل
-        المتصفحات والهواتف دون مشاكل).
-      - أضفتُ زراً كبيراً وواضحاً داخل المخطط نفسه (📤 اضغط هنا لاختيار صورة
-        المخطط من جهازك) يظهر مباشرة إذا لم تُرفع الصورة بعد.
-      - جعلتُ جميع الزونات (Z0 إلى Z36 و C1) ظاهرة ومرتبة تلقائياً فور فتح
-        الصفحة في القسمين معاً (مع إبراز أسماء الزونات بوضوح).
-
-الكود المحدث والجاهز للنسخ في index.html على GitHub:
+الكود الكامل لملف index.html (انسخ ما بداخل هذا الصندوق فقط):
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مجمع حلم الحياة السكني | المخطط التفاعلي وإدارة المبيعات</title>
+  <title>مجمع حلم الحياة السكني | نظام المبيعات والمحاسبة</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
     :root {
@@ -49,12 +41,51 @@
       --cream-bg: #f6f2ea;
       --sand-border: #dcd4c3;
     }
-    .hidden { display: none; }
+    .hidden { display: none !important; }
     body { font-family: 'Cairo', Tahoma, Arial, sans-serif; background-color: var(--cream-bg); color: #2b3019; margin: 0; }
     .bg-olive-dark { background-color: var(--olive-dark); }
     .bg-olive-mid { background-color: var(--olive-mid); }
     .text-olive-dark { color: var(--olive-dark); }
     .border-olive { border-color: var(--sand-border); }
+
+    /* حركة الوميض المستمر لطلبات البيع المعلقة على المخطط */
+    @keyframes blinkPin {
+      0%, 100% {
+        background-color: #ea580c;
+        border-color: #7c2d12;
+        color: #ffffff;
+        box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.8);
+        transform: translate(-50%, -50%) scale(1.25);
+      }
+      50% {
+        background-color: #facc15;
+        border-color: #854d0e;
+        color: #0f172a;
+        box-shadow: 0 0 12px 4px rgba(250, 204, 21, 0.95);
+        transform: translate(-50%, -50%) scale(1.55);
+      }
+    }
+    .blink-pending-pin {
+      animation: blinkPin 0.85s infinite ease-in-out !important;
+      z-index: 35 !important;
+    }
+
+    /* حركة الوميض المستمر لطلبات البيع في مصفوفة المربعات */
+    @keyframes blinkMatrixCard {
+      0%, 100% {
+        background-color: #ffedd5;
+        border-color: #ea580c;
+        box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.5);
+      }
+      50% {
+        background-color: #fef08a;
+        border-color: #ca8a04;
+        box-shadow: 0 0 14px 3px rgba(234, 179, 8, 0.85);
+      }
+    }
+    .blink-pending-card {
+      animation: blinkMatrixCard 0.95s infinite ease-in-out !important;
+    }
 
     @media print {
       body * { visibility: hidden !important; }
@@ -72,223 +103,341 @@
 </head>
 <body>
 
-  <!-- مدخلات مخفية لرفع الصور والملفات -->
-  <input id="logoFileInput" type="file" accept="image/*" onchange="uploadCustomLogo(event)" class="hidden" />
-  <input id="mapFileInput" type="file" accept="image/*" onchange="uploadCustomMasterplan(event)" class="hidden" />
   <input id="backupFileInput" type="file" accept=".json" onchange="importBackup(event)" class="hidden" />
 
-  <!-- الشريط العلوي -->
-  <header class="bg-olive-dark text-[#f6f2ea] shadow-lg sticky top-0 z-30 border-b-2 border-[#6d7a40]">
-    <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[#ede6d8] border-2 border-[#9da67c] overflow-hidden flex items-center justify-center shrink-0 shadow">
-          <img id="headerLogoImg" src="logo.jpg" alt="شعار مجمع حلم الحياة"
-            class="w-full h-full object-cover"
-            onerror="this.classList.add('hidden'); document.getElementById('headerLogoFallback').classList.remove('hidden');" />
-          <svg id="headerLogoFallback" class="hidden w-10 h-10 text-[#38401e]" viewBox="0 0 100 100" fill="currentColor">
+  <!-- ========================================================= -->
+  <!-- شاشة تسجيل الدخول -->
+  <!-- ========================================================= -->
+  <div id="loginScreen" class="min-h-screen flex items-center justify-center p-4 bg-[#efe9dc]">
+    <div class="bg-white rounded-3xl shadow-2xl border-2 border-[#8c966a] w-full max-w-md overflow-hidden">
+      <div class="bg-olive-dark text-[#f6f2ea] p-6 text-center space-y-2 border-b-4 border-[#6d7a40]">
+        <div class="w-20 h-20 mx-auto rounded-2xl bg-[#ede6d8] border-2 border-[#9da67c] overflow-hidden flex items-center justify-center shadow-lg">
+          <img src="logo.jpg" alt="شعار مجمع حلم الحياة" class="w-full h-full object-cover"
+            onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
+          <svg class="hidden w-14 h-14 text-[#38401e]" viewBox="0 0 100 100" fill="currentColor">
             <path d="M12 46 L38 22 L46 29 L46 78 L36 78 L36 52 L22 52 L22 78 L12 78 Z" />
             <path d="M52 22 L88 78 L76 78 L66 60 L54 60 L54 78 L46 78 L46 22 Z M54 49 L62 49 L54 35 Z" />
           </svg>
         </div>
-        <div>
-          <h1 class="text-base sm:text-xl font-black tracking-wide">مجمع حلم الحياة السكني</h1>
-          <p class="text-[10px] sm:text-[11px] text-[#d4ccb9] font-bold tracking-wider">DREAM OF LIFE • المخطط التفاعلي والمبيعات بالدينار العراقي</p>
-        </div>
+        <h1 class="text-xl font-black">مجمع حلم الحياة السكني</h1>
+        <p class="text-xs text-[#d4ccb9] font-bold">DREAM OF LIFE • بوابة إدارة المبيعات والمحاسبة</p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-1.5">
-        <button type="button" onclick="document.getElementById('logoFileInput').click()" class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
-          🖼️ رفع الشعار
+      <form onsubmit="handleLogin(event)" class="p-6 space-y-4">
+        <div id="loginError" class="hidden bg-rose-100 border border-rose-400 text-rose-800 px-3 py-2 rounded-lg text-xs font-bold text-center"></div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">اسم المستخدم</label>
+          <input id="loginUsername" type="text" required placeholder="أدخل اسم المستخدم..." class="w-full border border-olive rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#4e592b]" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label>
+          <input id="loginPassword" type="password" required placeholder="••••••••" class="w-full border border-olive rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#4e592b]" />
+        </div>
+        <button type="submit" class="w-full bg-olive-dark hover:bg-olive-mid text-white font-black py-3 rounded-xl text-sm shadow transition">
+          🔐 تسجيل الدخول للنظام
         </button>
-        <button type="button" onclick="document.getElementById('mapFileInput').click()" class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
-          🗺️ رفع صورة المخطط
-        </button>
-        <button type="button" onclick="openCategorySettingsModal()" class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
-          ⚙️ أسعار النماذج
-        </button>
-        <button type="button" onclick="openBulkProgressModal()" class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
-          🏗️ نسب الإنجاز
-        </button>
-        <button type="button" onclick="openAuditModal()" class="bg-slate-700 hover:bg-slate-600 px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
-          📜 التدقيق
-        </button>
-        <button type="button" onclick="exportBackup()" class="bg-emerald-700 hover:bg-emerald-600 px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
-          ⬇️ تصدير
-        </button>
-        <button type="button" onclick="document.getElementById('backupFileInput').click()" class="bg-blue-700 hover:bg-blue-600 px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
-          ⬆️ استيراد
-        </button>
-        <button type="button" onclick="resetDemoData()" class="bg-rose-800 hover:bg-rose-700 px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
-          🗑️ تصفير
-        </button>
-      </div>
+
+        <div class="bg-[#faf8f4] border border-olive rounded-xl p-3 text-[11px] text-gray-600 space-y-1">
+          <div class="font-black text-olive-dark">حسابات الدخول الافتراضية (يمكن تغييرها من الداخل):</div>
+          <div>• <b>مدقق النظام:</b> <code class="bg-white px-1.5 py-0.5 rounded border">auditor</code> / كلمة المرور: <code class="bg-white px-1.5 py-0.5 rounded border">123456</code></div>
+          <div>• <b>مدير النظام:</b> <code class="bg-white px-1.5 py-0.5 rounded border">admin</code> / كلمة المرور: <code class="bg-white px-1.5 py-0.5 rounded border">123456</code></div>
+        </div>
+      </form>
     </div>
-  </header>
+  </div>
 
-  <div id="errorBanner" class="hidden bg-rose-700 text-white px-4 py-2 text-center text-xs font-bold"></div>
+  <!-- ========================================================= -->
+  <!-- الواجهة الرئيسية للنظام (تظهر بعد تسجيل الدخول) -->
+  <!-- ========================================================= -->
+  <div id="appShell" class="hidden">
 
-  <main class="max-w-7xl mx-auto px-4 py-5 space-y-6">
-
-    <!-- لوحة مؤشرات المستثمر -->
-    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-[#38401e]">
-        <div class="text-xs text-gray-500 font-bold">إجمالي الوحدات</div>
-        <div id="kpiTotal" class="text-2xl font-black text-olive-dark mt-1">0</div>
-        <div id="kpiAvgProgress" class="text-[11px] text-[#5a6633] font-bold mt-0.5">متوسط الإنجاز: 0%</div>
-      </div>
-      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-emerald-600">
-        <div class="text-xs text-gray-500 font-bold">🟢 متاحة للبيع</div>
-        <div id="kpiAvailable" class="text-2xl font-black text-emerald-700 mt-1">0</div>
-      </div>
-      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-amber-500">
-        <div class="text-xs text-gray-500 font-bold">🟡 محجوزة مؤقتاً</div>
-        <div id="kpiReserved" class="text-2xl font-black text-amber-600 mt-1">0</div>
-      </div>
-      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-rose-600">
-        <div class="text-xs text-gray-500 font-bold">🔴 وحدات مباعة</div>
-        <div id="kpiSold" class="text-2xl font-black text-rose-700 mt-1">0</div>
-      </div>
-      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-blue-700">
-        <div class="text-xs text-gray-500 font-bold">إجمالي قيمة العقود</div>
-        <div id="kpiSalesVal" class="text-base font-black text-blue-800 mt-1">0 د.ع</div>
-        <div id="kpiTransferFees" class="text-[11px] text-gray-500 mt-0.5">رسوم التنازل: 0 د.ع</div>
-      </div>
-      <div class="bg-white p-3.5 rounded-xl shadow-sm border border-olive border-r-4 border-r-teal-700">
-        <div class="text-xs text-gray-500 font-bold">المقبوضات الفعلية</div>
-        <div id="kpiCollected" class="text-base font-black text-teal-800 mt-1">0 د.ع</div>
-        <div id="kpiRemaining" class="text-[11px] text-gray-500 mt-0.5">متبقي: 0 د.ع</div>
-      </div>
-    </section>
-
-    <!-- أزرار التحكم بالعرض -->
-    <section class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-xl shadow-sm border border-olive">
-      <div class="flex flex-wrap gap-2">
-        <button type="button" onclick="setMainView('both')" id="viewBtnBoth" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition bg-olive-dark text-white">
-          📑 عرض القسمين معاً
-        </button>
-        <button type="button" onclick="setMainView('map')" id="viewBtnMap" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition bg-[#ede6d8] text-olive-dark hover:bg-[#e2d8c5]">
-          🗺️ المخطط التفاعلي للمشروع فقط
-        </button>
-        <button type="button" onclick="setMainView('matrix')" id="viewBtnMatrix" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition bg-[#ede6d8] text-olive-dark hover:bg-[#e2d8c5]">
-          🔲 الوحدات السكنية والزونات فقط
-        </button>
-      </div>
-      <div class="flex flex-wrap items-center gap-3 text-xs font-bold">
-        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-emerald-500 inline-block"></span> متاحة</span>
-        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-amber-400 inline-block"></span> محجوزة</span>
-        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-rose-600 inline-block"></span> مباعة</span>
-      </div>
-    </section>
-
-    <!-- القسم الأول: المخطط التفاعلي للمشروع -->
-    <section id="masterplanSection" class="bg-white rounded-2xl shadow-sm border border-olive overflow-hidden">
-      <div class="bg-[#faf8f4] border-b border-olive px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 class="text-base sm:text-lg font-black text-olive-dark">🗺️ المخطط التفاعلي للمشروع (Z0 - Z36 &amp; C1)</h2>
-          <p class="text-xs text-gray-500">اختر أي وحدة على المخطط لعرض بطاقتها وتعديلها، أو اختر الزون للتصفية</p>
+    <!-- الشريط العلوي -->
+    <header class="bg-olive-dark text-[#f6f2ea] shadow-lg sticky top-0 z-30 border-b-2 border-[#6d7a40]">
+      <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-[#ede6d8] border-2 border-[#9da67c] overflow-hidden flex items-center justify-center shrink-0 shadow">
+            <img src="logo.jpg" alt="شعار مجمع حلم الحياة" class="w-full h-full object-cover"
+              onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
+            <svg class="hidden w-9 h-9 text-[#38401e]" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M12 46 L38 22 L46 29 L46 78 L36 78 L36 52 L22 52 L22 78 L12 78 Z" />
+              <path d="M52 22 L88 78 L76 78 L66 60 L54 60 L54 78 L46 78 L46 22 Z M54 49 L62 49 L54 35 Z" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-base sm:text-lg font-black tracking-wide">مجمع حلم الحياة السكني</h1>
+            <p id="userHeaderBadge" class="text-[11px] text-[#e3dcbe] font-bold"></p>
+          </div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2">
-          <select id="mapZoneFilter" onchange="renderMasterplan()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
-            <option value="">كل الزونات على المخطط</option>
-          </select>
+        <div class="flex flex-wrap items-center gap-1.5">
+          <!-- زر إشعارات طلبات البيع المعلقة (للمدير والمدقق) -->
+          <button id="pendingNotifBtn" type="button" onclick="openPendingModal()" class="hidden bg-amber-500 hover:bg-amber-600 text-slate-950 px-3 py-1.5 rounded-lg text-xs font-black shadow transition">
+            🔔 طلبات بيع معلقة (<span id="pendingNotifCount">0</span>)
+          </button>
 
-          <select id="mapStatusFilter" onchange="renderMasterplan()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
-            <option value="">كل الحالات</option>
-            <option value="available">🟢 المتاحة فقط</option>
-            <option value="reserved">🟡 المحجوزة فقط</option>
-            <option value="sold">🔴 المباعة فقط</option>
-          </select>
-
-          <div class="flex border border-olive rounded-lg overflow-hidden text-xs font-bold">
-            <button type="button" onclick="setMapZoom(1)" id="zoomBtn1" class="px-2.5 py-1.5 bg-olive-dark text-white">100%</button>
-            <button type="button" onclick="setMapZoom(1.5)" id="zoomBtn15" class="px-2.5 py-1.5 bg-white hover:bg-gray-100">150%</button>
-            <button type="button" onclick="setMapZoom(2.2)" id="zoomBtn22" class="px-2.5 py-1.5 bg-white hover:bg-gray-100">220%</button>
-          </div>
-
-          <button type="button" onclick="toggleMappingMode()" id="mappingBtn" class="bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-400 px-3 py-1.5 rounded-lg text-xs font-bold transition">
-            📍 تعديل موقع وحدة
+          <button id="btnCatSettings" type="button" onclick="openCategorySettingsModal()" class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
+            ⚙️ أسعار النماذج
+          </button>
+          <button id="btnBulkProgress" type="button" onclick="openBulkProgressModal()" class="bg-[#5a6633] hover:bg-[#6d7a40] px-2.5 py-1.5 rounded-lg text-xs font-bold transition">
+            🏗️ نسب الإنجاز
+          </button>
+          <button type="button" onclick="handleLogout()" class="bg-rose-800 hover:bg-rose-700 px-3 py-1.5 rounded-lg text-xs font-bold transition">
+            🚪 خروج
           </button>
         </div>
       </div>
 
-      <!-- شريط تنبيه سريع لرفع صورة المخطط إذا لم تكن محملة -->
-      <div id="mapUploadPrompt" class="hidden bg-amber-50 border-b border-amber-300 px-5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
-        <span class="font-bold text-amber-900">💡 يعرض النظام الآن المخطط الهندسي الافتراضي للزونات. لإظهار صورة مخططكم الأصلية بالخلفية:</span>
-        <button type="button" onclick="document.getElementById('mapFileInput').click()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-lg font-bold">
-          📤 اضغط هنا لاختيار صورة المخطط من جهازك
-        </button>
-      </div>
-
-      <div id="mappingToolbar" class="hidden bg-amber-50 border-b border-amber-300 px-5 py-3 flex flex-wrap items-center justify-between gap-3 text-xs">
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="font-black text-amber-900">وضع تعديل المواقع مفعّل:</span>
-          <select id="mappingUnitSelect" class="border border-amber-400 rounded-lg px-2.5 py-1.5 bg-white font-bold"></select>
-          <span class="text-amber-800 font-semibold">← اضغط على الموقع المطلوب في المخطط لتحريك الوحدة إليه</span>
+      <!-- شريط التبويبات الرئيسي -->
+      <nav class="bg-[#2c3317] border-t border-[#4e592b]">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap gap-1 py-1.5 text-xs font-extrabold">
+          <button type="button" onclick="switchTab('mapTab')" id="tabBtn_mapTab" class="px-4 py-2 rounded-lg transition bg-[#f6f2ea] text-olive-dark">
+            🗺️ المخطط التفاعلي والزونات
+          </button>
+          <button type="button" onclick="switchTab('accountingTab')" id="tabBtn_accountingTab" class="px-4 py-2 rounded-lg transition text-[#d4ccb9] hover:bg-[#38401e]">
+            📊 الإحصائيات والحسابات المالية
+          </button>
+          <button type="button" onclick="switchTab('staffTab')" id="tabBtn_staffTab" class="px-4 py-2 rounded-lg transition text-[#d4ccb9] hover:bg-[#38401e]">
+            👥 الإدارة وتقييم أداء الموظفين
+          </button>
+          <button type="button" onclick="switchTab('auditTab')" id="tabBtn_auditTab" class="px-4 py-2 rounded-lg transition text-[#d4ccb9] hover:bg-[#38401e]">
+            📜 سجل التدقيق والنسخ الاحتياطي
+          </button>
         </div>
-        <button type="button" onclick="toggleMappingMode()" class="bg-amber-600 text-white px-3 py-1 rounded-lg font-bold">إنهاء</button>
-      </div>
+      </nav>
+    </header>
 
-      <div class="p-4 bg-[#e8e2d5] overflow-auto max-h-[820px] relative">
-        <div id="mapCanvasInner" onclick="handleMapCanvasClick(event)"
-          class="relative mx-auto bg-white border-2 border-[#a89f8b] rounded-xl shadow-md overflow-hidden select-none"
-          style="width: 100%; max-width: 920px; min-width: 760px; aspect-ratio: 920 / 1280;">
+    <div id="errorBanner" class="hidden bg-rose-700 text-white px-4 py-2 text-center text-xs font-bold"></div>
 
-          <img id="customMasterplanImg" src="masterplan.jpg" alt="مخطط مجمع حلم الحياة"
-            class="absolute inset-0 w-full h-full object-fill pointer-events-none"
-            onerror="handleMissingMasterplanImg()" />
+    <main class="max-w-7xl mx-auto px-4 py-5 space-y-6">
 
-          <div id="svgMasterplanFallback" class="hidden absolute inset-0 w-full h-full bg-[#efe9dc] pointer-events-none">
-            <div id="fallbackZoneBoxes" class="absolute inset-0"></div>
+      <!-- شريط إشعارات طلبات البيع المعلقة (يظهر للمدير والمدقق عند وجود طلبات) -->
+      <section id="pendingBannerSection" class="hidden bg-gradient-to-l from-amber-100 to-orange-100 border-2 border-orange-500 rounded-2xl p-4 shadow-md space-y-3">
+        <div class="flex flex-wrap justify-between items-center gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xl animate-bounce">🔔</span>
+            <div>
+              <h3 class="font-black text-orange-950 text-sm">تنبيه: توجد طلبات بيع من موظفي المبيعات بانتظار موافقة مدير النظام</h3>
+              <p class="text-xs text-orange-800">تبقى هذه الوحدات تومض على المخطط والمصفوفة حتى يتم قبولها أو رفضها</p>
+            </div>
+          </div>
+          <button type="button" onclick="openPendingModal()" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-xl text-xs font-black shadow">
+            مراجعة واعتماد الطلبات الآن
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- التبويب 1: المخطط التفاعلي والزونات -->
+      <!-- ========================================================= -->
+      <div id="tab_mapTab" class="space-y-6">
+
+        <!-- لوحة المؤشرات السريعة -->
+        <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-3">
+          <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-[#38401e]">
+            <div class="text-[11px] text-gray-500 font-bold">إجمالي الوحدات</div>
+            <div id="kpiTotal" class="text-xl font-black text-olive-dark mt-0.5">0</div>
+            <div id="kpiAvgProgress" class="text-[10px] text-[#5a6633] font-bold">إنجاز: 0%</div>
+          </div>
+          <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-emerald-600">
+            <div class="text-[11px] text-gray-500 font-bold">🟢 متاحة للبيع</div>
+            <div id="kpiAvailable" class="text-xl font-black text-emerald-700 mt-0.5">0</div>
+          </div>
+          <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-amber-500">
+            <div class="text-[11px] text-gray-500 font-bold">🟡 محجوزة</div>
+            <div id="kpiReserved" class="text-xl font-black text-amber-600 mt-0.5">0</div>
+          </div>
+          <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-orange-500">
+            <div class="text-[11px] text-gray-500 font-bold">🟠 بانتظار الموافقة</div>
+            <div id="kpiPending" class="text-xl font-black text-orange-600 mt-0.5">0</div>
+          </div>
+          <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-rose-600">
+            <div class="text-[11px] text-gray-500 font-bold">🔴 مباعة ومعتمدة</div>
+            <div id="kpiSold" class="text-xl font-black text-rose-700 mt-0.5">0</div>
+          </div>
+          <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-blue-700">
+            <div class="text-[11px] text-gray-500 font-bold">قيمة العقود المعتمدة</div>
+            <div id="kpiSalesVal" class="text-sm font-black text-blue-800 mt-1">0 د.ع</div>
+          </div>
+          <div class="bg-white p-3 rounded-xl shadow-sm border border-olive border-r-4 border-r-teal-700">
+            <div class="text-[11px] text-gray-500 font-bold">المقبوضات الفعلية</div>
+            <div id="kpiCollected" class="text-sm font-black text-teal-800 mt-1">0 د.ع</div>
+          </div>
+        </section>
+
+        <!-- أزرار التحكم بعرض المخطط والمصفوفة -->
+        <section class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-xl shadow-sm border border-olive">
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="setMainView('both')" id="viewBtnBoth" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition bg-olive-dark text-white">
+              📑 عرض المخطط والمصفوفة معاً
+            </button>
+            <button type="button" onclick="setMainView('map')" id="viewBtnMap" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition bg-[#ede6d8] text-olive-dark">
+              🗺️ المخطط التفاعلي فقط
+            </button>
+            <button type="button" onclick="setMainView('matrix')" id="viewBtnMatrix" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition bg-[#ede6d8] text-olive-dark">
+              🔲 الوحدات والزونات فقط
+            </button>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 text-xs font-bold">
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-emerald-500 inline-block"></span> متاحة</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-amber-400 inline-block"></span> محجوزة</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-orange-500 animate-pulse inline-block"></span> طلب بيع (يومض للموافقة)</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-rose-600 inline-block"></span> مباعة</span>
+          </div>
+        </section>
+
+        <!-- القسم الأول: المخطط التفاعلي للمشروع -->
+        <section id="masterplanSection" class="bg-white rounded-2xl shadow-sm border border-olive overflow-hidden">
+          <div class="bg-[#faf8f4] border-b border-olive px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-black text-olive-dark">🗺️ المخطط التفاعلي للمشروع (Z0 - Z36 &amp; C1)</h2>
+              <p class="text-xs text-gray-500">اختر أي وحدة على المخطط لعرض بطاقتها وتفاصيلها</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <select id="mapZoneFilter" onchange="renderMasterplan()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
+                <option value="">كل الزونات على المخطط</option>
+              </select>
+              <select id="mapStatusFilter" onchange="renderMasterplan()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
+                <option value="">كل الحالات</option>
+                <option value="available">🟢 المتاحة فقط</option>
+                <option value="reserved">🟡 المحجوزة فقط</option>
+                <option value="pending_approval">🟠 المعلقة للموافقة</option>
+                <option value="sold">🔴 المباعة فقط</option>
+              </select>
+              <div class="flex border border-olive rounded-lg overflow-hidden text-xs font-bold">
+                <button type="button" onclick="setMapZoom(1)" id="zoomBtn1" class="px-2.5 py-1.5 bg-olive-dark text-white">100%</button>
+                <button type="button" onclick="setMapZoom(1.5)" id="zoomBtn15" class="px-2.5 py-1.5 bg-white hover:bg-gray-100">150%</button>
+                <button type="button" onclick="setMapZoom(2.2)" id="zoomBtn22" class="px-2.5 py-1.5 bg-white hover:bg-gray-100">220%</button>
+              </div>
+              <button id="mappingBtn" type="button" onclick="toggleMappingMode()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-400 px-3 py-1.5 rounded-lg text-xs font-bold transition">
+                📍 تعديل موقع وحدة
+              </button>
+            </div>
           </div>
 
-          <div id="mapZonesLayer" class="absolute inset-0 pointer-events-none z-20"></div>
-          <div id="mapPinsLayer" class="absolute inset-0 z-10"></div>
-        </div>
-      </div>
-    </section>
+          <div id="mappingToolbar" class="hidden bg-amber-50 border-b border-amber-300 px-5 py-3 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-black text-amber-900">وضع تعديل المواقع مفعّل:</span>
+              <select id="mappingUnitSelect" class="border border-amber-400 rounded-lg px-2.5 py-1.5 bg-white font-bold"></select>
+              <span class="text-amber-800 font-semibold">← اضغط على الموقع المطلوب في المخطط لتحريك الوحدة إليه</span>
+            </div>
+            <button type="button" onclick="toggleMappingMode()" class="bg-amber-600 text-white px-3 py-1 rounded-lg font-bold">إنهاء</button>
+          </div>
 
-    <!-- القسم الثاني: الوحدات السكنية والزونات (مصفوفة المربعات) -->
-    <section id="zonesMatrixSection" class="bg-white rounded-2xl shadow-sm border border-olive overflow-hidden">
-      <div class="bg-[#faf8f4] border-b border-olive px-5 py-4 space-y-3">
-        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="p-4 bg-[#e8e2d5] overflow-auto max-h-[820px] relative">
+            <div id="mapCanvasInner" onclick="handleMapCanvasClick(event)"
+              class="relative mx-auto bg-white border-2 border-[#a89f8b] rounded-xl shadow-md overflow-hidden select-none"
+              style="width: 100%; max-width: 920px; min-width: 760px; aspect-ratio: 920 / 1280;">
+              <img id="customMasterplanImg" src="masterplan.jpg" alt="مخطط مجمع حلم الحياة"
+                class="absolute inset-0 w-full h-full object-fill pointer-events-none"
+                onerror="this.classList.add('hidden'); document.getElementById('svgMasterplanFallback').classList.remove('hidden');" />
+              <div id="svgMasterplanFallback" class="hidden absolute inset-0 w-full h-full bg-[#efe9dc] pointer-events-none">
+                <div id="fallbackZoneBoxes" class="absolute inset-0"></div>
+              </div>
+              <div id="mapZonesLayer" class="absolute inset-0 pointer-events-none z-20"></div>
+              <div id="mapPinsLayer" class="absolute inset-0 z-10"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- القسم الثاني: الوحدات السكنية والزونات (مصفوفة المربعات) -->
+        <section id="zonesMatrixSection" class="bg-white rounded-2xl shadow-sm border border-olive overflow-hidden">
+          <div class="bg-[#faf8f4] border-b border-olive px-5 py-4 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 class="text-base sm:text-lg font-black text-olive-dark">🔲 الوحدات السكنية والزونات (مصفوفة المربعات)</h2>
+                <p class="text-xs text-gray-500">اختر الزون الذي يعمل عليه موظف المبيعات لعرض كافة وحداته ونسب الإنجاز</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <input id="filterSearch" type="text" placeholder="بحث برقم الوحدة أو المشتري..." oninput="debouncedRenderMatrix()"
+                  class="border border-olive rounded-lg px-3 py-1.5 text-xs bg-white w-52 focus:outline-none focus:ring-2 focus:ring-[#4e592b]" />
+                <select id="filterCategory" onchange="renderMatrix()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
+                  <option value="">كل النماذج</option>
+                  <option value="A1">A1</option><option value="A2">A2</option><option value="A3">A3</option>
+                  <option value="B1">B1</option><option value="B2">B2</option><option value="C1">C1</option>
+                  <option value="C2">C2</option><option value="E4">E4</option>
+                </select>
+                <select id="filterStatus" onchange="renderMatrix()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
+                  <option value="">كل الحالات</option>
+                  <option value="available">🟢 متاح</option>
+                  <option value="reserved">🟡 محجوز</option>
+                  <option value="pending_approval">🟠 بانتظار الموافقة</option>
+                  <option value="sold">🔴 مباع</option>
+                </select>
+              </div>
+            </div>
+            <div id="zonePills" class="flex flex-wrap gap-1.5 pt-1 max-h-44 overflow-y-auto"></div>
+          </div>
+          <div id="matrixContainer" class="p-5 space-y-6 bg-[#fcfbf8]"></div>
+        </section>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- التبويب 2: الإحصائيات والحسابات المالية الشاملة -->
+      <!-- ========================================================= -->
+      <div id="tab_accountingTab" class="hidden space-y-6">
+        <div class="bg-white rounded-2xl shadow-sm border border-olive p-5 flex flex-wrap justify-between items-center gap-3">
           <div>
-            <h2 class="text-base sm:text-lg font-black text-olive-dark">🔲 الوحدات السكنية والزونات (مصفوفة المربعات)</h2>
-            <p class="text-xs text-gray-500">اختر الزون الذي يعمل عليه موظف المبيعات لعرض كافة وحداته ونسب الإنجاز</p>
+            <h2 class="text-lg font-black text-olive-dark">📊 القسم المالي والإحصائيات المحاسبية الشاملة</h2>
+            <p class="text-xs text-gray-500">تحليل التدفقات النقدية، الذمم، الأقساط المتأخرة، والمبيعات حسب النماذج والزونات (بالدينار العراقي)</p>
           </div>
+          <button type="button" onclick="printFinancialReport()" class="bg-olive-dark hover:bg-olive-mid text-white px-4 py-2 rounded-xl text-xs font-black shadow">
+            🖨️ طباعة التقرير المالي الشامل
+          </button>
+        </div>
+        <div id="accountingContent" class="space-y-6"></div>
+      </div>
 
-          <div class="flex flex-wrap items-center gap-2">
-            <input id="filterSearch" type="text" placeholder="بحث برقم الوحدة (A3-164) أو المشتري..." oninput="debouncedRenderMatrix()"
-              class="border border-olive rounded-lg px-3 py-1.5 text-xs bg-white w-56 focus:outline-none focus:ring-2 focus:ring-[#4e592b]" />
-            <select id="filterCategory" onchange="renderMatrix()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
-              <option value="">كل النماذج</option>
-              <option value="A1">نموذج A1</option>
-              <option value="A2">نموذج A2</option>
-              <option value="A3">نموذج A3</option>
-              <option value="B1">نموذج B1</option>
-              <option value="B2">نموذج B2</option>
-              <option value="C1">نموذج C1</option>
-              <option value="C2">نموذج C2</option>
-              <option value="E4">نموذج E4</option>
-            </select>
-            <select id="filterStatus" onchange="renderMatrix()" class="border border-olive rounded-lg px-2.5 py-1.5 text-xs bg-white font-bold">
-              <option value="">كل الحالات</option>
-              <option value="available">🟢 متاح</option>
-              <option value="reserved">🟡 محجوز</option>
-              <option value="sold">🔴 مباع</option>
-            </select>
+      <!-- ========================================================= -->
+      <!-- التبويب 3: الإدارة وتقييم أداء الموظفين -->
+      <!-- ========================================================= -->
+      <div id="tab_staffTab" class="hidden space-y-6">
+        <div id="staffContent" class="space-y-6"></div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- التبويب 4: سجل التدقيق والنسخ الاحتياطي -->
+      <!-- ========================================================= -->
+      <div id="tab_auditTab" class="hidden space-y-6">
+        <div class="bg-white rounded-2xl shadow-sm border border-olive p-5 flex flex-wrap justify-between items-center gap-3">
+          <div>
+            <h2 class="text-lg font-black text-olive-dark">📜 سجل الرقابة والتدقيق وإدارة النسخ الاحتياطي</h2>
+            <p class="text-xs text-gray-500">تسجيل آلي لجميع عمليات البيع، التعديل، التسديد، الموافقات، وإدارة الحسابات</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="exportBackup()" class="bg-emerald-700 hover:bg-emerald-600 text-white px-3.5 py-2 rounded-lg text-xs font-bold">⬇️ تصدير نسخة احتياطية</button>
+            <button type="button" onclick="document.getElementById('backupFileInput').click()" class="bg-blue-700 hover:bg-blue-600 text-white px-3.5 py-2 rounded-lg text-xs font-bold">⬆️ استيراد نسخة</button>
+            <button type="button" onclick="resetDemoData()" class="bg-rose-800 hover:bg-rose-700 text-white px-3.5 py-2 rounded-lg text-xs font-bold">🗑️ تصفير البيانات</button>
           </div>
         </div>
 
-        <div id="zonePills" class="flex flex-wrap gap-1.5 pt-1 max-h-44 overflow-y-auto"></div>
+        <div class="bg-white rounded-2xl shadow-sm border border-olive p-5 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="font-bold text-olive-dark text-sm">آخر العمليات المسجلة في النظام:</h3>
+            <select id="auditUserFilter" onchange="renderAuditTab()" class="border border-olive rounded-lg px-3 py-1.5 text-xs bg-white font-bold">
+              <option value="">كل المستخدمين</option>
+            </select>
+          </div>
+          <div id="auditListContainer" class="space-y-2 max-h-[550px] overflow-y-auto text-xs"></div>
+        </div>
       </div>
 
-      <div id="matrixContainer" class="p-5 space-y-6 bg-[#fcfbf8]"></div>
-    </section>
+    </main>
+  </div>
 
-  </main>
-
+  <!-- تلميح المخطط -->
   <div id="mapTooltip" class="fixed z-50 hidden pointer-events-none bg-slate-900/95 text-white text-xs rounded-xl px-3 py-2 shadow-xl border border-[#8fa058] max-w-xs"></div>
+
+  <!-- نافذة مراجعة طلبات البيع المعلقة (للمدير والمدقق) -->
+  <div id="pendingModal" class="fixed inset-0 bg-black/60 z-40 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[88vh] flex flex-col border border-olive">
+      <div class="bg-orange-700 text-white px-6 py-4 flex justify-between items-center rounded-t-2xl">
+        <h2 class="text-base sm:text-lg font-black">🔔 طلبات البيع المعلقة بانتظار موافقة مدير النظام</h2>
+        <button type="button" onclick="document.getElementById('pendingModal').classList.add('hidden')" class="text-3xl leading-none">&times;</button>
+      </div>
+      <div id="pendingModalBody" class="p-5 overflow-y-auto space-y-3"></div>
+    </div>
+  </div>
 
   <!-- نافذة بطاقة الوحدة -->
   <div id="unitModal" class="fixed inset-0 bg-black/60 z-40 hidden flex items-center justify-center p-3 sm:p-4">
@@ -355,20 +504,9 @@
     </div>
   </div>
 
-  <!-- نافذة سجل التدقيق -->
-  <div id="auditModal" class="fixed inset-0 bg-black/60 z-40 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col">
-      <div class="bg-olive-dark text-white px-6 py-4 flex justify-between items-center rounded-t-2xl">
-        <h2 class="text-lg font-bold">📜 سجل الرقابة والتدقيق (آخر 100 حركة)</h2>
-        <button type="button" onclick="document.getElementById('auditModal').classList.add('hidden')" class="text-2xl">&times;</button>
-      </div>
-      <div id="auditBody" class="p-4 overflow-y-auto space-y-2 text-sm"></div>
-    </div>
-  </div>
-
   <!-- نافذة الطباعة -->
   <div id="printModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
-    <div id="printableArea" class="bg-white rounded-xl shadow-2xl w-full max-w-2xl p-6 border-2 border-[#38401e] my-auto">
+    <div id="printableArea" class="bg-white rounded-xl shadow-2xl w-full max-w-3xl p-6 border-2 border-[#38401e] my-auto">
       <div id="printableContent"></div>
       <div class="mt-6 flex justify-end gap-2 no-print">
         <button type="button" onclick="window.print()" class="bg-olive-dark hover:bg-olive-mid text-white px-5 py-2 rounded-lg text-sm font-bold">🖨️ طباعة الآن</button>
@@ -386,15 +524,22 @@
       showBannerError('تنبيه: ' + msg + ' (سطر ' + line + ')');
     };
 
-    const DB_NAME = 'DreamOfLifeDB_IQD_v5';
+    const DB_NAME = 'DreamOfLifeDB_IQD_v6';
     const STORE_NAME = 'app_state';
     const STATE_KEY = 'main_data';
+    const SESSION_KEY = 'dream_logged_user_id';
+
     let state = null;
-    let selectedZone = 'ALL'; // إظهار جميع الزونات واضحة تلقائياً
+    let currentUser = null;
+    let currentTab = 'mapTab';
+    let selectedZone = 'ALL';
     let isMappingMode = false;
     let mapZoom = 1;
     let searchTimer = null;
 
+    // ==========================================
+    // 1. التخزين المحلي الآمن
+    // ==========================================
     function openIDB() {
       return new Promise(function(resolve, reject) {
         if (!window.indexedDB) return reject(new Error('No IndexedDB'));
@@ -441,6 +586,9 @@
       }
     }
 
+    // ==========================================
+    // 2. دوال مساعدة
+    // ==========================================
     function roundIQD(n) { return Math.round(Number(n) || 0); }
     function fmtMoney(val) { return roundIQD(val).toLocaleString('en-US') + ' د.ع'; }
     function escapeHtml(str) {
@@ -479,70 +627,33 @@
       return p + '-' + datePart + '-' + randPart;
     }
 
-    function addAuditLog(action, details) {
-      state.audit_logs.unshift({ id: state.seq.audit++, action: action, details: details, created_at: localNowStr(0) });
-      if (state.audit_logs.length > 500) state.audit_logs.length = 500;
+    function roleLabel(role) {
+      if (role === 'auditor') return 'مدقق النظام';
+      if (role === 'admin') return 'مدير النظام';
+      return 'موظف مبيعات';
+    }
+
+    function addAuditLog(action, details, categoryType) {
+      state.audit_logs.unshift({
+        id: state.seq.audit++,
+        action: action,
+        category_type: categoryType || 'general', // sale_submit, sale_approve, sale_reject, reserve, payment, unit_edit, user_mgmt
+        details: details,
+        actor_id: currentUser ? currentUser.id : 0,
+        actor_name: currentUser ? currentUser.full_name : 'النظام',
+        actor_role: currentUser ? currentUser.role : 'system',
+        created_at: localNowStr(0)
+      });
+      if (state.audit_logs.length > 800) state.audit_logs.length = 800;
     }
 
     function getLogoHtml(sizeClass) {
       var sz = sizeClass || 'w-14 h-14';
-      var src = (state && state.custom_logo) ? state.custom_logo : 'logo.jpg';
       return '<div class="' + sz + ' rounded-xl bg-[#ede6d8] border border-[#9da67c] overflow-hidden flex items-center justify-center shrink-0">' +
-        '<img src="' + src + '" alt="شعار مجمع حلم الحياة" class="w-full h-full object-cover" onerror="this.classList.add(\'hidden\'); this.nextElementSibling.classList.remove(\'hidden\');" />' +
+        '<img src="logo.jpg" alt="شعار مجمع حلم الحياة" class="w-full h-full object-cover" onerror="this.classList.add(\'hidden\'); this.nextElementSibling.classList.remove(\'hidden\');" />' +
         '<svg class="hidden w-4/5 h-4/5 text-[#38401e]" viewBox="0 0 100 100" fill="currentColor">' +
         '<path d="M12 46 L38 22 L46 29 L46 78 L36 78 L36 52 L22 52 L22 78 L12 78 Z" />' +
         '<path d="M52 22 L88 78 L76 78 L66 60 L54 60 L54 78 L46 78 L46 22 Z M54 49 L62 49 L54 35 Z" /></svg></div>';
-    }
-
-    function handleMissingMasterplanImg() {
-      if (state && state.custom_masterplan) return;
-      document.getElementById('customMasterplanImg').classList.add('hidden');
-      document.getElementById('svgMasterplanFallback').classList.remove('hidden');
-      document.getElementById('mapUploadPrompt').classList.remove('hidden');
-    }
-
-    function applyCustomMedia() {
-      if (state && state.custom_logo) {
-        var img = document.getElementById('headerLogoImg');
-        img.src = state.custom_logo;
-        img.classList.remove('hidden');
-        document.getElementById('headerLogoFallback').classList.add('hidden');
-      }
-      if (state && state.custom_masterplan) {
-        var mImg = document.getElementById('customMasterplanImg');
-        mImg.src = state.custom_masterplan;
-        mImg.classList.remove('hidden');
-        document.getElementById('svgMasterplanFallback').classList.add('hidden');
-        document.getElementById('mapUploadPrompt').classList.add('hidden');
-      }
-    }
-
-    function uploadCustomLogo(event) {
-      var file = event.target.files[0];
-      if (!file) return;
-      var reader = new FileReader();
-      reader.onload = async function(e) {
-        state.custom_logo = e.target.result;
-        applyCustomMedia();
-        await saveStorage();
-        alert('تم رفع وتثبيت شعار مجمع حلم الحياة بنجاح!');
-      };
-      reader.readAsDataURL(file);
-      event.target.value = '';
-    }
-
-    function uploadCustomMasterplan(event) {
-      var file = event.target.files[0];
-      if (!file) return;
-      var reader = new FileReader();
-      reader.onload = async function(e) {
-        state.custom_masterplan = e.target.result;
-        applyCustomMedia();
-        await saveStorage();
-        alert('تم رفع وتثبيت صورة المخطط الهندسي بنجاح!');
-      };
-      reader.readAsDataURL(file);
-      event.target.value = '';
     }
 
     function getProgressColor(pct) {
@@ -552,6 +663,9 @@
       return 'bg-slate-400';
     }
 
+    // ==========================================
+    // 3. بيانات المخطط والوحدات والمستخدمين الافتراضيين
+    // ==========================================
     const DEFAULT_CATEGORIES = {
       'A3': { label: 'دار سكنية A3', area: 200, built: 185, price: 210000000 },
       'A2': { label: 'دار سكنية A2', area: 240, built: 215, price: 255000000 },
@@ -565,11 +679,8 @@
 
     function seq(prefix, start, end) {
       var arr = [];
-      if (start <= end) {
-        for (var i = start; i <= end; i++) arr.push(prefix + '-' + pad2(i));
-      } else {
-        for (var j = start; j >= end; j--) arr.push(prefix + '-' + pad2(j));
-      }
+      if (start <= end) { for (var i = start; i <= end; i++) arr.push(prefix + '-' + pad2(i)); }
+      else { for (var j = start; j >= end; j--) arr.push(prefix + '-' + pad2(j)); }
       return arr;
     }
 
@@ -642,13 +753,8 @@
           var cat = code.split('-')[0];
           var meta = categories[cat] || categories['A3'];
           var r, c;
-          if (z.layout === 'v2') {
-            r = Math.floor(idx / 2);
-            c = idx % 2;
-          } else {
-            r = Math.floor(idx / cols);
-            c = idx % cols;
-          }
+          if (z.layout === 'v2') { r = Math.floor(idx / 2); c = idx % 2; }
+          else { r = Math.floor(idx / cols); c = idx % cols; }
           var x = Number((z.x + ((c + 0.5) / cols) * z.w).toFixed(2));
           var y = Number((z.y + ((r + 0.5) / rows) * z.h).toFixed(2));
 
@@ -665,17 +771,32 @@
             completion_pct: z.pct,
             stage: z.stage,
             notes: 'ضمن مخطط ' + z.id + ' - نموذج ' + cat,
-            status: 'available',
+            status: 'available', // available, reserved, pending_approval, sold
             x: x,
             y: y
           });
         });
       });
 
+      var now = localNowStr(0);
+      var users = [
+        {
+          id: 1, role: 'auditor', username: 'auditor', password: '123456',
+          full_name: 'مدقق النظام الرئيسي', phone: '07700000001',
+          national_id: '198500000001', address: 'إدارة المجمع',
+          commission_pct: 0, active: true, created_at: now
+        },
+        {
+          id: 2, role: 'admin', username: 'admin', password: '123456',
+          full_name: 'مدير النظام العام', phone: '07700000002',
+          national_id: '198800000002', address: 'إدارة المجمع',
+          commission_pct: 0, active: true, created_at: now
+        }
+      ];
+
       return {
-        custom_logo: null,
-        custom_masterplan: null,
         categories: categories,
+        users: users,
         units: units,
         buyers: [],
         contracts: [],
@@ -683,12 +804,11 @@
         payments: [],
         transfers: [],
         audit_logs: [{
-          id: 1,
-          action: 'تهيئة النظام',
-          details: 'تم تحميل مخطط مجمع حلم الحياة (' + units.length + ' وحدة) بالدينار العراقي',
-          created_at: localNowStr(0)
+          id: 1, action: 'تهيئة النظام', category_type: 'general',
+          details: 'تم إنشاء منظومة مجمع حلم الحياة (' + units.length + ' وحدة) بالدينار العراقي ونظام الصلاحيات',
+          actor_id: 1, actor_name: 'النظام', actor_role: 'system', created_at: now
         }],
-        seq: { buyer: 1, contract: 1, installment: 1, payment: 1, transfer: 1, audit: 2 }
+        seq: { user: 3, buyer: 1, contract: 1, installment: 1, payment: 1, transfer: 1, audit: 2 }
       };
     }
 
@@ -701,7 +821,7 @@
           var u = state.units.find(function(x) { return x.id === c.unit_id; });
           if (u && u.status === 'reserved') {
             u.status = 'available';
-            addAuditLog('انتهاء حجز مؤقت', 'انتهت مهلة الحجز للوحدة ' + u.code + ' وعادت متاحة');
+            addAuditLog('انتهاء حجز مؤقت', 'انتهت مهلة الحجز للوحدة ' + u.code + ' وعادت متاحة', 'general');
           }
           changed = true;
         }
@@ -709,6 +829,212 @@
       return changed;
     }
 
+    // ==========================================
+    // 4. تسجيل الدخول وإدارة الصلاحيات والتبويبات
+    // ==========================================
+    function handleLogin(e) {
+      e.preventDefault();
+      var uName = document.getElementById('loginUsername').value.trim();
+      var uPass = document.getElementById('loginPassword').value;
+      var errEl = document.getElementById('loginError');
+
+      var user = state.users.find(function(u) { return u.username === uName && u.password === uPass; });
+      if (!user) {
+        errEl.textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة!';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      if (!user.active) {
+        errEl.textContent = 'تم إيقاف هذا الحساب من قبل الإدارة.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      errEl.classList.add('hidden');
+      currentUser = user;
+      try { sessionStorage.setItem(SESSION_KEY, String(user.id)); } catch (e1) {}
+      addAuditLog('تسجيل دخول', 'دخول المستخدم ' + user.full_name + ' (' + roleLabel(user.role) + ')', 'general');
+      saveStorage();
+      enterApp();
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      try { sessionStorage.removeItem(SESSION_KEY); } catch (e1) {}
+      document.getElementById('appShell').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('loginPassword').value = '';
+    }
+
+    function enterApp() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('appShell').classList.remove('hidden');
+      document.getElementById('userHeaderBadge').textContent = '👤 ' + currentUser.full_name + ' • الصلاحية: ' + roleLabel(currentUser.role);
+
+      var isMgmt = (currentUser.role === 'admin' || currentUser.role === 'auditor');
+      document.getElementById('btnCatSettings').classList.toggle('hidden', !isMgmt);
+      document.getElementById('btnBulkProgress').classList.toggle('hidden', !isMgmt);
+      document.getElementById('mappingBtn').classList.toggle('hidden', !isMgmt);
+      document.getElementById('tabBtn_accountingTab').classList.toggle('hidden', !isMgmt);
+      document.getElementById('tabBtn_staffTab').classList.toggle('hidden', !isMgmt);
+      document.getElementById('tabBtn_auditTab').classList.toggle('hidden', !isMgmt);
+
+      switchTab('mapTab');
+      renderFallbackZoneBoxes();
+      populateZoneSelects();
+      refreshAll();
+    }
+
+    function switchTab(tabId) {
+      currentTab = tabId;
+      ['mapTab', 'accountingTab', 'staffTab', 'auditTab'].forEach(function(id) {
+        document.getElementById('tab_' + id).classList.toggle('hidden', id !== tabId);
+        var btn = document.getElementById('tabBtn_' + id);
+        if (id === tabId) {
+          btn.classList.add('bg-[#f6f2ea]', 'text-olive-dark');
+          btn.classList.remove('text-[#d4ccb9]', 'hover:bg-[#38401e]');
+        } else {
+          btn.classList.remove('bg-[#f6f2ea]', 'text-olive-dark');
+          btn.classList.add('text-[#d4ccb9]', 'hover:bg-[#38401e]');
+        }
+      });
+
+      if (tabId === 'accountingTab') renderAccountingTab();
+      if (tabId === 'staffTab') renderStaffTab();
+      if (tabId === 'auditTab') renderAuditTab();
+    }
+
+    // ==========================================
+    // 5. الإشعارات والموافقة/الرفض على طلبات البيع المعلقة
+    // ==========================================
+    function updatePendingNotifications() {
+      var pendingContracts = state.contracts.filter(function(c) { return c.status === 'pending_approval'; });
+      var isMgmt = currentUser && (currentUser.role === 'admin' || currentUser.role === 'auditor');
+      var btn = document.getElementById('pendingNotifBtn');
+      var banner = document.getElementById('pendingBannerSection');
+
+      if (!isMgmt || pendingContracts.length === 0) {
+        btn.classList.add('hidden');
+        btn.classList.remove('animate-pulse');
+        banner.classList.add('hidden');
+      } else {
+        document.getElementById('pendingNotifCount').textContent = pendingContracts.length;
+        btn.classList.remove('hidden');
+        btn.classList.add('animate-pulse');
+        banner.classList.remove('hidden');
+      }
+    }
+
+    function openPendingModal() {
+      var pendingContracts = state.contracts.filter(function(c) { return c.status === 'pending_approval'; });
+      var body = document.getElementById('pendingModalBody');
+
+      if (pendingContracts.length === 0) {
+        body.innerHTML = '<div class="text-center py-10 text-gray-400 font-bold">لا توجد طلبات بيع معلقة حالياً ✅</div>';
+      } else {
+        body.innerHTML = pendingContracts.map(function(c) {
+          var u = state.units.find(function(x) { return x.id === c.unit_id; });
+          var b = state.buyers.find(function(x) { return x.id === c.buyer_id; });
+          return '<div class="bg-orange-50 border-2 border-orange-400 rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">' +
+            '<div class="space-y-1 text-xs">' +
+              '<div class="font-black text-base text-orange-950">🏠 الوحدة ' + escapeHtml(u ? u.code : '') + ' (زون ' + escapeHtml(u ? u.zone : '') + ') — <span class="text-emerald-800">' + fmtMoney(c.final_price) + '</span></div>' +
+              '<div><b>المشتري:</b> ' + escapeHtml(b ? b.full_name : '') + ' | 📞 ' + escapeHtml(b ? b.phone : '') + ' | البطاقة: ' + escapeHtml(b ? b.national_id : '') + '</div>' +
+              '<div><b>التفاصيل المالية:</b> المقدمة ' + fmtMoney(c.down_payment) + ' | الخصم ' + fmtMoney(c.discount) + ' | الأقساط ' + c.months + ' شهر</div>' +
+              '<div class="text-orange-800 font-bold">👤 مقدم الطلب: ' + escapeHtml(c.submitted_by_name || 'موظف مبيعات') + ' • بتاريخ: <span dir="ltr">' + c.created_at + '</span></div>' +
+            '</div>' +
+            '<div class="flex gap-2">' +
+              '<button type="button" onclick="approvePendingSale(' + c.id + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-black shadow">✅ موافقة وتحويل لمباعة</button>' +
+              '<button type="button" onclick="rejectPendingSale(' + c.id + ')" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl text-xs font-black shadow">❌ رفض وإرجاعها متاحة</button>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      }
+      document.getElementById('pendingModal').classList.remove('hidden');
+    }
+
+    async function approvePendingSale(contractId) {
+      if (!currentUser || currentUser.role === 'sales') return alert('هذه الصلاحية لمدير النظام أو المدقق فقط!');
+      var contract = state.contracts.find(function(c) { return c.id === contractId && c.status === 'pending_approval'; });
+      if (!contract) return;
+      var u = state.units.find(function(x) { return x.id === contract.unit_id; });
+      var buyer = state.buyers.find(function(b) { return b.id === contract.buyer_id; });
+
+      var now = localNowStr(0);
+      contract.status = 'active';
+      contract.approved_by = currentUser.id;
+      contract.approved_by_name = currentUser.full_name;
+      contract.signed_at = now;
+
+      if (contract.down_payment > 0) {
+        state.payments.push({
+          id: state.seq.payment++,
+          receipt_no: genReceiptNo('REC'),
+          contract_id: contract.id,
+          installment_id: null,
+          buyer_id: contract.buyer_id,
+          payment_type: 'down_payment',
+          amount: contract.down_payment,
+          payment_method: 'نقدي (دينار عراقي)',
+          notes: 'الدفعة المقدمة عند اعتماد البيع للوحدة ' + u.code,
+          collected_by: contract.submitted_by || currentUser.id,
+          collected_by_name: contract.submitted_by_name || currentUser.full_name,
+          paid_at: now
+        });
+      }
+
+      var remainingAfterDown = roundIQD(contract.final_price - contract.down_payment);
+      if (remainingAfterDown > 0 && contract.months > 0) {
+        var startDate = contract.requested_start_date || localTodayStr();
+        var baseInstallment = Math.floor(remainingAfterDown / contract.months);
+        var accumulated = 0;
+        for (var i = 1; i <= contract.months; i++) {
+          var dueDate = addMonths(startDate, i);
+          var amt = i < contract.months ? baseInstallment : roundIQD(remainingAfterDown - accumulated);
+          if (i < contract.months) accumulated += amt;
+          state.installments.push({
+            id: state.seq.installment++,
+            contract_id: contract.id,
+            installment_no: i,
+            due_date: dueDate,
+            amount_due: amt,
+            paid_amount: 0,
+            status: 'unpaid'
+          });
+        }
+      }
+
+      u.status = 'sold';
+      addAuditLog('اعتماد طلب بيع', 'وافقت الإدارة (' + currentUser.full_name + ') على بيع الوحدة ' + u.code + ' للمشتري ' + (buyer ? buyer.full_name : '') + ' (مقدم الطلب: ' + (contract.submitted_by_name || '') + ')', 'sale_approve');
+      await saveStorage();
+      await refreshAll();
+      if (!document.getElementById('pendingModal').classList.contains('hidden')) openPendingModal();
+      if (!document.getElementById('unitModal').classList.contains('hidden')) openUnitModal(u.id);
+    }
+
+    async function rejectPendingSale(contractId) {
+      if (!currentUser || currentUser.role === 'sales') return alert('هذه الصلاحية لمدير النظام أو المدقق فقط!');
+      var reason = prompt('اذكر سبب رفض طلب البيع (اختياري):', 'عدم مطابقة شروط الدفعة');
+      if (reason === null) return;
+
+      var contract = state.contracts.find(function(c) { return c.id === contractId && c.status === 'pending_approval'; });
+      if (!contract) return;
+      var u = state.units.find(function(x) { return x.id === contract.unit_id; });
+
+      contract.status = 'rejected';
+      contract.rejected_reason = reason;
+      contract.rejected_by_name = currentUser.full_name;
+      u.status = 'available';
+
+      addAuditLog('رفض طلب بيع', 'تم رفض طلب بيع الوحدة ' + u.code + ' (الموظف: ' + (contract.submitted_by_name || '') + ') السبب: ' + reason, 'sale_reject');
+      await saveStorage();
+      await refreshAll();
+      if (!document.getElementById('pendingModal').classList.contains('hidden')) openPendingModal();
+      closeUnitModal();
+    }
+
+    // ==========================================
+    // 6. المخطط التفاعلي والزونات
+    // ==========================================
     function setMainView(mode) {
       var mapSec = document.getElementById('masterplanSection');
       var matSec = document.getElementById('zonesMatrixSection');
@@ -732,6 +1058,7 @@
       var total = state.units.length;
       var available = state.units.filter(function(u) { return u.status === 'available'; }).length;
       var reserved = state.units.filter(function(u) { return u.status === 'reserved'; }).length;
+      var pending = state.units.filter(function(u) { return u.status === 'pending_approval'; }).length;
       var sold = state.units.filter(function(u) { return u.status === 'sold'; }).length;
       var avgPct = total > 0 ? Math.round(state.units.reduce(function(s, u) { return s + (u.completion_pct || 0); }, 0) / total) : 0;
 
@@ -739,26 +1066,15 @@
       var activeIds = new Set(activeContracts.map(function(c) { return c.id; }));
       var totalSalesVal = roundIQD(activeContracts.reduce(function(s, c) { return s + c.final_price; }, 0));
       var totalCollected = roundIQD(state.payments.filter(function(p) { return p.payment_type !== 'transfer_fee' && activeIds.has(p.contract_id); }).reduce(function(s, p) { return s + p.amount; }, 0));
-      var totalTransferFees = roundIQD(state.payments.filter(function(p) { return p.payment_type === 'transfer_fee'; }).reduce(function(s, p) { return s + p.amount; }, 0));
-
-      var today = localTodayStr();
-      var overdueAmt = roundIQD(
-        state.installments
-          .filter(function(i) { return activeIds.has(i.contract_id) && i.status !== 'paid' && i.due_date < today; })
-          .reduce(function(s, i) { return s + Math.max(0, i.amount_due - i.paid_amount); }, 0)
-      );
 
       document.getElementById('kpiTotal').textContent = total;
-      document.getElementById('kpiAvgProgress').textContent = 'متوسط الإنجاز: ' + avgPct + '%';
+      document.getElementById('kpiAvgProgress').textContent = 'إنجاز: ' + avgPct + '%';
       document.getElementById('kpiAvailable').textContent = available;
       document.getElementById('kpiReserved').textContent = reserved;
+      document.getElementById('kpiPending').textContent = pending;
       document.getElementById('kpiSold').textContent = sold;
       document.getElementById('kpiSalesVal').textContent = fmtMoney(totalSalesVal);
-      document.getElementById('kpiTransferFees').textContent = 'رسوم التنازل: ' + fmtMoney(totalTransferFees);
       document.getElementById('kpiCollected').textContent = fmtMoney(totalCollected);
-      document.getElementById('kpiRemaining').textContent =
-        'متبقي: ' + fmtMoney(Math.max(0, totalSalesVal - totalCollected)) +
-        (overdueAmt > 0 ? ' | متأخر: ' + fmtMoney(overdueAmt) : '');
     }
 
     function setMapZoom(z) {
@@ -766,7 +1082,6 @@
       var inner = document.getElementById('mapCanvasInner');
       inner.style.maxWidth = (920 * z) + 'px';
       inner.style.minWidth = (760 * z) + 'px';
-
       ['zoomBtn1', 'zoomBtn15', 'zoomBtn22'].forEach(function(id) {
         var btn = document.getElementById(id);
         btn.classList.remove('bg-olive-dark', 'text-white');
@@ -782,7 +1097,6 @@
       var toolbar = document.getElementById('mappingToolbar');
       var btn = document.getElementById('mappingBtn');
       var canvas = document.getElementById('mapCanvasInner');
-
       if (isMappingMode) {
         var sel = document.getElementById('mappingUnitSelect');
         sel.innerHTML = state.units.map(function(u) {
@@ -804,12 +1118,10 @@
       var rect = canvas.getBoundingClientRect();
       var xPct = Number(Math.max(0.5, Math.min(99, ((event.clientX - rect.left) / rect.width) * 100)).toFixed(2));
       var yPct = Number(Math.max(0.5, Math.min(99, ((event.clientY - rect.top) / rect.height) * 100)).toFixed(2));
-
       var sel = document.getElementById('mappingUnitSelect');
       var unitId = parseInt(sel.value, 10);
       var u = state.units.find(function(x) { return x.id === unitId; });
       if (!u) return;
-
       u.x = xPct;
       u.y = yPct;
       await saveStorage();
@@ -818,8 +1130,7 @@
     }
 
     function renderFallbackZoneBoxes() {
-      var boxLayer = document.getElementById('fallbackZoneBoxes');
-      boxLayer.innerHTML = ZONES_BLUEPRINT.map(function(z) {
+      document.getElementById('fallbackZoneBoxes').innerHTML = ZONES_BLUEPRINT.map(function(z) {
         return '<div style="left:' + z.x + '%; top:' + z.y + '%; width:' + z.w + '%; height:' + z.h + '%;" class="absolute border-2 border-[#7b8753] bg-white rounded-md shadow-sm"></div>';
       }).join('');
     }
@@ -836,11 +1147,11 @@
       var pinColors = {
         available: 'bg-emerald-500/65 hover:bg-emerald-600 text-white border-emerald-800',
         reserved: 'bg-amber-400/95 hover:bg-amber-500 text-slate-900 border-amber-800',
+        pending_approval: 'blink-pending-pin border-orange-900',
         sold: 'bg-rose-600/95 hover:bg-rose-700 text-white border-rose-950'
       };
 
-      var layer = document.getElementById('mapPinsLayer');
-      layer.innerHTML = state.units.map(function(u) {
+      document.getElementById('mapPinsLayer').innerHTML = state.units.map(function(u) {
         var dimmed = (zoneFilter && u.zone !== zoneFilter) || (statusFilter && u.status !== statusFilter);
         var numLabel = u.code.split('-')[1] || u.code;
         return '<button type="button" onclick="onMapPinClick(event, ' + u.id + ')" onmouseenter="showMapTooltip(event, ' + u.id + ')" onmousemove="moveMapTooltip(event)" onmouseleave="hideMapTooltip()" style="left: ' + u.x + '%; top: ' + u.y + '%;" class="absolute -translate-x-1/2 -translate-y-1/2 w-[15px] h-[11px] rounded-[2px] border text-[6px] font-black leading-none flex items-center justify-center transition-transform hover:scale-[2.2] hover:z-30 ' + pinColors[u.status] + ' ' + (dimmed ? 'opacity-15' : 'opacity-100') + '">' + escapeHtml(numLabel) + '</button>';
@@ -857,17 +1168,22 @@
     function showMapTooltip(event, unitId) {
       var u = state.units.find(function(x) { return x.id === unitId; });
       if (!u) return;
-      var c = state.contracts.find(function(x) { return x.unit_id === unitId && (x.status === 'hold' || x.status === 'active'); });
+      var c = state.contracts.find(function(x) { return x.unit_id === unitId && (x.status === 'hold' || x.status === 'pending_approval' || x.status === 'active'); });
       var b = c ? state.buyers.find(function(x) { return x.id === c.buyer_id; }) : null;
-      var statusText = u.status === 'available' ? '🟢 متاحة للبيع' : (u.status === 'reserved' ? '🟡 محجوزة مؤقتاً' : '🔴 مباعة');
+      var statusMap = {
+        available: '🟢 متاحة للبيع',
+        reserved: '🟡 محجوزة مؤقتاً',
+        pending_approval: '🟠 طلب بيع (بانتظار موافقة مدير النظام)',
+        sold: '🔴 مباعة ومعتمدة'
+      };
 
       var tip = document.getElementById('mapTooltip');
       tip.innerHTML =
         '<div class="font-black text-sm text-[#e3dcbe]">' + escapeHtml(u.code) + ' (' + escapeHtml(u.zone) + ')</div>' +
-        '<div class="text-[11px]">' + statusText + ' | الإنجاز: <b>' + u.completion_pct + '%</b></div>' +
+        '<div class="text-[11px]">' + statusMap[u.status] + ' | الإنجاز: <b>' + u.completion_pct + '%</b></div>' +
         '<div class="text-[11px]">' + escapeHtml(u.unit_type) + ' • ' + u.area_sqm + ' م²</div>' +
         '<div class="text-[11px] font-bold text-emerald-300">' + fmtMoney(u.price) + '</div>' +
-        (b ? '<div class="mt-1 pt-1 border-t border-slate-700 text-amber-300 font-bold">👤 ' + escapeHtml(b.full_name) + ' (' + escapeHtml(b.phone) + ')</div>' : '');
+        (b ? '<div class="mt-1 pt-1 border-t border-slate-700 text-amber-300 font-bold">👤 ' + escapeHtml(b.full_name) + '</div>' : '');
       tip.classList.remove('hidden');
       moveMapTooltip(event);
     }
@@ -877,18 +1193,14 @@
       tip.style.left = Math.min(window.innerWidth - 260, event.clientX + 14) + 'px';
       tip.style.top = Math.min(window.innerHeight - 120, event.clientY + 14) + 'px';
     }
-
     function hideMapTooltip() { document.getElementById('mapTooltip').classList.add('hidden'); }
 
-    function getZonesList() {
-      return ZONES_BLUEPRINT.map(function(z) { return z.id; });
-    }
+    function getZonesList() { return ZONES_BLUEPRINT.map(function(z) { return z.id; }); }
 
     function populateZoneSelects() {
       var zones = getZonesList();
       document.getElementById('bulkZoneSelect').innerHTML = zones.map(function(z) { return '<option value="' + z + '">' + z + '</option>'; }).join('');
-      var mapZ = document.getElementById('mapZoneFilter');
-      mapZ.innerHTML = '<option value="">كل الزونات على المخطط</option>' + zones.map(function(z) { return '<option value="' + z + '">زون ' + z + '</option>'; }).join('');
+      document.getElementById('mapZoneFilter').innerHTML = '<option value="">كل الزونات على المخطط</option>' + zones.map(function(z) { return '<option value="' + z + '">زون ' + z + '</option>'; }).join('');
     }
 
     function selectZone(zoneName) {
@@ -909,10 +1221,11 @@
       zones.forEach(function(z) {
         var zUnits = state.units.filter(function(u) { return u.zone === z; });
         var zAvail = zUnits.filter(function(u) { return u.status === 'available'; }).length;
+        var hasPending = zUnits.some(function(u) { return u.status === 'pending_approval'; });
         var isActive = selectedZone === z;
         html += '<button type="button" onclick="selectZone(\'' + z + '\')" class="border px-2.5 py-1.5 rounded-lg text-xs font-extrabold transition ' +
           (isActive ? 'bg-olive-dark text-white border-olive-dark shadow' : 'bg-white text-olive-dark border-olive hover:bg-[#ede6d8]') +
-          '">' + z + ' <span class="text-[10px] opacity-80">(' + zAvail + '/' + zUnits.length + ')</span></button>';
+          '">' + (hasPending ? '🔔 ' : '') + z + ' <span class="text-[10px] opacity-80">(' + zAvail + '/' + zUnits.length + ')</span></button>';
       });
       container.innerHTML = html;
     }
@@ -929,7 +1242,7 @@
 
       var contractByUnit = new Map();
       state.contracts.forEach(function(c) {
-        if (c.status === 'hold' || c.status === 'active') contractByUnit.set(c.unit_id, c);
+        if (c.status === 'hold' || c.status === 'pending_approval' || c.status === 'active') contractByUnit.set(c.unit_id, c);
       });
       var buyerById = new Map(state.buyers.map(function(b) { return [b.id, b]; }));
 
@@ -940,9 +1253,10 @@
       var squareStyles = {
         available: 'bg-emerald-50 border-emerald-500 hover:bg-emerald-100 text-emerald-950',
         reserved: 'bg-amber-100 border-amber-500 hover:bg-amber-200 text-amber-950',
+        pending_approval: 'blink-pending-card border-2 text-orange-950',
         sold: 'bg-rose-100 border-rose-500 hover:bg-rose-200 text-rose-950'
       };
-      var dotStyles = { available: 'bg-emerald-600', reserved: 'bg-amber-500', sold: 'bg-rose-600' };
+      var dotStyles = { available: 'bg-emerald-600', reserved: 'bg-amber-500', pending_approval: 'bg-orange-600 animate-ping', sold: 'bg-rose-600' };
 
       var blocksHtml = zonesToShow.map(function(z) {
         var zUnits = state.units.filter(function(u) {
@@ -968,13 +1282,15 @@
           var c = contractByUnit.get(u.id);
           var b = c ? buyerById.get(c.buyer_id) : null;
           var pct = u.completion_pct || 0;
-          return '<div onclick="openUnitModal(' + u.id + ')" class="cursor-pointer border-2 rounded-xl p-2.5 transition transform hover:-translate-y-0.5 hover:shadow-md flex flex-col justify-between min-h-[92px] ' + squareStyles[u.status] + '">' +
+          return '<div onclick="openUnitModal(' + u.id + ')" class="cursor-pointer border-2 rounded-xl p-2.5 transition transform hover:-translate-y-0.5 hover:shadow-md flex flex-col justify-between min-h-[96px] ' + squareStyles[u.status] + '">' +
             '<div class="flex items-center justify-between gap-1">' +
               '<span class="font-black text-xs">' + escapeHtml(u.code) + '</span>' +
               '<span class="w-2.5 h-2.5 rounded-full shrink-0 ' + dotStyles[u.status] + '"></span>' +
             '</div>' +
             '<div class="text-[10px] font-bold opacity-75">' + u.area_sqm + ' م² • ' + escapeHtml(u.category) + '</div>' +
-            '<div class="text-[10px] font-extrabold truncate mt-0.5">' + (b ? '👤 ' + escapeHtml(b.full_name) : fmtMoney(u.price)) + '</div>' +
+            (u.status === 'pending_approval'
+              ? '<div class="text-[9px] font-black text-orange-900 bg-white/80 rounded px-1 py-0.5 mt-0.5 text-center">⏳ بانتظار الموافقة</div>'
+              : '<div class="text-[10px] font-extrabold truncate mt-0.5">' + (b ? '👤 ' + escapeHtml(b.full_name) : fmtMoney(u.price)) + '</div>') +
             '<div class="mt-1.5">' +
               '<div class="flex justify-between text-[9px] font-black mb-0.5"><span>إنجاز</span><span>' + pct + '%</span></div>' +
               '<div class="w-full bg-white/80 rounded-full h-1.5 overflow-hidden border border-black/10">' +
@@ -1002,25 +1318,38 @@
 
     async function refreshAll() {
       if (expireOldHolds()) await saveStorage();
+      updatePendingNotifications();
       renderDashboard();
       renderMasterplan();
       renderZonePills();
       renderMatrix();
+      if (currentTab === 'accountingTab') renderAccountingTab();
+      if (currentTab === 'staffTab') renderStaffTab();
+      if (currentTab === 'auditTab') renderAuditTab();
     }
 
+    // ==========================================
+    // 7. بطاقة الوحدة والمشتري
+    // ==========================================
     function openUnitModal(unitId) {
       if (expireOldHolds()) { saveStorage(); refreshAll(); }
 
       var u = state.units.find(function(x) { return x.id === unitId; });
       if (!u) return;
-      var c = state.contracts.find(function(x) { return x.unit_id === unitId && (x.status === 'hold' || x.status === 'active'); });
+      var c = state.contracts.find(function(x) { return x.unit_id === unitId && (x.status === 'hold' || x.status === 'pending_approval' || x.status === 'active'); });
       var buyer = c ? state.buyers.find(function(b) { return b.id === c.buyer_id; }) : null;
+      var isMgmt = currentUser && (currentUser.role === 'admin' || currentUser.role === 'auditor');
 
       document.getElementById('modalTitle').textContent = 'بطاقة الوحدة السكنية: ' + u.code + ' (زون ' + u.zone + ')';
       document.getElementById('modalSubtitle').textContent = u.unit_type + ' | المساحة ' + u.area_sqm + ' م² | الإنجاز ' + u.completion_pct + '%';
 
       var pct = u.completion_pct || 0;
-      var statusLabels = { available: '🟢 متاحة للبيع', reserved: '🟡 محجوزة مؤقتاً', sold: '🔴 مباعة' };
+      var statusLabels = {
+        available: '🟢 متاحة للبيع',
+        reserved: '🟡 محجوزة مؤقتاً',
+        pending_approval: '🟠 طلب بيع (بانتظار موافقة مدير النظام)',
+        sold: '🔴 مباعة ومعتمدة'
+      };
 
       var unitSpecCardHtml = `
         <div class="bg-[#faf8f4] border border-olive rounded-xl p-4 space-y-3">
@@ -1052,15 +1381,15 @@
             ${u.notes ? '<div class="text-[11px] text-gray-600 mt-2">📝 <b>ملاحظات:</b> ' + escapeHtml(u.notes) + '</div>' : ''}
           </div>
           <form id="editUnitForm" onsubmit="submitEditUnit(event, ${u.id})" class="hidden bg-white p-4 rounded-xl border-2 border-[#6d7a40] space-y-3">
-            <div class="font-bold text-xs text-olive-dark">تعديل بيانات الوحدة ونسبة الإنجاز:</div>
+            <div class="font-bold text-xs text-olive-dark">تعديل بيانات الوحدة (سيُسجل التعديل باسمك في سجل الرقابة):</div>
             <div class="grid sm:grid-cols-4 gap-2 text-xs">
-              <div><label class="block text-gray-600 mb-0.5">رقم/رمز الوحدة</label><input type="text" name="code" value="${escapeHtml(u.code)}" required class="w-full border rounded px-2 py-1.5" /></div>
-              <div><label class="block text-gray-600 mb-0.5">السعر (د.ع)</label><input type="number" step="1000" name="price" value="${u.price}" required class="w-full border rounded px-2 py-1.5" /></div>
-              <div><label class="block text-gray-600 mb-0.5">المساحة الكلية (م²)</label><input type="number" step="0.5" name="area_sqm" value="${u.area_sqm}" required class="w-full border rounded px-2 py-1.5" /></div>
-              <div><label class="block text-gray-600 mb-0.5">نسبة الإنجاز (%)</label><input type="number" min="0" max="100" name="completion_pct" value="${pct}" required class="w-full border rounded px-2 py-1.5" /></div>
-              <div><label class="block text-gray-600 mb-0.5">مساحة البناء (م²)</label><input type="number" step="0.5" name="built_area" value="${u.built_area || u.area_sqm}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div><label class="block text-gray-600 mb-0.5">رقم/رمز الوحدة</label><input type="text" name="code" value="${escapeHtml(u.code)}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
+              <div><label class="block text-gray-600 mb-0.5">السعر (د.ع)</label><input type="number" step="1000" name="price" value="${u.price}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
+              <div><label class="block text-gray-600 mb-0.5">المساحة الكلية (م²)</label><input type="number" step="0.5" name="area_sqm" value="${u.area_sqm}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
+              <div><label class="block text-gray-600 mb-0.5">نسبة الإنجاز (%)</label><input type="number" min="0" max="100" name="completion_pct" value="${pct}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
+              <div><label class="block text-gray-600 mb-0.5">مساحة البناء (م²)</label><input type="number" step="0.5" name="built_area" value="${u.built_area || u.area_sqm}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
               <div><label class="block text-gray-600 mb-0.5">الواجهة / الإطلالة</label><input type="text" name="direction" value="${escapeHtml(u.direction)}" required class="w-full border rounded px-2 py-1.5" /></div>
-              <div class="sm:col-span-2"><label class="block text-gray-600 mb-0.5">مرحلة البناء</label><input type="text" name="stage" value="${escapeHtml(u.stage)}" required class="w-full border rounded px-2 py-1.5" /></div>
+              <div class="sm:col-span-2"><label class="block text-gray-600 mb-0.5">مرحلة البناء</label><input type="text" name="stage" value="${escapeHtml(u.stage)}" ${isMgmt ? '' : 'readonly'} required class="w-full border rounded px-2 py-1.5 ${isMgmt ? '' : 'bg-gray-100'}" /></div>
               <div class="sm:col-span-4"><label class="block text-gray-600 mb-0.5">ملاحظات الوحدة</label><input type="text" name="notes" value="${escapeHtml(u.notes || '')}" class="w-full border rounded px-2 py-1.5" /></div>
             </div>
             <button type="submit" class="bg-olive-dark hover:bg-olive-mid text-white px-4 py-1.5 rounded-lg text-xs font-bold">💾 حفظ التعديلات</button>
@@ -1070,7 +1399,32 @@
 
       var actionSectionHtml = '';
 
-      if (u.status === 'available' || u.status === 'reserved') {
+      if (u.status === 'pending_approval' && c && buyer) {
+        actionSectionHtml = `
+          <div class="bg-orange-50 border-2 border-orange-500 rounded-xl p-5 space-y-4">
+            <div class="flex flex-wrap justify-between items-center gap-3 border-b border-orange-300 pb-3">
+              <div>
+                <h3 class="font-black text-orange-950 text-base">🟠 طلب بيع معلق (بانتظار موافقة مدير النظام)</h3>
+                <p class="text-xs text-orange-800">مقدم الطلب: <b>${escapeHtml(c.submitted_by_name || '')}</b> • بتاريخ <span dir="ltr">${c.created_at}</span></p>
+              </div>
+              ${isMgmt ? `
+                <div class="flex gap-2">
+                  <button type="button" onclick="approvePendingSale(${c.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-black shadow">✅ موافقة واعتماد البيع</button>
+                  <button type="button" onclick="rejectPendingSale(${c.id})" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl text-xs font-black shadow">❌ رفض وإرجاع الوحدة</button>
+                </div>
+              ` : '<span class="bg-amber-200 text-amber-950 px-3 py-1.5 rounded-lg text-xs font-black">⏳ بانتظار موافقة مدير النظام</span>'}
+            </div>
+            <div class="grid sm:grid-cols-3 gap-3 text-xs bg-white p-3.5 rounded-xl border">
+              <div><span class="text-gray-500 block">اسم المشتري:</span><b>${escapeHtml(buyer.full_name)}</b></div>
+              <div><span class="text-gray-500 block">الهاتف:</span><b dir="ltr">${escapeHtml(buyer.phone)}</b></div>
+              <div><span class="text-gray-500 block">البطاقة الوطنية:</span><b>${escapeHtml(buyer.national_id)}</b></div>
+              <div><span class="text-gray-500 block">السعر النهائي:</span><b class="text-emerald-800">${fmtMoney(c.final_price)}</b> (خصم ${fmtMoney(c.discount)})</div>
+              <div><span class="text-gray-500 block">الدفعة المقدمة:</span><b>${fmtMoney(c.down_payment)}</b></div>
+              <div><span class="text-gray-500 block">خطة الأقساط:</span><b>${c.months} شهر</b></div>
+            </div>
+          </div>
+        `;
+      } else if (u.status === 'available' || u.status === 'reserved') {
         var preName = buyer ? escapeHtml(buyer.full_name) : '';
         var prePhone = buyer ? escapeHtml(buyer.phone) : '';
         var preAltPhone = buyer ? escapeHtml(buyer.alt_phone || '') : '';
@@ -1109,7 +1463,9 @@
             ` : ''}
 
             <form onsubmit="submitSell(event, ${u.id})" class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-300 space-y-2.5 ${u.status === 'reserved' ? 'md:col-span-2' : ''}">
-              <h3 class="font-bold text-emerald-900 border-b border-emerald-200 pb-2 text-sm">✍️ تحويل لمباعة وإدخال بيانات المشتري الكاملة</h3>
+              <h3 class="font-bold text-emerald-900 border-b border-emerald-200 pb-2 text-sm">
+                ${isMgmt ? '✍️ بيع مباشر واعتماد العقد فوراً' : '✍️ تقديم طلب بيع (يُرسل لموافقة مدير النظام)'}
+              </h3>
               <div class="grid sm:grid-cols-2 gap-2">
                 <input required name="buyer_name" value="${preName}" placeholder="الاسم الرباعي للمشتري *" class="border rounded-lg px-3 py-2 text-xs bg-white" />
                 <input required name="buyer_phone" value="${prePhone}" placeholder="رقم الهاتف الأساسي *" class="border rounded-lg px-3 py-2 text-xs bg-white" />
@@ -1118,10 +1474,7 @@
                 <input name="buyer_residence_card" value="${preResCard}" placeholder="رقم بطاقة السكن" class="border rounded-lg px-3 py-2 text-xs bg-white" />
                 <input name="buyer_address" value="${preAddress}" placeholder="عنوان السكن الحالي" class="border rounded-lg px-3 py-2 text-xs bg-white" />
               </div>
-              <div class="grid sm:grid-cols-2 gap-2">
-                <input name="sales_agent" placeholder="اسم موظف المبيعات / الوسيط" class="border rounded-lg px-3 py-2 text-xs bg-white" />
-                <input name="contract_notes" placeholder="ملاحظات العقد (إن وجدت)" class="border rounded-lg px-3 py-2 text-xs bg-white" />
-              </div>
+              <input name="contract_notes" placeholder="ملاحظات العقد (إن وجدت)" class="w-full border rounded-lg px-3 py-2 text-xs bg-white" />
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
                 <div><label class="text-[11px] text-gray-600 font-bold">الخصم (د.ع)</label><input type="number" step="1000" name="discount" value="0" min="0" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
                 <div><label class="text-[11px] text-gray-600 font-bold">المقدمة (د.ع)</label><input type="number" step="1000" name="down_payment" value="${defaultDown}" min="0" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
@@ -1129,7 +1482,7 @@
                 <div><label class="text-[11px] text-gray-600 font-bold">بدء الأقساط</label><input type="date" name="start_date" value="${todayStr}" class="w-full border rounded-lg px-2.5 py-1.5 text-xs bg-white" /></div>
               </div>
               <button type="submit" class="w-full bg-olive-dark hover:bg-olive-mid text-white font-bold py-2.5 rounded-lg text-sm">
-                ✅ تحويل الوحدة إلى مباعة وتوليد الأقساط بالدينار العراقي
+                ${isMgmt ? '✅ إتمام البيع واعتماد العقد فوراً' : '📤 إرسال طلب البيع لمدير النظام'}
               </button>
             </form>
           </div>
@@ -1172,7 +1525,7 @@
           <div class="bg-rose-50/40 border-2 border-rose-200 rounded-xl p-4 space-y-4">
             <div class="flex flex-wrap justify-between items-center gap-2 border-b border-rose-200 pb-2">
               <h3 class="font-black text-rose-900 text-sm">👤 بطاقة بيانات المشتري الكاملة والعقد (#${c.id})</h3>
-              <button type="button" onclick="document.getElementById('transferBox').classList.toggle('hidden')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🔄 تنازل / نقل ملكية لمشترٍ جديد</button>
+              ${isMgmt ? '<button type="button" onclick="document.getElementById(\'transferBox\').classList.toggle(\'hidden\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🔄 تنازل / نقل ملكية لمشترٍ جديد</button>' : ''}
             </div>
             <div class="grid sm:grid-cols-3 gap-4 text-xs">
               <div class="bg-white p-3 rounded-lg border space-y-1">
@@ -1192,7 +1545,7 @@
                 <div><span class="text-gray-500">السعر النهائي:</span> <b>${fmtMoney(c.final_price)}</b> (خصم: ${fmtMoney(c.discount)})</div>
                 <div><span class="text-gray-500">إجمالي المدفوع:</span> <b class="text-emerald-700">${fmtMoney(totalPaid)}</b></div>
                 <div><span class="text-gray-500">المتبقي بالذمة:</span> <b class="text-rose-700">${fmtMoney(remainingContract)}</b></div>
-                <div class="text-[11px] text-gray-500 pt-1">تاريخ التوقيع: ${c.signed_at || c.created_at} • المندوب: ${escapeHtml(c.sales_agent || 'المبيعات')}</div>
+                <div class="text-[11px] text-gray-500 pt-1">البائع: ${escapeHtml(c.submitted_by_name || 'الإدارة')} • المعتمد: ${escapeHtml(c.approved_by_name || 'الإدارة')}</div>
               </div>
             </div>
             ${c.contract_notes ? '<div class="text-xs bg-white p-2.5 rounded border text-gray-700">📌 <b>ملاحظات العقد:</b> ' + escapeHtml(c.contract_notes) + '</div>' : ''}
@@ -1247,93 +1600,33 @@
 
     function closeUnitModal() { document.getElementById('unitModal').classList.add('hidden'); }
 
-    function openCategorySettingsModal() {
-      var cats = state.categories || DEFAULT_CATEGORIES;
-      var rows = Object.keys(cats).map(function(key) {
-        var c = cats[key];
-        return '<div class="grid grid-cols-12 gap-2 items-center bg-[#faf8f4] p-2.5 rounded-lg border">' +
-          '<div class="col-span-3 font-black text-olive-dark">' + key + ' — ' + escapeHtml(c.label) + '</div>' +
-          '<div class="col-span-3"><label class="text-[10px] text-gray-500 block">المساحة الكلية (م²)</label><input type="number" step="0.5" name="area_' + key + '" value="' + c.area + '" required class="w-full border rounded px-2 py-1 bg-white" /></div>' +
-          '<div class="col-span-2"><label class="text-[10px] text-gray-500 block">البناء (م²)</label><input type="number" step="0.5" name="built_' + key + '" value="' + c.built + '" required class="w-full border rounded px-2 py-1 bg-white" /></div>' +
-          '<div class="col-span-4"><label class="text-[10px] text-gray-500 block">السعر الرسمي (د.ع)</label><input type="number" step="1000" name="price_' + key + '" value="' + c.price + '" required class="w-full border rounded px-2 py-1 bg-white font-bold" /></div></div>';
-      }).join('');
-      document.getElementById('categorySettingsRows').innerHTML = rows;
-      document.getElementById('categorySettingsModal').classList.remove('hidden');
-    }
-
-    async function submitCategorySettings(e) {
-      e.preventDefault();
-      var form = Object.fromEntries(new FormData(e.target));
-      var updatedCount = 0;
-
-      Object.keys(state.categories).forEach(function(key) {
-        var area = Number(form['area_' + key]);
-        var built = Number(form['built_' + key]);
-        var price = roundIQD(form['price_' + key]);
-        state.categories[key].area = area;
-        state.categories[key].built = built;
-        state.categories[key].price = price;
-
-        state.units.forEach(function(u) {
-          if (u.category === key && u.status !== 'sold') {
-            u.area_sqm = area;
-            u.built_area = built;
-            u.price = price;
-            updatedCount++;
-          }
-        });
-      });
-
-      addAuditLog('تحديث تسعير النماذج', 'تحديث المساحات والأسعار بالدينار العراقي لـ ' + updatedCount + ' وحدة غير مباعة');
-      await saveStorage();
-      await refreshAll();
-      document.getElementById('categorySettingsModal').classList.add('hidden');
-      alert('تم تحديث الأسعار والمساحات لـ ' + updatedCount + ' وحدة بنجاح!');
-    }
-
+    // ==========================================
+    // 8. عمليات البيع، التعديل، الأقساط، التنازل
+    // ==========================================
     async function submitEditUnit(e, unitId) {
       e.preventDefault();
       var form = Object.fromEntries(new FormData(e.target));
       var u = state.units.find(function(x) { return x.id === unitId; });
       if (!u) return;
 
-      var pct = parseInt(form.completion_pct, 10);
-      if (isNaN(pct) || pct < 0 || pct > 100) return alert('نسبة الإنجاز يجب أن تكون بين 0 و 100');
-
-      u.code = form.code.trim();
-      u.price = roundIQD(form.price);
-      u.area_sqm = Number(form.area_sqm);
-      u.built_area = Number(form.built_area);
-      u.completion_pct = pct;
+      var isMgmt = currentUser && (currentUser.role === 'admin' || currentUser.role === 'auditor');
+      if (isMgmt) {
+        var pct = parseInt(form.completion_pct, 10);
+        if (isNaN(pct) || pct < 0 || pct > 100) return alert('نسبة الإنجاز يجب أن تكون بين 0 و 100');
+        u.code = form.code.trim();
+        u.price = roundIQD(form.price);
+        u.area_sqm = Number(form.area_sqm);
+        u.built_area = Number(form.built_area);
+        u.completion_pct = pct;
+        u.stage = form.stage.trim();
+      }
       u.direction = form.direction.trim();
-      u.stage = form.stage.trim();
       u.notes = form.notes.trim();
 
-      addAuditLog('تعديل بطاقة وحدة', 'تحديث بيانات الوحدة ' + u.code + ': السعر ' + fmtMoney(u.price) + '، الإنجاز ' + u.completion_pct + '%');
+      addAuditLog('تعديل وحدة', 'قام (' + currentUser.full_name + ') بتعديل بيانات الوحدة ' + u.code + ' (السعر: ' + fmtMoney(u.price) + '، الإنجاز: ' + u.completion_pct + '%)', 'unit_edit');
       await saveStorage();
       await refreshAll();
       openUnitModal(unitId);
-    }
-
-    function openBulkProgressModal() { document.getElementById('bulkProgressModal').classList.remove('hidden'); }
-
-    async function submitBulkProgress(e) {
-      e.preventDefault();
-      var form = Object.fromEntries(new FormData(e.target));
-      var zone = form.zone;
-      var pct = parseInt(form.completion_pct, 10);
-      var stage = form.stage;
-
-      var count = 0;
-      state.units.forEach(function(u) {
-        if (u.zone === zone) { u.completion_pct = pct; u.stage = stage; count++; }
-      });
-
-      addAuditLog('تحديث إنجاز جماعي', 'تحديث نسبة إنجاز زون ' + zone + ' (' + count + ' وحدة) إلى ' + pct + '% - ' + stage);
-      await saveStorage();
-      await refreshAll();
-      document.getElementById('bulkProgressModal').classList.add('hidden');
-      alert('تم تحديث نسبة الإنجاز لـ ' + count + ' وحدة في زون ' + zone + ' إلى ' + pct + '%');
     }
 
     async function submitReserve(e, unitId) {
@@ -1365,7 +1658,8 @@
         final_price: u.price,
         down_payment: 0,
         months: 0,
-        sales_agent: '',
+        submitted_by: currentUser.id,
+        submitted_by_name: currentUser.full_name,
         contract_notes: '',
         hold_expires_at: localNowStr(hours),
         created_at: localNowStr(0),
@@ -1373,7 +1667,7 @@
       });
 
       u.status = 'reserved';
-      addAuditLog('حجز مؤقت', 'حجز الوحدة ' + u.code + ' للزبون ' + buyer.full_name + ' لمدة ' + hours + ' ساعة');
+      addAuditLog('حجز مؤقت', 'حجز الوحدة ' + u.code + ' للزبون ' + buyer.full_name + ' لمدة ' + hours + ' ساعة', 'reserve');
       await saveStorage();
       await refreshAll();
       openUnitModal(unitId);
@@ -1386,7 +1680,7 @@
       if (c) c.status = 'cancelled';
       if (u) {
         u.status = 'available';
-        addAuditLog('إلغاء حجز', 'تم إلغاء الحجز المؤقت للوحدة ' + u.code + ' وإعادتها متاحة');
+        addAuditLog('إلغاء حجز', 'تم إلغاء الحجز المؤقت للوحدة ' + u.code + ' وإعادتها متاحة', 'unit_edit');
       }
       await saveStorage();
       await refreshAll();
@@ -1397,7 +1691,7 @@
       e.preventDefault();
       var form = Object.fromEntries(new FormData(e.target));
       var u = state.units.find(function(x) { return x.id === unitId; });
-      if (!u || u.status === 'sold') return alert('هذه الوحدة مباعة بالفعل!');
+      if (!u || u.status === 'sold' || u.status === 'pending_approval') return alert('هذه الوحدة غير متاحة للبيع الآن!');
 
       var discount = roundIQD(form.discount || 0);
       var downPayment = roundIQD(form.down_payment || 0);
@@ -1410,6 +1704,7 @@
       if (remainingAfterDown > 0 && months <= 0) return alert('يرجى تحديد عدد أشهر الأقساط للمبلغ المتبقي');
 
       var now = localNowStr(0);
+      var isMgmt = (currentUser.role === 'admin' || currentUser.role === 'auditor');
       var contract = state.contracts.find(function(x) { return x.unit_id === unitId && x.status === 'hold'; });
       var buyer;
 
@@ -1422,16 +1717,16 @@
         buyer.residence_card = (form.buyer_residence_card || '').trim();
         buyer.address = (form.buyer_address || '').trim();
 
-        contract.status = 'active';
         contract.total_price = u.price;
         contract.discount = discount;
         contract.final_price = finalPrice;
         contract.down_payment = downPayment;
         contract.months = months;
-        contract.sales_agent = (form.sales_agent || '').trim();
+        contract.requested_start_date = form.start_date || localTodayStr();
+        contract.submitted_by = currentUser.id;
+        contract.submitted_by_name = currentUser.full_name;
         contract.contract_notes = (form.contract_notes || '').trim();
         contract.hold_expires_at = null;
-        contract.signed_at = now;
       } else {
         buyer = {
           id: state.seq.buyer++,
@@ -1448,58 +1743,74 @@
           id: state.seq.contract++,
           unit_id: unitId,
           buyer_id: buyer.id,
-          status: 'active',
+          status: isMgmt ? 'active' : 'pending_approval',
           total_price: u.price,
           discount: discount,
           final_price: finalPrice,
           down_payment: downPayment,
           months: months,
-          sales_agent: (form.sales_agent || '').trim(),
+          requested_start_date: form.start_date || localTodayStr(),
+          submitted_by: currentUser.id,
+          submitted_by_name: currentUser.full_name,
           contract_notes: (form.contract_notes || '').trim(),
           hold_expires_at: null,
           created_at: now,
-          signed_at: now
+          signed_at: null
         };
         state.contracts.push(contract);
       }
 
-      if (downPayment > 0) {
-        state.payments.push({
-          id: state.seq.payment++,
-          receipt_no: genReceiptNo('REC'),
-          contract_id: contract.id,
-          installment_id: null,
-          buyer_id: buyer.id,
-          payment_type: 'down_payment',
-          amount: downPayment,
-          payment_method: 'نقدي (دينار عراقي)',
-          notes: 'الدفعة المقدمة عند توقيع العقد للوحدة ' + u.code,
-          paid_at: now
-        });
-      }
+      if (isMgmt) {
+        contract.status = 'active';
+        contract.approved_by = currentUser.id;
+        contract.approved_by_name = currentUser.full_name;
+        contract.signed_at = now;
 
-      if (remainingAfterDown > 0 && months > 0) {
-        var startDate = form.start_date || localTodayStr();
-        var baseInstallment = Math.floor(remainingAfterDown / months);
-        var accumulated = 0;
-        for (var i = 1; i <= months; i++) {
-          var dueDate = addMonths(startDate, i);
-          var amt = i < months ? baseInstallment : roundIQD(remainingAfterDown - accumulated);
-          if (i < months) accumulated += amt;
-          state.installments.push({
-            id: state.seq.installment++,
+        if (downPayment > 0) {
+          state.payments.push({
+            id: state.seq.payment++,
+            receipt_no: genReceiptNo('REC'),
             contract_id: contract.id,
-            installment_no: i,
-            due_date: dueDate,
-            amount_due: amt,
-            paid_amount: 0,
-            status: 'unpaid'
+            installment_id: null,
+            buyer_id: buyer.id,
+            payment_type: 'down_payment',
+            amount: downPayment,
+            payment_method: 'نقدي (دينار عراقي)',
+            notes: 'الدفعة المقدمة عند توقيع العقد للوحدة ' + u.code,
+            collected_by: currentUser.id,
+            collected_by_name: currentUser.full_name,
+            paid_at: now
           });
         }
+
+        if (remainingAfterDown > 0 && months > 0) {
+          var startDate = contract.requested_start_date;
+          var baseInstallment = Math.floor(remainingAfterDown / months);
+          var accumulated = 0;
+          for (var i = 1; i <= months; i++) {
+            var dueDate = addMonths(startDate, i);
+            var amt = i < months ? baseInstallment : roundIQD(remainingAfterDown - accumulated);
+            if (i < months) accumulated += amt;
+            state.installments.push({
+              id: state.seq.installment++,
+              contract_id: contract.id,
+              installment_no: i,
+              due_date: dueDate,
+              amount_due: amt,
+              paid_amount: 0,
+              status: 'unpaid'
+            });
+          }
+        }
+        u.status = 'sold';
+        addAuditLog('بيع واعتماد مباشر', 'بيع الوحدة ' + u.code + ' للمشتري ' + buyer.full_name + ' بسعر ' + fmtMoney(finalPrice), 'sale_approve');
+      } else {
+        contract.status = 'pending_approval';
+        u.status = 'pending_approval';
+        addAuditLog('طلب بيع جديد (معلق)', 'قدم الموظف (' + currentUser.full_name + ') طلب بيع الوحدة ' + u.code + ' للمشتري ' + buyer.full_name + ' بسعر ' + fmtMoney(finalPrice), 'sale_submit');
+        alert('تم تقديم طلب البيع بنجاح! ستبقى الوحدة تومض على المخطط والمصفوفة كإشعار حتى يوافق مدير النظام.');
       }
 
-      u.status = 'sold';
-      addAuditLog('تثبيت بيع وعقد', 'بيع الوحدة ' + u.code + ' للمشتري ' + buyer.full_name + ' بسعر ' + fmtMoney(finalPrice));
       await saveStorage();
       await refreshAll();
       openUnitModal(unitId);
@@ -1533,10 +1844,12 @@
         amount: amount,
         payment_method: 'نقدي (دينار عراقي)',
         notes: 'تسديد القسط رقم ' + inst.installment_no + ' للوحدة ' + u.code,
+        collected_by: currentUser.id,
+        collected_by_name: currentUser.full_name,
         paid_at: localNowStr(0)
       });
 
-      addAuditLog('استلام دفعة قسط', 'وصل ' + receiptNo + ': استلام ' + fmtMoney(amount) + ' للوحدة ' + u.code);
+      addAuditLog('استلام دفعة قسط', 'وصل ' + receiptNo + ': استلام ' + fmtMoney(amount) + ' للوحدة ' + u.code, 'payment');
       await saveStorage();
       await refreshAll();
       openUnitModal(unitId);
@@ -1587,14 +1900,638 @@
           amount: fee,
           payment_method: 'نقدي (دينار عراقي)',
           notes: 'رسوم تنازل عن الوحدة ' + u.code,
+          collected_by: currentUser.id,
+          collected_by_name: currentUser.full_name,
           paid_at: now
         });
       }
 
-      addAuditLog('تنازل ونقل ملكية', 'نقل ملكية الوحدة ' + u.code + ' من (' + oldBuyer.full_name + ') إلى (' + newBuyer.full_name + ') برسوم ' + fmtMoney(fee));
+      addAuditLog('تنازل ونقل ملكية', 'نقل ملكية الوحدة ' + u.code + ' من (' + oldBuyer.full_name + ') إلى (' + newBuyer.full_name + ') برسوم ' + fmtMoney(fee), 'unit_edit');
       await saveStorage();
       await refreshAll();
       openUnitModal(unitId);
+    }
+
+    // ==========================================
+    // 9. التبويب 2: الإحصائيات والحسابات المالية الشاملة
+    // ==========================================
+    function computeFinancialSnapshot() {
+      var totalInventoryValue = roundIQD(state.units.reduce(function(s, u) { return s + u.price; }, 0));
+      var availableValue = roundIQD(state.units.filter(function(u) { return u.status === 'available'; }).reduce(function(s, u) { return s + u.price; }, 0));
+
+      var activeContracts = state.contracts.filter(function(c) { return c.status === 'active'; });
+      var activeIds = new Set(activeContracts.map(function(c) { return c.id; }));
+      var pendingContracts = state.contracts.filter(function(c) { return c.status === 'pending_approval'; });
+
+      var soldContractsVal = roundIQD(activeContracts.reduce(function(s, c) { return s + c.final_price; }, 0));
+      var totalDiscounts = roundIQD(activeContracts.reduce(function(s, c) { return s + (c.discount || 0); }, 0));
+      var pendingVal = roundIQD(pendingContracts.reduce(function(s, c) { return s + c.final_price; }, 0));
+
+      var downPaymentsSum = roundIQD(state.payments.filter(function(p) { return p.payment_type === 'down_payment' && activeIds.has(p.contract_id); }).reduce(function(s, p) { return s + p.amount; }, 0));
+      var installmentsSum = roundIQD(state.payments.filter(function(p) { return p.payment_type === 'installment' && activeIds.has(p.contract_id); }).reduce(function(s, p) { return s + p.amount; }, 0));
+      var transferFeesSum = roundIQD(state.payments.filter(function(p) { return p.payment_type === 'transfer_fee'; }).reduce(function(s, p) { return s + p.amount; }, 0));
+      var totalCashIn = roundIQD(downPaymentsSum + installmentsSum + transferFeesSum);
+      var totalReceivables = roundIQD(Math.max(0, soldContractsVal - (downPaymentsSum + installmentsSum)));
+
+      var today = localTodayStr();
+      var currentMonthPrefix = today.slice(0, 7);
+      var overdueList = state.installments.filter(function(i) {
+        return activeIds.has(i.contract_id) && i.status !== 'paid' && i.due_date < today;
+      });
+      var overdueSum = roundIQD(overdueList.reduce(function(s, i) { return s + Math.max(0, i.amount_due - i.paid_amount); }, 0));
+
+      var dueThisMonthSum = roundIQD(state.installments.filter(function(i) {
+        return activeIds.has(i.contract_id) && i.status !== 'paid' && i.due_date.slice(0, 7) === currentMonthPrefix;
+      }).reduce(function(s, i) { return s + Math.max(0, i.amount_due - i.paid_amount); }, 0));
+
+      return {
+        totalInventoryValue: totalInventoryValue, availableValue: availableValue,
+        soldContractsVal: soldContractsVal, totalDiscounts: totalDiscounts, pendingVal: pendingVal,
+        downPaymentsSum: downPaymentsSum, installmentsSum: installmentsSum, transferFeesSum: transferFeesSum,
+        totalCashIn: totalCashIn, totalReceivables: totalReceivables,
+        overdueList: overdueList, overdueSum: overdueSum, dueThisMonthSum: dueThisMonthSum
+      };
+    }
+
+    function renderAccountingTab() {
+      var fin = computeFinancialSnapshot();
+
+      // إحصائيات النماذج
+      var cats = state.categories || DEFAULT_CATEGORIES;
+      var modelRowsHtml = Object.keys(cats).map(function(k) {
+        var uList = state.units.filter(function(u) { return u.category === k; });
+        var avail = uList.filter(function(u) { return u.status === 'available'; }).length;
+        var pend = uList.filter(function(u) { return u.status === 'pending_approval'; }).length;
+        var soldUnits = uList.filter(function(u) { return u.status === 'sold'; });
+        var soldIds = new Set(soldUnits.map(function(u) { return u.id; }));
+        var rev = roundIQD(state.contracts.filter(function(c) { return c.status === 'active' && soldIds.has(c.unit_id); }).reduce(function(s, c) { return s + c.final_price; }, 0));
+
+        return '<tr class="hover:bg-slate-50">' +
+          '<td class="p-2.5 font-black text-olive-dark">' + k + ' (' + escapeHtml(cats[k].label) + ')</td>' +
+          '<td class="p-2.5 font-bold">' + uList.length + '</td>' +
+          '<td class="p-2.5 text-emerald-700 font-bold">' + avail + '</td>' +
+          '<td class="p-2.5 text-orange-600 font-bold">' + pend + '</td>' +
+          '<td class="p-2.5 text-rose-700 font-bold">' + soldUnits.length + '</td>' +
+          '<td class="p-2.5 font-black text-blue-800">' + fmtMoney(rev) + '</td>' +
+        '</tr>';
+      }).join('');
+
+      // إحصائيات الزونات
+      var zoneRowsHtml = ZONES_BLUEPRINT.map(function(z) {
+        var zUnits = state.units.filter(function(u) { return u.zone === z.id; });
+        var avail = zUnits.filter(function(u) { return u.status === 'available'; }).length;
+        var soldU = zUnits.filter(function(u) { return u.status === 'sold'; });
+        var pend = zUnits.filter(function(u) { return u.status === 'pending_approval'; }).length;
+        var avgPct = Math.round(zUnits.reduce(function(s, u) { return s + (u.completion_pct || 0); }, 0) / zUnits.length);
+        var soldIds = new Set(soldU.map(function(u) { return u.id; }));
+        var rev = roundIQD(state.contracts.filter(function(c) { return c.status === 'active' && soldIds.has(c.unit_id); }).reduce(function(s, c) { return s + c.final_price; }, 0));
+        return '<tr class="hover:bg-slate-50">' +
+          '<td class="p-2 font-black text-olive-dark">' + z.id + '</td>' +
+          '<td class="p-2">' + zUnits.length + '</td>' +
+          '<td class="p-2 text-emerald-700 font-bold">' + avail + '</td>' +
+          '<td class="p-2 text-orange-600 font-bold">' + pend + '</td>' +
+          '<td class="p-2 text-rose-700 font-bold">' + soldU.length + '</td>' +
+          '<td class="p-2 font-bold">' + avgPct + '%</td>' +
+          '<td class="p-2 font-bold text-blue-800">' + fmtMoney(rev) + '</td>' +
+        '</tr>';
+      }).join('');
+
+      // الأقساط المتأخرة
+      var overdueHtml = fin.overdueList.length === 0
+        ? '<tr><td colspan="6" class="p-4 text-center text-emerald-700 font-bold">لا توجد أقساط متأخرة حالياً ✅</td></tr>'
+        : fin.overdueList.slice(0, 50).map(function(inst) {
+            var c = state.contracts.find(function(x) { return x.id === inst.contract_id; });
+            var u = c ? state.units.find(function(x) { return x.id === c.unit_id; }) : null;
+            var b = c ? state.buyers.find(function(x) { return x.id === c.buyer_id; }) : null;
+            var rem = roundIQD(inst.amount_due - inst.paid_amount);
+            return '<tr class="hover:bg-rose-50">' +
+              '<td class="p-2 font-black">' + escapeHtml(u ? u.code : '') + '</td>' +
+              '<td class="p-2 font-bold">' + escapeHtml(b ? b.full_name : '') + ' (' + escapeHtml(b ? b.phone : '') + ')</td>' +
+              '<td class="p-2">قسط #' + inst.installment_no + '</td>' +
+              '<td class="p-2 text-rose-700 font-bold" dir="ltr">' + inst.due_date + '</td>' +
+              '<td class="p-2 font-black text-rose-800">' + fmtMoney(rem) + '</td>' +
+              '<td class="p-2"><button type="button" onclick="openUnitModal(' + (u ? u.id : 0) + ')" class="bg-olive-dark text-white px-2.5 py-1 rounded text-[11px] font-bold">فتح البطاقة</button></td>' +
+            '</tr>';
+          }).join('');
+
+      // سجل المقبوضات
+      var ledgerHtml = state.payments.slice().reverse().slice(0, 100).map(function(p) {
+        var b = state.buyers.find(function(x) { return x.id === p.buyer_id; });
+        return '<tr class="hover:bg-slate-50">' +
+          '<td class="p-2 font-mono font-bold text-blue-700">' + escapeHtml(p.receipt_no) + '</td>' +
+          '<td class="p-2 font-bold">' + escapeHtml(b ? b.full_name : '') + '</td>' +
+          '<td class="p-2">' + escapeHtml(p.notes) + '</td>' +
+          '<td class="p-2 font-black text-emerald-700">' + fmtMoney(p.amount) + '</td>' +
+          '<td class="p-2">' + escapeHtml(p.collected_by_name || 'الإدارة') + '</td>' +
+          '<td class="p-2" dir="ltr">' + p.paid_at + '</td>' +
+          '<td class="p-2"><button type="button" onclick="openReceiptById(' + p.id + ')" class="bg-slate-700 text-white px-2 py-1 rounded">🖨️</button></td>' +
+        '</tr>';
+      }).join('');
+
+      document.getElementById('accountingContent').innerHTML = `
+        <!-- بطاقات الملخص المالي التفصيلي -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-2xl border border-olive shadow-sm space-y-1">
+            <div class="text-xs text-gray-500 font-bold">إجمالي القيمة السوقية للمشروع</div>
+            <div class="text-xl font-black text-olive-dark">${fmtMoney(fin.totalInventoryValue)}</div>
+            <div class="text-[11px] text-emerald-700 font-bold">قيمة المتاح للبيع: ${fmtMoney(fin.availableValue)}</div>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-olive shadow-sm space-y-1">
+            <div class="text-xs text-gray-500 font-bold">قيمة العقود المعتمدة / المعلقة</div>
+            <div class="text-xl font-black text-blue-800">${fmtMoney(fin.soldContractsVal)}</div>
+            <div class="text-[11px] text-orange-700 font-bold">مبيعات معلقة للموافقة: ${fmtMoney(fin.pendingVal)} | خصومات: ${fmtMoney(fin.totalDiscounts)}</div>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-olive shadow-sm space-y-1">
+            <div class="text-xs text-gray-500 font-bold">إجمالي النقد الداخل للصندوق</div>
+            <div class="text-xl font-black text-emerald-700">${fmtMoney(fin.totalCashIn)}</div>
+            <div class="text-[11px] text-gray-600 font-semibold">مقدمات: ${fmtMoney(fin.downPaymentsSum)} | أقساط: ${fmtMoney(fin.installmentsSum)} | تنازل: ${fmtMoney(fin.transferFeesSum)}</div>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-olive shadow-sm space-y-1">
+            <div class="text-xs text-gray-500 font-bold">الذمم والأقساط المتبقية</div>
+            <div class="text-xl font-black text-rose-700">${fmtMoney(fin.totalReceivables)}</div>
+            <div class="text-[11px] text-rose-800 font-bold">متأخرة: ${fmtMoney(fin.overdueSum)} | مستحقة هذا الشهر: ${fmtMoney(fin.dueThisMonthSum)}</div>
+          </div>
+        </div>
+
+        <!-- المبيعات حسب النموذج -->
+        <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-3">
+          <h3 class="font-black text-olive-dark text-sm">🏠 الإحصائيات المالية حسب نماذج الوحدات</h3>
+          <div class="overflow-x-auto border rounded-xl">
+            <table class="w-full text-xs text-right">
+              <thead class="bg-[#ede6d8] text-olive-dark">
+                <tr><th class="p-2.5">النموذج</th><th class="p-2.5">الإجمالي</th><th class="p-2.5">متاح</th><th class="p-2.5">معلق</th><th class="p-2.5">مباع</th><th class="p-2.5">إجمالي المبيعات (د.ع)</th></tr>
+              </thead>
+              <tbody class="divide-y">${modelRowsHtml}</tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- الأقساط المتأخرة -->
+        <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-3">
+          <h3 class="font-black text-rose-900 text-sm">⚠️ الأقساط المتأخرة والمستحقة (${fin.overdueList.length} قسط — الإجمالي: ${fmtMoney(fin.overdueSum)})</h3>
+          <div class="overflow-x-auto border rounded-xl max-h-64 overflow-y-auto">
+            <table class="w-full text-xs text-right">
+              <thead class="bg-rose-50 text-rose-950 sticky top-0">
+                <tr><th class="p-2">الوحدة</th><th class="p-2">المشتري والهاتف</th><th class="p-2">القسط</th><th class="p-2">تاريخ الاستحقاق</th><th class="p-2">المتبقي</th><th class="p-2">إجراء</th></tr>
+              </thead>
+              <tbody class="divide-y">${overdueHtml}</tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- الإحصائيات حسب الزونات -->
+        <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-3">
+          <h3 class="font-black text-olive-dark text-sm">🗺️ ملخص الزونات المالي ونسب الإنجاز (Z0 - Z36 &amp; C1)</h3>
+          <div class="overflow-x-auto border rounded-xl max-h-72 overflow-y-auto">
+            <table class="w-full text-xs text-right">
+              <thead class="bg-[#ede6d8] text-olive-dark sticky top-0">
+                <tr><th class="p-2">الزون</th><th class="p-2">العدد</th><th class="p-2">متاح</th><th class="p-2">معلق</th><th class="p-2">مباع</th><th class="p-2">نسبة الإنجاز</th><th class="p-2">المبيعات المعتمدة</th></tr>
+              </thead>
+              <tbody class="divide-y">${zoneRowsHtml}</tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- سجل المقبوضات العام -->
+        <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-3">
+          <h3 class="font-black text-olive-dark text-sm">🧾 سجل المقبوضات والوصولات المالية</h3>
+          <div class="overflow-x-auto border rounded-xl max-h-72 overflow-y-auto">
+            <table class="w-full text-xs text-right">
+              <thead class="bg-[#ede6d8] text-olive-dark sticky top-0">
+                <tr><th class="p-2">رقم الوصل</th><th class="p-2">المشتري</th><th class="p-2">البيان</th><th class="p-2">المبلغ</th><th class="p-2">المستلم</th><th class="p-2">التاريخ</th><th class="p-2">طباعة</th></tr>
+              </thead>
+              <tbody class="divide-y">${state.payments.length === 0 ? '<tr><td colspan="7" class="p-4 text-center text-gray-400">لا توجد مقبوضات مسجلة حتى الآن</td></tr>' : ledgerHtml}</tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function printFinancialReport() {
+      var fin = computeFinancialSnapshot();
+      document.getElementById('printableContent').innerHTML = `
+        <div class="flex justify-between items-center border-b-2 border-[#38401e] pb-4 mb-4">
+          <div class="flex items-center gap-3">
+            ${getLogoHtml('w-16 h-16')}
+            <div>
+              <h3 class="text-xl font-black text-olive-dark">مجمع حلم الحياة السكني</h3>
+              <p class="text-xs text-gray-500 font-bold">التقرير المالي والإحصائي الشامل (د.ع)</p>
+            </div>
+          </div>
+          <div class="text-left text-xs text-gray-500">تاريخ التقرير:<br/><b dir="ltr">${localNowStr(0)}</b></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div class="bg-[#faf8f4] p-3 rounded-xl border"><b>إجمالي قيمة المشروع:</b> ${fmtMoney(fin.totalInventoryValue)}</div>
+          <div class="bg-[#faf8f4] p-3 rounded-xl border"><b>قيمة الوحدات المتاحة:</b> ${fmtMoney(fin.availableValue)}</div>
+          <div class="bg-[#faf8f4] p-3 rounded-xl border"><b>قيمة العقود المعتمدة:</b> ${fmtMoney(fin.soldContractsVal)}</div>
+          <div class="bg-[#faf8f4] p-3 rounded-xl border"><b>مبيعات معلقة للموافقة:</b> ${fmtMoney(fin.pendingVal)}</div>
+          <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-300"><b>إجمالي النقد المقبوض:</b> ${fmtMoney(fin.totalCashIn)}</div>
+          <div class="bg-rose-50 p-3 rounded-xl border border-rose-300"><b>إجمالي الذمم المتبقية:</b> ${fmtMoney(fin.totalReceivables)}</div>
+          <div class="bg-[#faf8f4] p-3 rounded-xl border"><b>دفعات مقدمة:</b> ${fmtMoney(fin.downPaymentsSum)} | <b>أقساط:</b> ${fmtMoney(fin.installmentsSum)}</div>
+          <div class="bg-[#faf8f4] p-3 rounded-xl border"><b>رسوم التنازل:</b> ${fmtMoney(fin.transferFeesSum)} | <b>المتأخرات:</b> ${fmtMoney(fin.overdueSum)}</div>
+        </div>
+        <div class="mt-8 pt-4 border-t flex justify-between text-xs text-gray-600 font-bold">
+          <span>إعداد: ${escapeHtml(currentUser.full_name)}</span>
+          <span>اعتماد الإدارة: ........................</span>
+        </div>
+      `;
+      document.getElementById('printModal').classList.remove('hidden');
+    }
+
+    // ==========================================
+    // 10. التبويب 3: إدارة المستخدمين وتقييم أداء الموظفين
+    // ==========================================
+    function calcEmployeePerformance(emp) {
+      var allContracts = state.contracts.filter(function(c) { return c.submitted_by === emp.id; });
+      var approved = allContracts.filter(function(c) { return c.status === 'active'; });
+      var pending = allContracts.filter(function(c) { return c.status === 'pending_approval'; });
+      var rejected = allContracts.filter(function(c) { return c.status === 'rejected'; });
+      var holds = allContracts.filter(function(c) { return c.status === 'hold'; });
+
+      var approvedVal = roundIQD(approved.reduce(function(s, c) { return s + c.final_price; }, 0));
+      var commissionVal = roundIQD(approvedVal * ((emp.commission_pct || 0) / 100));
+
+      var collections = state.payments.filter(function(p) { return p.collected_by === emp.id; });
+      var collectedSum = roundIQD(collections.reduce(function(s, p) { return s + p.amount; }, 0));
+
+      var empLogs = state.audit_logs.filter(function(l) { return l.actor_id === emp.id; });
+      var editsCount = empLogs.filter(function(l) { return l.category_type === 'unit_edit'; }).length;
+
+      var rating = 'جديد';
+      if (approved.length >= 10) rating = 'ممتاز ⭐⭐⭐';
+      else if (approved.length >= 4) rating = 'جيد جداً ⭐⭐';
+      else if (allContracts.length >= 1 || empLogs.length >= 3) rating = 'نشط ⭐';
+
+      return {
+        approvedCount: approved.length,
+        pendingCount: pending.length,
+        rejectedCount: rejected.length,
+        holdsCount: holds.length,
+        approvedVal: approvedVal,
+        commissionVal: commissionVal,
+        collectionsCount: collections.length,
+        collectedSum: collectedSum,
+        editsCount: editsCount,
+        rating: rating,
+        recentLogs: empLogs.slice(0, 8)
+      };
+    }
+
+    function renderStaffTab() {
+      var isAuditor = currentUser && currentUser.role === 'auditor';
+      var isAdmin = currentUser && currentUser.role === 'admin';
+      if (!isAuditor && !isAdmin) return;
+
+      var adminUser = state.users.find(function(u) { return u.role === 'admin'; });
+      var salesUsers = state.users.filter(function(u) { return u.role === 'sales'; });
+      var canAddSales = salesUsers.length < 2;
+
+      var adminMgmtHtml = '';
+      if (isAuditor) {
+        adminMgmtHtml = `
+          <div class="bg-white rounded-2xl border-2 border-indigo-300 p-5 shadow-sm space-y-4">
+            <div class="flex flex-wrap justify-between items-center gap-2 border-b pb-3">
+              <div>
+                <h3 class="font-black text-indigo-950 text-base">🛡️ صلاحية مدقق النظام: إدارة حساب مدير النظام والمدقق</h3>
+                <p class="text-xs text-gray-500">يمكنك تعديل بيانات مدير النظام، تغيير كلمة المرور، أو حذفه وتعيين مدير جديد</p>
+              </div>
+              <button type="button" onclick="changeOwnAuditorPassword()" class="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🔑 تغيير كلمة مرور المدقق</button>
+            </div>
+
+            ${adminUser ? `
+              <form onsubmit="submitUpdateUser(event, ${adminUser.id})" class="bg-indigo-50/50 p-4 rounded-xl border space-y-3">
+                <div class="flex justify-between items-center">
+                  <span class="font-black text-sm text-indigo-900">حساب مدير النظام الحالي (#${adminUser.id})</span>
+                  <button type="button" onclick="deleteUser(${adminUser.id})" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1 rounded-lg text-xs font-bold">🗑️ حذف مدير النظام</button>
+                </div>
+                <div class="grid sm:grid-cols-5 gap-2 text-xs">
+                  <div><label class="text-gray-600 block mb-0.5">الاسم الكامل</label><input required name="full_name" value="${escapeHtml(adminUser.full_name)}" class="w-full border rounded px-2.5 py-1.5 bg-white" /></div>
+                  <div><label class="text-gray-600 block mb-0.5">الهاتف</label><input required name="phone" value="${escapeHtml(adminUser.phone)}" class="w-full border rounded px-2.5 py-1.5 bg-white" /></div>
+                  <div><label class="text-gray-600 block mb-0.5">رقم الهوية</label><input required name="national_id" value="${escapeHtml(adminUser.national_id)}" class="w-full border rounded px-2.5 py-1.5 bg-white" /></div>
+                  <div><label class="text-gray-600 block mb-0.5">اسم المستخدم</label><input required name="username" value="${escapeHtml(adminUser.username)}" class="w-full border rounded px-2.5 py-1.5 bg-white" /></div>
+                  <div><label class="text-gray-600 block mb-0.5">كلمة المرور الجديدة</label><input required name="password" value="${escapeHtml(adminUser.password)}" class="w-full border rounded px-2.5 py-1.5 bg-white font-mono" /></div>
+                </div>
+                <button type="submit" class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded-lg text-xs font-bold">💾 حفظ تعديلات مدير النظام</button>
+              </form>
+            ` : `
+              <form onsubmit="submitCreateAdmin(event)" class="bg-amber-50 p-4 rounded-xl border border-amber-300 space-y-3">
+                <div class="font-bold text-sm text-amber-900">لا يوجد مدير نظام حالياً — إنشاء حساب مدير نظام جديد:</div>
+                <div class="grid sm:grid-cols-5 gap-2 text-xs">
+                  <input required name="full_name" placeholder="الاسم الكامل *" class="border rounded px-2.5 py-1.5 bg-white" />
+                  <input required name="phone" placeholder="الهاتف *" class="border rounded px-2.5 py-1.5 bg-white" />
+                  <input required name="national_id" placeholder="رقم الهوية *" class="border rounded px-2.5 py-1.5 bg-white" />
+                  <input required name="username" placeholder="اسم المستخدم *" class="border rounded px-2.5 py-1.5 bg-white" />
+                  <input required name="password" placeholder="كلمة المرور *" class="border rounded px-2.5 py-1.5 bg-white" />
+                </div>
+                <button type="submit" class="bg-olive-dark text-white px-4 py-2 rounded-lg text-xs font-bold">➕ تعيين مدير النظام</button>
+              </form>
+            `}
+          </div>
+        `;
+      }
+
+      var addSalesFormHtml = canAddSales ? `
+        <form onsubmit="submitAddSalesEmployee(event)" class="bg-[#faf8f4] border-2 border-[#6d7a40] rounded-xl p-4 space-y-3">
+          <div class="font-black text-olive-dark text-sm">➕ إضافة موظف مبيعات جديد (المتبقي: ${2 - salesUsers.length} من أصل 2)</div>
+          <div class="grid sm:grid-cols-3 gap-2.5 text-xs">
+            <input required name="full_name" placeholder="الاسم الكامل للموظف *" class="border rounded-lg px-3 py-2 bg-white" />
+            <input required name="phone" placeholder="رقم الهاتف *" class="border rounded-lg px-3 py-2 bg-white" />
+            <input required name="national_id" placeholder="رقم البطاقة الوطنية *" class="border rounded-lg px-3 py-2 bg-white" />
+            <input name="address" placeholder="عنوان السكن" class="border rounded-lg px-3 py-2 bg-white" />
+            <input required name="username" placeholder="اسم المستخدم للدخول *" class="border rounded-lg px-3 py-2 bg-white" />
+            <input required name="password" placeholder="كلمة المرور *" class="border rounded-lg px-3 py-2 bg-white" />
+          </div>
+          <div class="flex flex-wrap items-center gap-3 text-xs">
+            <div class="w-48">
+              <label class="font-bold text-gray-600 block mb-0.5">نسبة العمولة (%)</label>
+              <input type="number" step="0.1" min="0" max="20" name="commission_pct" value="1" class="w-full border rounded-lg px-3 py-1.5 bg-white" />
+            </div>
+            <button type="submit" class="mt-4 bg-olive-dark hover:bg-olive-mid text-white px-5 py-2 rounded-lg font-black">✅ حفظ وإضافة الموظف</button>
+          </div>
+        </form>
+      ` : '<div class="bg-amber-50 border border-amber-300 text-amber-900 p-3 rounded-xl text-xs font-bold">⚠️ تم الوصول للحد الأقصى المسموح به لموظفي المبيعات (2 / 2 موظفين). لإضافة موظف جديد يرجى حذف أو تعديل أحد الموظفين الحاليين.</div>';
+
+      var salesCardsHtml = salesUsers.length === 0
+        ? '<div class="text-center py-8 text-gray-400 font-bold text-sm">لم يتم إضافة موظفي مبيعات بعد.</div>'
+        : salesUsers.map(function(emp) {
+            var perf = calcEmployeePerformance(emp);
+            var logsHtml = perf.recentLogs.length === 0
+              ? '<div class="text-gray-400 text-[11px]">لا توجد حركات مسجلة لهذا الموظف بعد</div>'
+              : perf.recentLogs.map(function(l) {
+                  return '<div class="flex justify-between gap-2 border-b border-gray-100 py-1 text-[11px]"><span><b>' + escapeHtml(l.action) + ':</b> ' + escapeHtml(l.details) + '</span><span class="text-gray-400 whitespace-nowrap" dir="ltr">' + l.created_at + '</span></div>';
+                }).join('');
+
+            return `
+              <div class="bg-white border-2 border-olive rounded-2xl p-5 shadow-sm space-y-4">
+                <div class="flex flex-wrap justify-between items-start gap-3 border-b border-olive pb-3">
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-base font-black text-olive-dark">👤 ${escapeHtml(emp.full_name)}</span>
+                      <span class="bg-[#ede6d8] text-olive-dark px-2.5 py-0.5 rounded-full text-[11px] font-black">${perf.rating}</span>
+                    </div>
+                    <div class="text-xs text-gray-600 mt-1">📞 ${escapeHtml(emp.phone)} | 🪪 ${escapeHtml(emp.national_id)} | 📍 ${escapeHtml(emp.address || '—')} | العمولة: <b>${emp.commission_pct}%</b></div>
+                  </div>
+                  <div class="flex gap-2">
+                    <button type="button" onclick="document.getElementById('editEmp_${emp.id}').classList.toggle('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">✏️ تعديل / باسوورد</button>
+                    ${isAuditor ? '<button type="button" onclick="deleteUser(' + emp.id + ')" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🗑️ حذف</button>' : (isAdmin ? '<button type="button" onclick="deleteUser(' + emp.id + ')" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">🗑️ حذف</button>' : '')}
+                  </div>
+                </div>
+
+                <!-- تعديل بيانات الموظف -->
+                <form id="editEmp_${emp.id}" onsubmit="submitUpdateUser(event, ${emp.id})" class="hidden bg-slate-50 p-3 rounded-xl border space-y-2 text-xs">
+                  <div class="grid sm:grid-cols-3 gap-2">
+                    <input required name="full_name" value="${escapeHtml(emp.full_name)}" placeholder="الاسم" class="border rounded px-2.5 py-1.5 bg-white" />
+                    <input required name="phone" value="${escapeHtml(emp.phone)}" placeholder="الهاتف" class="border rounded px-2.5 py-1.5 bg-white" />
+                    <input required name="national_id" value="${escapeHtml(emp.national_id)}" placeholder="الهوية" class="border rounded px-2.5 py-1.5 bg-white" />
+                    <input name="address" value="${escapeHtml(emp.address || '')}" placeholder="العنوان" class="border rounded px-2.5 py-1.5 bg-white" />
+                    <input required name="username" value="${escapeHtml(emp.username)}" placeholder="اسم المستخدم" class="border rounded px-2.5 py-1.5 bg-white" />
+                    <input required name="password" value="${escapeHtml(emp.password)}" placeholder="كلمة المرور" class="border rounded px-2.5 py-1.5 bg-white font-mono" />
+                    <input type="number" step="0.1" name="commission_pct" value="${emp.commission_pct}" placeholder="العمولة %" class="border rounded px-2.5 py-1.5 bg-white" />
+                  </div>
+                  <button type="submit" class="bg-olive-dark text-white px-4 py-1.5 rounded font-bold">💾 حفظ بيانات الموظف</button>
+                </form>
+
+                <!-- بطاقة قياس وتقييم الأداء -->
+                <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 text-xs">
+                  <div class="bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl">
+                    <div class="text-[10px] text-emerald-800 font-bold">مبيعات معتمدة</div>
+                    <div class="text-lg font-black text-emerald-700">${perf.approvedCount}</div>
+                  </div>
+                  <div class="bg-orange-50 border border-orange-200 p-2.5 rounded-xl">
+                    <div class="text-[10px] text-orange-800 font-bold">معلقة للموافقة</div>
+                    <div class="text-lg font-black text-orange-700">${perf.pendingCount}</div>
+                  </div>
+                  <div class="bg-rose-50 border border-rose-200 p-2.5 rounded-xl">
+                    <div class="text-[10px] text-rose-800 font-bold">مرفوضة</div>
+                    <div class="text-lg font-black text-rose-700">${perf.rejectedCount}</div>
+                  </div>
+                  <div class="bg-amber-50 border border-amber-200 p-2.5 rounded-xl">
+                    <div class="text-[10px] text-amber-800 font-bold">حجوزات / تعديلات</div>
+                    <div class="text-lg font-black text-amber-700">${perf.holdsCount} / ${perf.editsCount}</div>
+                  </div>
+                  <div class="bg-blue-50 border border-blue-200 p-2.5 rounded-xl">
+                    <div class="text-[10px] text-blue-800 font-bold">قيمة مبيعاته المعتمدة</div>
+                    <div class="text-xs font-black text-blue-800 mt-1">${fmtMoney(perf.approvedVal)}</div>
+                  </div>
+                  <div class="bg-teal-50 border border-teal-200 p-2.5 rounded-xl">
+                    <div class="text-[10px] text-teal-800 font-bold">العمولة المستحقة</div>
+                    <div class="text-xs font-black text-teal-800 mt-1">${fmtMoney(perf.commissionVal)}</div>
+                  </div>
+                </div>
+
+                <!-- سجل عمليات الموظف -->
+                <div class="bg-[#faf8f4] p-3 rounded-xl border border-olive">
+                  <div class="text-xs font-black text-olive-dark mb-1.5">📌 آخر عمليات وتعديلات الموظف:</div>
+                  ${logsHtml}
+                </div>
+              </div>
+            `;
+          }).join('');
+
+      document.getElementById('staffContent').innerHTML = `
+        ${adminMgmtHtml}
+        <div class="bg-white rounded-2xl border border-olive p-5 shadow-sm space-y-4">
+          <div>
+            <h2 class="text-lg font-black text-olive-dark">👥 إدارة موظفي المبيعات (${salesUsers.length} / 2) وتقييم الأداء</h2>
+            <p class="text-xs text-gray-500">يسمح بإضافة موظفَي مبيعات بحد أقصى (2) ومتابعة كافة عمليات البيع والتعديلات وتقييم أدائهم</p>
+          </div>
+          ${addSalesFormHtml}
+          <div class="space-y-4">${salesCardsHtml}</div>
+        </div>
+      `;
+    }
+
+    async function submitAddSalesEmployee(e) {
+      e.preventDefault();
+      var salesCount = state.users.filter(function(u) { return u.role === 'sales'; }).length;
+      if (salesCount >= 2) return alert('الحد الأقصى لموظفي المبيعات هو 2 موظفين فقط!');
+
+      var form = Object.fromEntries(new FormData(e.target));
+      var uname = form.username.trim();
+      if (state.users.some(function(u) { return u.username === uname; })) return alert('اسم المستخدم موجود مسبقاً!');
+
+      var emp = {
+        id: state.seq.user++,
+        role: 'sales',
+        username: uname,
+        password: form.password,
+        full_name: form.full_name.trim(),
+        phone: form.phone.trim(),
+        national_id: form.national_id.trim(),
+        address: (form.address || '').trim(),
+        commission_pct: Number(form.commission_pct || 0),
+        active: true,
+        created_at: localNowStr(0)
+      };
+      state.users.push(emp);
+      addAuditLog('إضافة موظف مبيعات', 'تم إضافة موظف المبيعات (' + emp.full_name + ') باسم مستخدم ' + emp.username, 'user_mgmt');
+      await saveStorage();
+      renderStaffTab();
+    }
+
+    async function submitCreateAdmin(e) {
+      e.preventDefault();
+      if (currentUser.role !== 'auditor') return alert('هذه الصلاحية لمدقق النظام فقط!');
+      var form = Object.fromEntries(new FormData(e.target));
+      var uname = form.username.trim();
+      if (state.users.some(function(u) { return u.username === uname; })) return alert('اسم المستخدم موجود مسبقاً!');
+
+      var adm = {
+        id: state.seq.user++,
+        role: 'admin',
+        username: uname,
+        password: form.password,
+        full_name: form.full_name.trim(),
+        phone: form.phone.trim(),
+        national_id: form.national_id.trim(),
+        address: 'إدارة المجمع',
+        commission_pct: 0,
+        active: true,
+        created_at: localNowStr(0)
+      };
+      state.users.push(adm);
+      addAuditLog('تعيين مدير نظام', 'قام المدقق بتعيين مدير النظام (' + adm.full_name + ')', 'user_mgmt');
+      await saveStorage();
+      renderStaffTab();
+    }
+
+    async function submitUpdateUser(e, userId) {
+      e.preventDefault();
+      var target = state.users.find(function(u) { return u.id === userId; });
+      if (!target) return;
+      if (target.role === 'admin' && currentUser.role !== 'auditor') return alert('تعديل مدير النظام من صلاحيات المدقق فقط!');
+
+      var form = Object.fromEntries(new FormData(e.target));
+      var newUname = form.username.trim();
+      if (state.users.some(function(u) { return u.id !== userId && u.username === newUname; })) return alert('اسم المستخدم مستخدم من حساب آخر!');
+
+      target.full_name = form.full_name.trim();
+      target.phone = form.phone.trim();
+      target.national_id = form.national_id.trim();
+      if (form.address !== undefined) target.address = form.address.trim();
+      target.username = newUname;
+      target.password = form.password;
+      if (form.commission_pct !== undefined) target.commission_pct = Number(form.commission_pct || 0);
+
+      addAuditLog('تعديل بيانات مستخدم', 'تم تحديث بيانات وكلمة مرور (' + target.full_name + ' - ' + roleLabel(target.role) + ')', 'user_mgmt');
+      await saveStorage();
+      renderStaffTab();
+      alert('تم تحديث البيانات وكلمة المرور بنجاح!');
+    }
+
+    async function deleteUser(userId) {
+      var target = state.users.find(function(u) { return u.id === userId; });
+      if (!target) return;
+      if (target.role === 'auditor') return alert('لا يمكن حذف حساب مدقق النظام!');
+      if (target.role === 'admin' && currentUser.role !== 'auditor') return alert('حذف مدير النظام من صلاحيات المدقق فقط!');
+      if (!confirm('هل أنت متأكد من حذف الحساب (' + target.full_name + ')؟')) return;
+
+      state.users = state.users.filter(function(u) { return u.id !== userId; });
+      addAuditLog('حذف حساب مستخدم', 'تم حذف حساب (' + target.full_name + ' - ' + roleLabel(target.role) + ')', 'user_mgmt');
+      await saveStorage();
+      renderStaffTab();
+    }
+
+    async function changeOwnAuditorPassword() {
+      if (currentUser.role !== 'auditor') return;
+      var newPass = prompt('أدخل كلمة المرور الجديدة لمدقق النظام:', currentUser.password);
+      if (!newPass) return;
+      currentUser.password = newPass;
+      addAuditLog('تغيير كلمة مرور المدقق', 'تم تغيير كلمة مرور مدقق النظام', 'user_mgmt');
+      await saveStorage();
+      alert('تم تغيير كلمة مرور المدقق بنجاح!');
+    }
+
+    // ==========================================
+    // 11. التبويب 4: سجل التدقيق والطباعة والنسخ الاحتياطي
+    // ==========================================
+    function renderAuditTab() {
+      var sel = document.getElementById('auditUserFilter');
+      var prev = sel.value;
+      sel.innerHTML = '<option value="">كل المستخدمين</option>' + state.users.map(function(u) {
+        return '<option value="' + u.id + '">' + escapeHtml(u.full_name) + ' (' + roleLabel(u.role) + ')</option>';
+      }).join('');
+      sel.value = prev;
+
+      var uidFilter = sel.value;
+      var logs = state.audit_logs.filter(function(l) {
+        return !uidFilter || String(l.actor_id) === uidFilter;
+      }).slice(0, 150);
+
+      document.getElementById('auditListContainer').innerHTML = logs.map(function(l) {
+        return '<div class="bg-[#faf8f4] border border-olive rounded-xl p-3 flex flex-wrap justify-between items-start gap-3">' +
+          '<div class="space-y-0.5">' +
+            '<div><span class="bg-olive-dark text-white text-[10px] px-2 py-0.5 rounded font-bold">' + escapeHtml(l.action) + '</span> ' +
+            '<span class="text-blue-900 font-black">[' + escapeHtml(l.actor_name || 'النظام') + ']</span> ' +
+            '<span class="text-slate-800 font-semibold">' + escapeHtml(l.details) + '</span></div>' +
+          '</div>' +
+          '<div class="text-[11px] text-gray-500 whitespace-nowrap" dir="ltr">' + l.created_at + '</div></div>';
+      }).join('');
+    }
+
+    function openCategorySettingsModal() {
+      var cats = state.categories || DEFAULT_CATEGORIES;
+      var rows = Object.keys(cats).map(function(key) {
+        var c = cats[key];
+        return '<div class="grid grid-cols-12 gap-2 items-center bg-[#faf8f4] p-2.5 rounded-lg border">' +
+          '<div class="col-span-3 font-black text-olive-dark">' + key + ' — ' + escapeHtml(c.label) + '</div>' +
+          '<div class="col-span-3"><label class="text-[10px] text-gray-500 block">المساحة الكلية (م²)</label><input type="number" step="0.5" name="area_' + key + '" value="' + c.area + '" required class="w-full border rounded px-2 py-1 bg-white" /></div>' +
+          '<div class="col-span-2"><label class="text-[10px] text-gray-500 block">البناء (م²)</label><input type="number" step="0.5" name="built_' + key + '" value="' + c.built + '" required class="w-full border rounded px-2 py-1 bg-white" /></div>' +
+          '<div class="col-span-4"><label class="text-[10px] text-gray-500 block">السعر الرسمي (د.ع)</label><input type="number" step="1000" name="price_' + key + '" value="' + c.price + '" required class="w-full border rounded px-2 py-1 bg-white font-bold" /></div></div>';
+      }).join('');
+      document.getElementById('categorySettingsRows').innerHTML = rows;
+      document.getElementById('categorySettingsModal').classList.remove('hidden');
+    }
+
+    async function submitCategorySettings(e) {
+      e.preventDefault();
+      var form = Object.fromEntries(new FormData(e.target));
+      var updatedCount = 0;
+
+      Object.keys(state.categories).forEach(function(key) {
+        var area = Number(form['area_' + key]);
+        var built = Number(form['built_' + key]);
+        var price = roundIQD(form['price_' + key]);
+        state.categories[key].area = area;
+        state.categories[key].built = built;
+        state.categories[key].price = price;
+
+        state.units.forEach(function(u) {
+          if (u.category === key && u.status !== 'sold' && u.status !== 'pending_approval') {
+            u.area_sqm = area;
+            u.built_area = built;
+            u.price = price;
+            updatedCount++;
+          }
+        });
+      });
+
+      addAuditLog('تحديث تسعير النماذج', 'تحديث المساحات والأسعار بالدينار العراقي لـ ' + updatedCount + ' وحدة', 'unit_edit');
+      await saveStorage();
+      await refreshAll();
+      document.getElementById('categorySettingsModal').classList.add('hidden');
+      alert('تم تحديث الأسعار والمساحات لـ ' + updatedCount + ' وحدة بنجاح!');
+    }
+
+    function openBulkProgressModal() { document.getElementById('bulkProgressModal').classList.remove('hidden'); }
+
+    async function submitBulkProgress(e) {
+      e.preventDefault();
+      var form = Object.fromEntries(new FormData(e.target));
+      var zone = form.zone;
+      var pct = parseInt(form.completion_pct, 10);
+      var stage = form.stage;
+
+      var count = 0;
+      state.units.forEach(function(u) {
+        if (u.zone === zone) { u.completion_pct = pct; u.stage = stage; count++; }
+      });
+
+      addAuditLog('تحديث إنجاز جماعي', 'تحديث نسبة إنجاز زون ' + zone + ' (' + count + ' وحدة) إلى ' + pct + '% - ' + stage, 'unit_edit');
+      await saveStorage();
+      await refreshAll();
+      document.getElementById('bulkProgressModal').classList.add('hidden');
+      alert('تم تحديث نسبة الإنجاز لـ ' + count + ' وحدة في زون ' + zone + ' إلى ' + pct + '%');
     }
 
     function openReceiptById(paymentId) {
@@ -1620,9 +2557,9 @@
     function printUnitCard(unitId) {
       var u = state.units.find(function(x) { return x.id === unitId; });
       if (!u) return;
-      var c = state.contracts.find(function(x) { return x.unit_id === unitId && (x.status === 'hold' || x.status === 'active'); });
+      var c = state.contracts.find(function(x) { return x.unit_id === unitId && (x.status === 'hold' || x.status === 'pending_approval' || x.status === 'active'); });
       var buyer = c ? state.buyers.find(function(b) { return b.id === c.buyer_id; }) : null;
-      var paid = c ? roundIQD(state.payments.filter(function(p) { return p.contract_id === c.id && p.payment_type !== 'transfer_fee'; }).reduce(function(s, p) { return s + p.amount; }, 0)) : 0;
+      var paid = (c && c.status === 'active') ? roundIQD(state.payments.filter(function(p) { return p.contract_id === c.id && p.payment_type !== 'transfer_fee'; }).reduce(function(s, p) { return s + p.amount; }, 0)) : 0;
 
       document.getElementById('printableContent').innerHTML =
         '<div class="flex justify-between items-center border-b-2 border-[#38401e] pb-4 mb-4">' +
@@ -1660,23 +2597,12 @@
       document.getElementById('printModal').classList.remove('hidden');
     }
 
-    function openAuditModal() {
-      var logs = state.audit_logs.slice(0, 100);
-      document.getElementById('auditBody').innerHTML = logs.map(function(l) {
-        return '<div class="bg-[#faf8f4] border border-olive rounded-lg p-3 flex justify-between items-start gap-4">' +
-          '<div><span class="bg-olive-dark text-white text-[10px] px-2 py-0.5 rounded font-bold">' + escapeHtml(l.action) + '</span>' +
-          '<span class="text-slate-800 font-semibold mr-2">' + escapeHtml(l.details) + '</span></div>' +
-          '<div class="text-[11px] text-gray-500 whitespace-nowrap" dir="ltr">' + l.created_at + '</div></div>';
-      }).join('');
-      document.getElementById('auditModal').classList.remove('hidden');
-    }
-
     function exportBackup() {
       var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
       a.href = url;
-      a.download = 'dream_of_life_iqd_backup_' + localTodayStr() + '.json';
+      a.download = 'dream_of_life_backup_' + localTodayStr() + '.json';
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -1688,9 +2614,8 @@
       reader.onload = async function(e) {
         try {
           var parsed = JSON.parse(e.target.result);
-          if (!Array.isArray(parsed.units) || !parsed.seq) return alert('ملف النسخة الاحتياطية غير صالح!');
+          if (!Array.isArray(parsed.units) || !Array.isArray(parsed.users) || !parsed.seq) return alert('ملف النسخة الاحتياطية غير صالح!');
           state = parsed;
-          applyCustomMedia();
           await saveStorage();
           populateZoneSelects();
           await refreshAll();
@@ -1704,12 +2629,10 @@
     }
 
     async function resetDemoData() {
-      if (!confirm('تحذير: سيتم مسح جميع العقود والمدفوعات وإرجاع كافة الوحدات للحالة الافتراضية. هل أنت متأكد؟')) return;
-      var keptLogo = state.custom_logo || null;
-      var keptMap = state.custom_masterplan || null;
+      if (!confirm('تحذير: سيتم مسح جميع العقود والمدفوعات وإرجاع الوحدات للحالة الافتراضية. هل أنت متأكد؟')) return;
+      var keptUsers = state.users;
       state = createInitialState();
-      state.custom_logo = keptLogo;
-      state.custom_masterplan = keptMap;
+      state.users = keptUsers;
       await saveStorage();
       populateZoneSelects();
       await refreshAll();
@@ -1718,14 +2641,19 @@
     (async function initApp() {
       try {
         state = await loadStorage();
-        if (!state || !Array.isArray(state.units) || state.units.length === 0) {
+        if (!state || !Array.isArray(state.units) || state.units.length === 0 || !Array.isArray(state.users)) {
           state = createInitialState();
           await saveStorage();
         }
-        renderFallbackZoneBoxes();
-        applyCustomMedia();
-        populateZoneSelects();
-        await refreshAll();
+        var savedUid = null;
+        try { savedUid = sessionStorage.getItem(SESSION_KEY); } catch (e1) {}
+        if (savedUid) {
+          var found = state.users.find(function(u) { return String(u.id) === savedUid && u.active; });
+          if (found) {
+            currentUser = found;
+            enterApp();
+          }
+        }
       } catch (err) {
         showBannerError('تعذر تهيئة النظام: ' + err.message);
       }
@@ -1734,10 +2662,11 @@
 </body>
 </html>
 
-تأكد من هذه القائمة في مستودعك MK-Helem-hayat-Sale-Res-Units على GitHub:
+تذكير سريع عند الرفع على GitHub:
 
-1.  احذف أي ملف HTML قديم باسم مختلف أو ينتهي بـ .txt من المستودع.
-2.  أنشئ الملف داخل GitHub مباشرة باسم index.html والصق الكود أعلاه.
-3.  ارفع معه صورتي logo.jpg و masterplan.jpg في نفس المجلد الرئيسي للمستودع (أو
-    ارفعهما لاحقاً من داخل الأزرار في الموقع).
-4.  افتح رابط الموقع بعد دقيقة واحدة وسيظهر النظام كاملاً مع الـ 38 زوناً فوراً!
+  - تأكد أن الملفات الثلاثة في المجلد الرئيسي للمستودع اسمها بالضبط:
+    1.  index.html
+    2.  logo.jpg
+    3.  masterplan.jpg
+  - وعند لصق الكود في index.html تأكد أن أول سطر في الملف هو <!DOCTYPE html> ولا
+    يوجد أي نص قبله.
