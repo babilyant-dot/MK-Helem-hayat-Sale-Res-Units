@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>مجمع حلم الحياة السكني | نظام المبيعات والمحاسبة</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" media="print" onload="this.media='all'" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
     :root {
       --olive-dark: #38401e;
       --olive-mid: #4e592b;
@@ -70,12 +70,12 @@
     }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
-  <script crossorigin src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
-  <script crossorigin src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
-  <script crossorigin src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script defer crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script defer crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script defer crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+  <script defer crossorigin src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+  <script defer crossorigin src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+  <script defer crossorigin src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -634,8 +634,25 @@
     // ==========================================
     // 1. التخزين المحلي الآمن
     // ==========================================
-    function openIDB() {
+    function withTimeout(promise, ms) {
       return new Promise(function(resolve, reject) {
+        var timer = setTimeout(function() { reject(new Error('Storage timeout')); }, ms || 1200);
+        promise.then(
+          function(val) { clearTimeout(timer); resolve(val); },
+          function(err) { clearTimeout(timer); reject(err); }
+        );
+      });
+    }
+
+    function readLocalFallback() {
+      try {
+        var raw = localStorage.getItem(DB_NAME);
+        return raw ? JSON.parse(raw) : null;
+      } catch (e2) { return null; }
+    }
+
+    function openIDB() {
+      return withTimeout(new Promise(function(resolve, reject) {
         if (!window.indexedDB) return reject(new Error('No IndexedDB'));
         try {
           var req = indexedDB.open(DB_NAME, 1);
@@ -644,40 +661,44 @@
             if (!db.objectStoreNames.contains(STORE_NAME)) db.createObjectStore(STORE_NAME);
           };
           req.onsuccess = function() { resolve(req.result); };
-          req.onerror = function() { reject(req.error); };
+          req.onerror = function() { reject(req.error || new Error('IDB open error')); };
+          req.onblocked = function() { reject(new Error('IDB blocked')); };
         } catch (err) { reject(err); }
-      });
+      }), 1200);
     }
 
     async function loadStorage() {
       try {
         var db = await openIDB();
-        return await new Promise(function(resolve, reject) {
-          var tx = db.transaction(STORE_NAME, 'readonly');
-          var req = tx.objectStore(STORE_NAME).get(STATE_KEY);
-          req.onsuccess = function() { resolve(req.result || null); };
-          req.onerror = function() { reject(req.error); };
-        });
+        var res = await withTimeout(new Promise(function(resolve, reject) {
+          try {
+            var tx = db.transaction(STORE_NAME, 'readonly');
+            var req = tx.objectStore(STORE_NAME).get(STATE_KEY);
+            req.onsuccess = function() { resolve(req.result || null); };
+            req.onerror = function() { reject(req.error || new Error('IDB read error')); };
+            tx.onabort = function() { reject(tx.error || new Error('IDB read aborted')); };
+          } catch (err) { reject(err); }
+        }), 1200);
+        return res || readLocalFallback();
       } catch (e1) {
-        try {
-          var raw = localStorage.getItem(DB_NAME);
-          return raw ? JSON.parse(raw) : null;
-        } catch (e2) { return null; }
+        return readLocalFallback();
       }
     }
 
     async function saveStorage() {
+      try { localStorage.setItem(DB_NAME, JSON.stringify(state)); } catch (e0) {}
       try {
         var db = await openIDB();
-        await new Promise(function(resolve, reject) {
-          var tx = db.transaction(STORE_NAME, 'readwrite');
-          tx.objectStore(STORE_NAME).put(state, STATE_KEY);
-          tx.oncomplete = function() { resolve(); };
-          tx.onerror = function() { reject(tx.error); };
-        });
-      } catch (e1) {
-        try { localStorage.setItem(DB_NAME, JSON.stringify(state)); } catch (e2) {}
-      }
+        await withTimeout(new Promise(function(resolve, reject) {
+          try {
+            var tx = db.transaction(STORE_NAME, 'readwrite');
+            tx.objectStore(STORE_NAME).put(state, STATE_KEY);
+            tx.oncomplete = function() { resolve(); };
+            tx.onerror = function() { reject(tx.error || new Error('IDB write error')); };
+            tx.onabort = function() { reject(tx.error || new Error('IDB write aborted')); };
+          } catch (err) { reject(err); }
+        }), 1200);
+      } catch (e1) {}
     }
 
     // ==========================================
@@ -1011,6 +1032,7 @@
     // ==========================================
     function handleLogin(e) {
       e.preventDefault();
+      if (!state) state = readLocalFallback() || createInitialState();
       var uName = document.getElementById('loginUsername').value.trim();
       var uPass = document.getElementById('loginPassword').value;
       var errEl = document.getElementById('loginError');
@@ -4013,10 +4035,13 @@
 
     (async function initApp() {
       try {
-        state = await loadStorage();
-        if (!state || !Array.isArray(state.units) || state.units.length === 0 || !Array.isArray(state.users)) {
+        state = readLocalFallback() || createInitialState();
+        var loaded = await loadStorage();
+        if (loaded && Array.isArray(loaded.units) && loaded.units.length > 0 && Array.isArray(loaded.users)) {
+          state = loaded;
+        } else {
           state = createInitialState();
-          await saveStorage();
+          saveStorage();
         }
         if (!state.auditor_recovery_config) {
           state.auditor_recovery_config = { emailjs_service_id: '', emailjs_template_id: '', emailjs_public_key: '', webhook_url: '' };
