@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>مجمع حلم الحياة السكني | نظام المبيعات والمحاسبة</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" media="print" onload="this.media='all'" />
   <style>
@@ -17,8 +20,15 @@
     body { font-family: 'Cairo', Tahoma, Arial, sans-serif; background-color: var(--cream-bg); color: #2b3019; margin: 0; }
     .bg-olive-dark { background-color: var(--olive-dark); }
     .bg-olive-mid { background-color: var(--olive-mid); }
+    .bg-olive-light { background-color: var(--olive-light); }
     .text-olive-dark { color: var(--olive-dark); }
     .border-olive { border-color: var(--sand-border); }
+    .border-olive-dark { border-color: var(--olive-dark); }
+    .border-olive\/50 { border-color: rgba(220, 212, 195, 0.5); }
+    .border-olive\/60 { border-color: rgba(220, 212, 195, 0.6); }
+    .hover\:bg-olive-mid:hover { background-color: var(--olive-mid); }
+    .hover\:bg-olive-dark:hover { background-color: var(--olive-dark); }
+    .accent-\[\#38401e\] { accent-color: #38401e; }
 
     @keyframes blinkPin {
       0%, 100% {
@@ -110,6 +120,23 @@
       .no-print { display: none !important; }
     }
   </style>
+  <script>
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            olive: {
+              DEFAULT: '#dcd4c3',
+              dark: '#38401e',
+              mid: '#4e592b',
+              light: '#6d7a40'
+            }
+          }
+        }
+      }
+    };
+  </script>
   <script async src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
@@ -509,16 +536,22 @@
       <!-- التبويب 4: سجل التدقيق والنسخ الاحتياطي -->
       <!-- ========================================================= -->
       <div id="tab_auditTab" class="hidden space-y-6">
-        <div class="bg-white rounded-2xl shadow-sm border border-olive p-5 flex flex-wrap justify-between items-center gap-3">
-          <div>
-            <h2 class="text-lg font-black text-olive-dark">📜 سجل الرقابة والتدقيق وإدارة النسخ الاحتياطي</h2>
-            <p class="text-xs text-gray-500">تسجيل آلي لجميع عمليات البيع، تعديل بيانات المشترين، تغيير مراحل البناء، والموافقات</p>
+        <div class="bg-white rounded-2xl shadow-sm border border-olive p-5 space-y-4">
+          <div class="flex flex-wrap justify-between items-center gap-3">
+            <div>
+              <h2 class="text-lg font-black text-olive-dark">📜 سجل الرقابة والتدقيق وإدارة النسخ الاحتياطي</h2>
+              <p class="text-xs text-gray-500">تسجيل آلي لجميع عمليات البيع، تعديل بيانات المشترين، تغيير مراحل البناء، والموافقات</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" onclick="copyStandaloneHtmlCode()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-3.5 py-2 rounded-lg text-xs font-black shadow">📋 نسخ كود index.html الكامل (لـ GitHub)</button>
+              <button type="button" onclick="downloadStandaloneHtmlFile()" class="bg-olive-dark hover:bg-olive-mid text-white px-3.5 py-2 rounded-lg text-xs font-black shadow">📄 تحميل ملف index.html</button>
+              <button type="button" onclick="exportBackup()" class="bg-emerald-700 hover:bg-emerald-600 text-white px-3.5 py-2 rounded-lg text-xs font-black shadow">⬇️ تصدير كافة البيانات (JSON)</button>
+              <button type="button" onclick="document.getElementById('backupFileInput').click()" class="bg-blue-700 hover:bg-blue-600 text-white px-3.5 py-2 rounded-lg text-xs font-bold">⬆️ استيراد نسخة</button>
+              <button type="button" onclick="resetDemoData()" class="bg-rose-800 hover:bg-rose-700 text-white px-3.5 py-2 rounded-lg text-xs font-bold">🗑️ تصفير البيانات</button>
+            </div>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <button type="button" onclick="exportBackup()" class="bg-emerald-700 hover:bg-emerald-600 text-white px-3.5 py-2 rounded-lg text-xs font-bold">⬇️ تصدير نسخة احتياطية</button>
-            <button type="button" onclick="document.getElementById('backupFileInput').click()" class="bg-blue-700 hover:bg-blue-600 text-white px-3.5 py-2 rounded-lg text-xs font-bold">⬆️ استيراد نسخة</button>
-            <button type="button" onclick="resetDemoData()" class="bg-rose-800 hover:bg-rose-700 text-white px-3.5 py-2 rounded-lg text-xs font-bold">🗑️ تصفير البيانات</button>
-          </div>
+          <div id="auditBackupSummary"></div>
+          <div id="auditCopyNotice" class="hidden rounded-xl px-4 py-3 text-xs font-bold border"></div>
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm border border-olive p-5 space-y-3">
@@ -4457,7 +4490,7 @@
             '<p class="text-xs text-gray-500 font-semibold">قراءة تحليلية دورية لنمو المبيعات الشهرية، سرعة التصريف، صحة التحصيل، أداء النماذج والزونات، وتوصيات دعم القرار الاستثماري</p>' +
           '</div>' +
           '<div class="flex flex-wrap gap-2">' +
-            '<button type="button" onclick="openFinancialReportPrint()" class="bg-olive-dark hover:bg-olive-mid text-white px-4 py-2 rounded-xl text-xs font-black shadow">📑 التقرير المالي التفصيلي (PDF / طباعة)</button>' +
+            '<button type="button" onclick="printFinancialReport()" class="bg-olive-dark hover:bg-olive-mid text-white px-4 py-2 rounded-xl text-xs font-black shadow">📑 التقرير المالي التفصيلي (PDF / طباعة)</button>' +
             (isAud ? '<button type="button" onclick="exportFinancialReportCSV()" class="bg-teal-700 hover:bg-teal-800 text-white px-3.5 py-2 rounded-xl text-xs font-black shadow">📊 تصدير CSV شامل للمستثمر</button>' : '') +
           '</div>' +
         '</section>' +
@@ -5689,6 +5722,19 @@
         }
       } else {
         // Fallback في حال فتح الملف بدون اتصال إنترنت لتعذر تحميل Recharts
+        var unitsSummaryFallback = unitStatusData.map(function(st) {
+          var pct = totalUnits > 0 ? Math.round((st.value / totalUnits) * 100) : 0;
+          return '<div class="flex justify-between items-center text-xs py-1 border-b border-olive/50">' +
+            '<span class="font-bold flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background:' + st.color + '"></span>' + escapeHtml(st.name) + '</span>' +
+            '<span class="font-black">' + st.value + ' وحدة (' + pct + '%)</span>' +
+          '</div>';
+        }).join('');
+        var monthlyFallback = monthlyData.map(function(m) {
+          return '<div class="flex justify-between items-center text-xs py-1 border-b border-olive/50">' +
+            '<span dir="ltr" class="font-bold">' + escapeHtml(m.month) + '</span>' +
+            '<span class="font-bold text-olive-dark">مبيعات: ' + fmtMoney(m.salesRaw) + ' • مقبوضات: ' + fmtMoney(m.collectedRaw) + '</span>' +
+          '</div>';
+        }).join('');
         var empFallback = empRows.length === 0
           ? '<div class="text-xs text-gray-500 font-bold text-center py-3">لا يوجد موظفو مبيعات أو عقود معتمدة بعد.</div>'
           : empRows.map(function(emp) {
@@ -5696,9 +5742,15 @@
               return '<div class="space-y-1 text-xs"><div class="flex justify-between font-bold"><span>' + escapeHtml(emp.name) + ' (' + emp.contractsCount + ' عقد)</span><span>' + fmtMoney(emp.totalSalesRaw) + ' (' + pct + '%)</span></div><div class="w-full bg-gray-200 rounded-full h-2.5"><div class="h-2.5 rounded-full" style="width:' + pct + '%;background:' + emp.color + '"></div></div></div>';
             }).join('');
         mount.innerHTML =
-          '<div class="bg-white p-5 rounded-2xl border border-olive shadow-sm space-y-3">' +
-            '<h3 class="font-black text-olive-dark text-sm">🏆 مقارنة المبيعات المحققة لكل موظف مبيعات (العقود المعتمدة)</h3>' +
-            empFallback +
+          '<div class="space-y-4">' +
+            '<div class="grid lg:grid-cols-2 gap-4">' +
+              '<div class="bg-white p-5 rounded-2xl border border-olive shadow-sm space-y-2"><h3 class="font-black text-olive-dark text-sm">🏘️ توزيع الوحدات (' + totalUnits + ' وحدة)</h3>' + unitsSummaryFallback + '</div>' +
+              '<div class="bg-white p-5 rounded-2xl border border-olive shadow-sm space-y-2"><h3 class="font-black text-olive-dark text-sm">📊 المبيعات والمقبوضات الشهرية</h3>' + monthlyFallback + '</div>' +
+            '</div>' +
+            '<div class="bg-white p-5 rounded-2xl border border-olive shadow-sm space-y-3">' +
+              '<h3 class="font-black text-olive-dark text-sm">🏆 مقارنة المبيعات المحققة لكل موظف مبيعات (العقود المعتمدة)</h3>' +
+              empFallback +
+            '</div>' +
           '</div>';
       }
     }
@@ -6010,17 +6062,51 @@
       });
     }
 
+    async function loadExternalScriptWithFallback(urls, timeoutMs) {
+      var lastErr = null;
+      for (var i = 0; i < urls.length; i++) {
+        try {
+          await loadExternalScript(urls[i], timeoutMs);
+          return true;
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+      throw lastErr || new Error('All CDNs failed');
+    }
+
     function loadChartLibs() {
       if (window.React && window.ReactDOM && window.Recharts) return Promise.resolve(true);
       if (_chartLibsPromise) return _chartLibsPromise;
       _chartLibsPromise = (async function() {
         try {
-          if (!window.React) await loadExternalScript('https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js', 6000);
-          if (!window.ReactDOM) await loadExternalScript('https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js', 6000);
-          if (!window.PropTypes) await loadExternalScript('https://cdn.jsdelivr.net/npm/prop-types@15.8.1/prop-types.min.js', 6000);
-          if (!window.Recharts) await loadExternalScript('https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.js', 7000);
+          if (!window.React) {
+            await loadExternalScriptWithFallback([
+              'https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js',
+              'https://unpkg.com/react@18.3.1/umd/react.production.min.js'
+            ], 6000);
+          }
+          if (!window.ReactDOM) {
+            await loadExternalScriptWithFallback([
+              'https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js',
+              'https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js'
+            ], 6000);
+          }
+          if (!window.PropTypes) {
+            await loadExternalScriptWithFallback([
+              'https://cdn.jsdelivr.net/npm/prop-types@15.8.1/prop-types.min.js',
+              'https://unpkg.com/prop-types@15.8.1/prop-types.min.js'
+            ], 6000);
+          }
+          if (!window.Recharts) {
+            await loadExternalScriptWithFallback([
+              'https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.js',
+              'https://unpkg.com/recharts@2.12.7/umd/Recharts.js'
+            ], 7000);
+          }
           return Boolean(window.React && window.ReactDOM && window.Recharts);
         } catch (e) {
+          _chartLibsPromise = null;
           return false;
         }
       })();
@@ -6032,10 +6118,21 @@
       if (_pdfLibsPromise) return _pdfLibsPromise;
       _pdfLibsPromise = (async function() {
         try {
-          if (!window.htmlToImage) await loadExternalScript('https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js', 7000);
-          if (!window.jspdf || !window.jspdf.jsPDF) await loadExternalScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js', 7000);
+          if (!window.htmlToImage) {
+            await loadExternalScriptWithFallback([
+              'https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js',
+              'https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js'
+            ], 7000);
+          }
+          if (!window.jspdf || !window.jspdf.jsPDF) {
+            await loadExternalScriptWithFallback([
+              'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js',
+              'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js'
+            ], 7000);
+          }
           return Boolean(window.htmlToImage && window.jspdf && window.jspdf.jsPDF);
         } catch (e) {
+          _pdfLibsPromise = null;
           return false;
         }
       })();
@@ -6681,6 +6778,31 @@
     // ==========================================
     function renderAuditTab() {
       if (!currentUser || currentUser.role !== 'auditor') return;
+      var summaryEl = document.getElementById('auditBackupSummary');
+      if (summaryEl) {
+        summaryEl.innerHTML =
+          '<div class="bg-[#f4f7ef] border border-[#b9c49d] rounded-xl p-4 space-y-3">' +
+            '<div class="flex flex-wrap items-center justify-between gap-2">' +
+              '<div>' +
+                '<h3 class="text-sm font-black text-olive-dark">💾 مركز التخزين والنسخ الاحتياطي الدوري الشامل (JSON) — حصرياً للمدقق</h3>' +
+                '<p class="text-[11px] text-slate-600 font-semibold">يتم حفظ كافة التعديلات تلقائياً داخل متصفح الجهاز عبر <span dir="ltr" class="font-mono font-bold">IndexedDB + localStorage</span>. استخدم التصدير الدوري لتنزيل ملف JSON شامل ونقل البيانات أو حفظها خارجياً.</p>' +
+              '</div>' +
+              '<div class="flex flex-wrap items-center gap-2 text-xs">' +
+                '<span class="bg-white border border-olive px-3 py-1 rounded-lg font-bold text-slate-700">آخر نسخة احتياطية: <b dir="ltr" class="text-olive-dark">' + escapeHtml(state.last_backup_at || 'لم تُصدر بعد') + '</b></span>' +
+                '<button type="button" onclick="exportBackup()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-lg text-xs font-black shadow-sm">⬇️ تنزيل نسخة احتياطية دورية الآن (.json)</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 text-xs">' +
+              '<div class="bg-white border border-olive rounded-lg p-2.5 text-center"><div class="text-[10px] text-gray-500 font-bold">الوحدات السكنية</div><div class="text-base font-black text-olive-dark">' + state.units.length + '</div></div>' +
+              '<div class="bg-white border border-olive rounded-lg p-2.5 text-center"><div class="text-[10px] text-gray-500 font-bold">العقود</div><div class="text-base font-black text-blue-800">' + state.contracts.length + '</div></div>' +
+              '<div class="bg-white border border-olive rounded-lg p-2.5 text-center"><div class="text-[10px] text-gray-500 font-bold">المدفوعات</div><div class="text-base font-black text-emerald-700">' + state.payments.length + '</div></div>' +
+              '<div class="bg-white border border-olive rounded-lg p-2.5 text-center"><div class="text-[10px] text-gray-500 font-bold">الأقساط</div><div class="text-base font-black text-amber-700">' + state.installments.length + '</div></div>' +
+              '<div class="bg-white border border-olive rounded-lg p-2.5 text-center"><div class="text-[10px] text-gray-500 font-bold">المشترون</div><div class="text-base font-black text-indigo-800">' + state.buyers.length + '</div></div>' +
+              '<div class="bg-white border border-olive rounded-lg p-2.5 text-center"><div class="text-[10px] text-gray-500 font-bold">سجل التدقيق</div><div class="text-base font-black text-slate-800">' + state.audit_logs.length + '</div></div>' +
+            '</div>' +
+          '</div>';
+      }
+
       var sel = document.getElementById('auditUserFilter');
       var prev = sel.value;
       sel.innerHTML = '<option value="">كل المستخدمين</option>' + state.users.map(function(u) {
@@ -6852,17 +6974,136 @@
       document.getElementById('printModal').classList.remove('hidden');
     }
 
-    function exportBackup() {
-      var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    function showAuditCopyNotice(text, isError) {
+      var el = document.getElementById('auditCopyNotice');
+      if (!el) return;
+      el.textContent = text;
+      el.className = 'rounded-xl px-4 py-3 text-xs font-bold border ' + (isError
+        ? 'bg-rose-50 border-rose-300 text-rose-900'
+        : 'bg-emerald-50 border-emerald-300 text-emerald-900');
+      el.classList.remove('hidden');
+    }
+
+    async function getCleanHtmlSourceText() {
+      if (window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+        try {
+          var baseUrl = window.location.href.split('#')[0].split('?')[0];
+          var res = await fetch(baseUrl + '?v=' + Date.now(), { cache: 'no-store' });
+          if (res.ok) {
+            var txt = await res.text();
+            if (txt.indexOf('<!DOCTYPE html>') !== -1 && txt.length > 50000) return txt;
+          }
+        } catch (e) {}
+      }
+      var clone = document.documentElement.cloneNode(true);
+      var ls = clone.querySelector('#loginScreen');
+      var as = clone.querySelector('#appShell');
+      if (ls) ls.classList.remove('hidden');
+      if (as) as.classList.add('hidden');
+      ['matrixContainer', 'accountingContent', 'smartContent', 'staffContent', 'auditListContainer'].forEach(function(id) {
+        var node = clone.querySelector('#' + id);
+        if (node) node.innerHTML = '';
+      });
+      return '<!DOCTYPE html>\n' + clone.outerHTML;
+    }
+
+    async function copyStandaloneHtmlCode() {
+      try {
+        var code = await getCleanHtmlSourceText();
+        var copied = false;
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          try {
+            await navigator.clipboard.writeText(code);
+            copied = true;
+          } catch (e1) { copied = false; }
+        }
+        if (!copied) {
+          var ta = document.createElement('textarea');
+          ta.value = code;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          copied = document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+        if (!copied) throw new Error('تعذر النسخ للحافظة');
+        showAuditCopyNotice('✅ تم نسخ الكود الكامل (' + Math.round(code.length / 1024) + ' كيلوبايت). الصقه داخل index.html في GitHub واضغط Ctrl+F5 بعد الرفع.', false);
+      } catch (err) {
+        showAuditCopyNotice('⚠️ تعذر النسخ التلقائي للحافظة، يمكنك استخدام زر «تحميل ملف index.html» بجانبه.', true);
+      }
+    }
+
+    async function downloadStandaloneHtmlFile() {
+      try {
+        var code = await getCleanHtmlSourceText();
+        var blob = new Blob([code], { type: 'text/html;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'index.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showAuditCopyNotice('✅ تم تحميل ملف index.html الكامل (' + Math.round(code.length / 1024) + ' كيلوبايت) بنجاح.', false);
+      } catch (err) {
+        showAuditCopyNotice('⚠️ تعذر تحميل الملف: ' + err.message, true);
+      }
+    }
+
+    async function exportBackup() {
+      if (!currentUser || currentUser.role !== 'auditor') {
+        return alert('تصدير النسخة الاحتياطية الكاملة محصور بمدقق النظام فقط!');
+      }
+      var now = localNowStr(0);
+      state.last_backup_at = now;
+      addAuditLog(
+        'تصدير نسخة احتياطية JSON',
+        'تصدير كافة بيانات النظام (' + state.units.length + ' وحدة، ' + state.contracts.length + ' عقد، ' + state.payments.length + ' دفعة، ' + state.installments.length + ' قسط، ' + state.buyers.length + ' مشتري) كنسخة احتياطية دورية',
+        'general'
+      );
+      var payload = Object.assign({
+        backup_meta: {
+          app: 'مجمع حلم الحياة السكني',
+          schema_version: 'v6',
+          exported_at: now,
+          exported_by: currentUser.full_name,
+          exported_by_username: currentUser.username,
+          storage_engine: 'IndexedDB + localStorage',
+          counts: {
+            units: state.units.length,
+            contracts: state.contracts.length,
+            payments: state.payments.length,
+            installments: state.installments.length,
+            buyers: state.buyers.length,
+            transfers: state.transfers.length,
+            users: state.users.length,
+            audit_logs: state.audit_logs.length
+          }
+        }
+      }, state);
+      var stamp = now.replace(/[: ]/g, '-').slice(0, 16);
+      var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
       a.href = url;
-      a.download = 'dream_of_life_backup_' + localTodayStr(0) + '.json';
+      a.download = 'dream_of_life_backup_' + stamp + '.json';
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
       URL.revokeObjectURL(url);
+      await saveStorage(true);
+      if (currentTab === 'auditTab') renderAuditTab();
+      showAuditCopyNotice('✅ تم تصدير النسخة الاحتياطية الكاملة بصيغة JSON بنجاح (' + state.units.length + ' وحدة، ' + state.contracts.length + ' عقد، ' + state.payments.length + ' دفعة).', false);
     }
 
     function importBackup(event) {
+      if (!currentUser || currentUser.role !== 'auditor') {
+        event.target.value = '';
+        return alert('استيراد النسخة الاحتياطية محصور بمدقق النظام فقط!');
+      }
       var file = event.target.files[0];
       if (!file) return;
       var reader = new FileReader();
@@ -6885,6 +7126,9 @@
     }
 
     async function resetDemoData() {
+      if (!currentUser || currentUser.role !== 'auditor') {
+        return alert('تصفير البيانات محصور بمدقق النظام فقط!');
+      }
       if (!confirm('تحذير: سيتم مسح جميع العقود والمدفوعات وإرجاع الوحدات للحالة الافتراضية. هل أنت متأكد؟')) return;
       var keptUsers = state.users;
       var keptRecovery = state.auditor_recovery_config;
@@ -6898,11 +7142,31 @@
     }
 
     function normalizeLoadedState(raw) {
-      if (!raw || !Array.isArray(raw.units)) return raw;
+      if (!raw || !Array.isArray(raw.units) || !Array.isArray(raw.users)) return raw;
+      var mergedCats = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+      if (raw.categories && typeof raw.categories === 'object') {
+        Object.keys(raw.categories).forEach(function(k) {
+          if (raw.categories[k]) mergedCats[k] = Object.assign({}, mergedCats[k] || {}, raw.categories[k]);
+        });
+      }
+      raw.categories = mergedCats;
       raw.units.forEach(function(u) {
+        var meta = mergedCats[u.category] || mergedCats['A3'];
+        if (!u.built_area) u.built_area = meta.built;
+        if (!u.notes) u.notes = 'ضمن مخطط ' + u.zone + ' - نموذج ' + u.category;
+        if (typeof u.completion_pct !== 'number') u.completion_pct = 0;
+        if (!u.stage) u.stage = CONSTRUCTION_STAGES[0];
         if (u.initiative_status !== 'included') u.initiative_status = 'excluded';
         u.initiative_amount = roundIQD(u.initiative_amount || 0);
       });
+      if (!raw.users.some(function(u) { return u.role === 'auditor'; })) {
+        raw.users.unshift({
+          id: 1, role: 'auditor', username: 'auditor', password: '123456',
+          email: '', full_name: 'مدقق النظام الرئيسي', phone: '07700000001',
+          national_id: '198500000001', address: 'إدارة المجمع',
+          commission_pct: 0, active: true, created_at: localNowStr(0)
+        });
+      }
       if (!Array.isArray(raw.buyers)) raw.buyers = [];
       if (!Array.isArray(raw.contracts)) raw.contracts = [];
       raw.contracts.forEach(function(c) {
@@ -6914,6 +7178,19 @@
       if (!Array.isArray(raw.payments)) raw.payments = [];
       if (!Array.isArray(raw.transfers)) raw.transfers = [];
       if (!Array.isArray(raw.audit_logs)) raw.audit_logs = [];
+      var maxIdFn = function(arr) {
+        return arr.reduce(function(m, x) { return Math.max(m, Number(x.id) || 0); }, 0);
+      };
+      var prevSeq = (raw.seq && typeof raw.seq === 'object') ? raw.seq : {};
+      raw.seq = {
+        user: Math.max(Number(prevSeq.user) || 1, maxIdFn(raw.users) + 1, 3),
+        buyer: Math.max(Number(prevSeq.buyer) || 1, maxIdFn(raw.buyers) + 1),
+        contract: Math.max(Number(prevSeq.contract) || 1, maxIdFn(raw.contracts) + 1),
+        installment: Math.max(Number(prevSeq.installment) || 1, maxIdFn(raw.installments) + 1),
+        payment: Math.max(Number(prevSeq.payment) || 1, maxIdFn(raw.payments) + 1),
+        transfer: Math.max(Number(prevSeq.transfer) || 1, maxIdFn(raw.transfers) + 1),
+        audit: Math.max(Number(prevSeq.audit) || 1, maxIdFn(raw.audit_logs) + 1)
+      };
       if (!raw.auditor_recovery_config) {
         raw.auditor_recovery_config = { emailjs_service_id: '', emailjs_template_id: '', emailjs_public_key: '', webhook_url: '' };
       }
